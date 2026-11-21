@@ -1,6 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import {
   DEPARTMENTS,
   DOMAIN_MAP,
@@ -20,9 +19,6 @@ type Props = {
 const EDITORIAL_LEDE =
   "Un plateau sportif à l'échelle du territoire annécien : hauteur de feux, homogénéité sur la pelouse et retenue vis-à-vis du voisinage, pensés comme un geste architectural de nuit.";
 
-const PULL_QUOTE =
-  "La lumière doit servir la compétition sans envahir le paysage alpin — chaque axe photométrique a été validé au millimètre.";
-
 export function RealizationAnnecyParcSportsView({
   realization,
   meta,
@@ -31,7 +27,6 @@ export function RealizationAnnecyParcSportsView({
   const dept = DEPARTMENTS.find((d) => d.code === realization.department);
   const accountManager = TEAM_MEMBERS.find((m) => m.id === meta.accountManagerId);
   const heroSrc = "/realisations/annecy-parc-sports-hero.jpg";
-  const detailSrc = "/realisations/annecy-parc-sports.png";
 
   return (
     <div className="min-h-screen bg-[#f4f4f1] text-[#1a1a1c]">
@@ -60,12 +55,8 @@ export function RealizationAnnecyParcSportsView({
           <div className="rounded-[2rem] border border-black/[0.06] bg-white/95 p-8 shadow-[0_48px_120px_-64px_rgba(26,36,48,0.35)] backdrop-blur-sm sm:p-12 lg:p-16">
             <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
               <div className="lg:col-span-7">
-                <p className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-black/45">
-                  <MapPin className="size-3.5 text-[#c88712]" />
-                  {meta.locationLabel}
-                </p>
-                <h1 className="mt-5 text-[clamp(2.1rem,5.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
-                  Parc des Sports
+                <h1 className="text-[clamp(2.1rem,5.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
+                  Parc des Sports Annecy
                   <span className="mt-2 block text-[clamp(1.35rem,2.8vw,2rem)] font-medium tracking-[-0.02em] text-[#5c6b5a]">
                     {realization.subtitle}
                   </span>
@@ -76,6 +67,7 @@ export function RealizationAnnecyParcSportsView({
                 <p className="mt-6 max-w-xl text-base leading-relaxed text-black/48">
                   {EDITORIAL_LEDE}
                 </p>
+                <TechnicalList points={meta.technicalPoints} />
                 <ProjectCta realization={realization} />
               </div>
               <MetricsPanel realization={realization} meta={meta} deptName={dept?.name} />
@@ -106,43 +98,6 @@ export function RealizationAnnecyParcSportsView({
             realization={realization}
             deptName={dept?.name}
           />
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1400px] px-6 py-20 sm:py-28 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-5 lg:pt-4">
-            <p className="text-xs uppercase tracking-[0.24em] text-black/45">
-              Lecture du site
-            </p>
-            <blockquote className="mt-6 border-l-2 border-[#7fa88a] pl-6 text-[clamp(1.35rem,2.4vw,1.85rem)] font-medium leading-snug tracking-[-0.02em] text-[#2c3530]">
-              « {PULL_QUOTE} »
-            </blockquote>
-            <p className="mt-8 text-sm leading-relaxed text-black/50">
-              Dimensionnement photométrique et accompagnement Tech&apos;lux sur l&apos;ensemble
-              des axes de feux, en coordination directe avec la maîtrise d&apos;ouvrage et le
-              bureau d&apos;études.
-            </p>
-          </div>
-          <div className="lg:col-span-7">
-            <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
-              <figure className="relative overflow-hidden rounded-3xl bg-[#e8ece9]">
-                <div className="relative aspect-[4/5] sm:aspect-[3/4]">
-                  <Image
-                    src={detailSrc}
-                    alt="Vue nocturne du terrain — Parc des Sports d'Annecy"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    className="object-cover object-center"
-                  />
-                </div>
-                <figcaption className="border-t border-black/[0.06] px-5 py-4 text-xs uppercase tracking-[0.18em] text-black/45">
-                  Ambiance nocturne · Lac et Aravis
-                </figcaption>
-              </figure>
-              <TechnicalBento points={meta.technicalPoints} kelvin={realization.kelvin} />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -234,34 +189,21 @@ function MetricsPanel({
   );
 }
 
-function TechnicalBento({
-  points,
-  kelvin,
-}: {
-  points: string[];
-  kelvin: string;
-}) {
+function TechnicalList({ points }: { points: string[] }) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex-1 rounded-3xl border border-[#7fa88a]/25 bg-[#f0f4f1] p-6">
-        <p className="text-xs uppercase tracking-[0.22em] text-[#5c6b5a]">Performance</p>
-        <p className="mt-3 text-3xl font-semibold tracking-tight text-[#2c3530]">{kelvin}</p>
-        <p className="mt-2 text-sm text-black/50">Blanc neutre sportif, rendu caméra maîtrisé</p>
-      </div>
-      <ul className="space-y-2">
-        {points.map((point, i) => (
-          <li
-            key={point}
-            className="flex gap-4 rounded-2xl border border-black/[0.05] bg-white px-4 py-3.5"
-          >
-            <span className="text-sm font-semibold tabular-nums text-[#1a1a1c]">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="text-sm leading-snug text-black/70">{point}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ol className="mt-8 max-w-2xl space-y-2">
+      {points.map((point, i) => (
+        <li
+          key={point}
+          className="flex gap-4 rounded-2xl border border-black/[0.05] bg-[#f8f7f4] px-4 py-3.5"
+        >
+          <span className="text-sm font-semibold tabular-nums text-[#1a1a1c]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <span className="text-sm leading-snug text-[#1a1a1c]/75">{point}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
