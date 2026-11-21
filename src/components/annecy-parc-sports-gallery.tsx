@@ -1,137 +1,123 @@
 "use client";
 
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
 
 const SLIDES = [
   {
     src: "/realisations/annecy-parc-sports-gallery-01.jpg",
-    alt: "Mât PETITJEAN 34 m et projecteurs LED Siteco au crépuscule — Parc des Sports d'Annecy",
+    alt: "Mât PETITJEAN et projecteurs LED au crépuscule, Parc des Sports d'Annecy",
     caption: "Mât & nappes LED",
-    aspect: "portrait" as const,
   },
   {
     src: "/realisations/annecy-parc-sports-gallery-02.jpg",
-    alt: "Console d'éclairage LED sur la piste — vue du terrain et des projecteurs",
+    alt: "Console d'éclairage LED au-dessus de la piste et du terrain",
     caption: "Plateau sportif",
-    aspect: "landscape" as const,
   },
 ] as const;
 
 export function AnnecyParcSportsGallery() {
-  const scrollerRef = React.useRef<HTMLDivElement>(null);
   const [active, setActive] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+  const count = SLIDES.length;
 
   React.useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
+    if (paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => {
+      setActive((current) => (current + 1) % count);
+    }, 7000);
+    return () => window.clearInterval(id);
+  }, [paused, count]);
 
-    const onScroll = () => {
-      const children = Array.from(el.children) as HTMLElement[];
-      const center = el.scrollLeft + el.clientWidth / 2;
-      let best = 0;
-      let bestDist = Infinity;
-      children.forEach((child, i) => {
-        const childCenter = child.offsetLeft + child.offsetWidth / 2;
-        const dist = Math.abs(center - childCenter);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
-        }
-      });
-      setActive(best);
-    };
-
-    onScroll();
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollTo = (index: number) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const child = el.children[index] as HTMLElement | undefined;
-    child?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  const go = (index: number) => {
+    setActive((index + count) % count);
   };
 
   return (
     <section
       aria-label="Galerie du chantier"
-      className="relative overflow-hidden border-t border-black/[0.06] bg-[#ebece8] py-16 sm:py-20"
+      aria-roledescription="carousel"
+      className="border-t border-black/[0.06] bg-[#ebece8] py-16 sm:py-20"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
     >
-      <div className="mx-auto mb-10 max-w-[1400px] px-6 lg:mb-12 lg:px-10">
-        <p className="text-xs uppercase tracking-[0.26em] text-black/45">Sur le terrain</p>
-        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="max-w-2xl text-[clamp(1.5rem,3.2vw,2.5rem)] font-semibold tracking-[-0.035em]">
+      <div className="mx-auto mb-8 flex max-w-[1400px] flex-wrap items-end justify-between gap-4 px-6 lg:mb-10 lg:px-10">
+        <div>
+          <p className="text-xs uppercase tracking-[0.26em] text-black/45">Sur le terrain</p>
+          <h2 className="mt-3 text-[clamp(1.5rem,3.2vw,2.5rem)] font-semibold tracking-[-0.035em]">
             Le plateau vu{" "}
             <span className="text-black/45">depuis les mâts.</span>
           </h2>
-          <p className="text-sm text-black/45">Faites défiler →</p>
         </div>
+        <p className="text-sm tabular-nums text-black/45">
+          {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+        </p>
       </div>
 
-      <div className="relative">
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-[2] w-12 bg-gradient-to-r from-[#ebece8] to-transparent sm:w-24"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-12 bg-gradient-to-l from-[#ebece8] to-transparent sm:w-24"
-          aria-hidden
-        />
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-black/[0.07] bg-[#e7e8e4] shadow-[0_36px_90px_-48px_rgba(20,30,40,0.4)] sm:rounded-[2rem]">
+          <div className="relative h-[min(86vh,920px)]">
+            {SLIDES.map((slide, i) => (
+              <figure
+                key={slide.src}
+                className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                  i === active ? "z-[1] opacity-100" : "z-0 opacity-0"
+                }`}
+                aria-hidden={i !== active}
+              >
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  sizes="(max-width: 1400px) 100vw, 1400px"
+                  className="object-contain"
+                  priority={i === 0}
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#ebece8] via-[#ebece8]/80 to-transparent px-6 pb-6 pt-16 sm:px-8">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-black/55">
+                    {slide.caption}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
 
-        <div
-          ref={scrollerRef}
-          className="annecy-gallery-scroller flex snap-x snap-mandatory gap-5 overflow-x-auto px-[max(1.25rem,calc((100vw-min(100vw,1400px))/2+1.5rem))] pb-2 pt-1 sm:gap-7"
-        >
+          <button
+            type="button"
+            onClick={() => go(active - 1)}
+            className="absolute left-3 top-1/2 z-[2] flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/85 text-[#1a1a1c] shadow-sm backdrop-blur-sm transition-colors hover:bg-white sm:left-5"
+            aria-label="Photo précédente"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => go(active + 1)}
+            className="absolute right-3 top-1/2 z-[2] flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/85 text-[#1a1a1c] shadow-sm backdrop-blur-sm transition-colors hover:bg-white sm:right-5"
+            aria-label="Photo suivante"
+          >
+            <ChevronRight className="size-5" />
+          </button>
+        </div>
+
+        <div className="mt-6 flex items-center justify-center gap-2">
           {SLIDES.map((slide, i) => (
-            <figure
+            <button
               key={slide.src}
-              className="group relative shrink-0 snap-center overflow-hidden rounded-[1.75rem] border border-black/[0.07] bg-[#f4f4f1] shadow-[0_28px_80px_-40px_rgba(20,30,40,0.35)] sm:rounded-[2rem]"
-              style={{
-                width:
-                  slide.aspect === "portrait"
-                    ? "min(88vw, 560px)"
-                    : "min(96vw, 960px)",
-                height: "min(84vh, min(960px, 92vw))",
-              }}
-            >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                sizes="(max-width: 768px) 96vw, 960px"
-                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                priority={i === 0}
-              />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent px-6 pb-6 pt-16">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white/75">
-                  {String(i + 1).padStart(2, "0")} · {slide.caption}
-                </p>
-              </figcaption>
-            </figure>
+              type="button"
+              onClick={() => go(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === active ? "w-10 bg-[#1a1a1c]" : "w-2.5 bg-black/20 hover:bg-black/35"
+              }`}
+              aria-label={`Afficher ${slide.caption}`}
+              aria-current={i === active}
+            />
           ))}
         </div>
-      </div>
-
-      <div className="mx-auto mt-8 flex max-w-[1400px] items-center justify-center gap-2 px-6 lg:px-10">
-        {SLIDES.map((slide, i) => (
-          <button
-            key={slide.src}
-            type="button"
-            onClick={() => scrollTo(i)}
-            className="relative h-2.5 rounded-full transition-all duration-300"
-            style={{ width: active === i ? "2.5rem" : "0.5rem" }}
-            aria-label={`Voir ${slide.caption}`}
-            aria-current={active === i}
-          >
-            <span
-              className={`absolute inset-0 rounded-full ${
-                active === i ? "bg-[#1a1a1c]" : "bg-black/20 hover:bg-black/35"
-              }`}
-            />
-          </button>
-        ))}
       </div>
     </section>
   );
