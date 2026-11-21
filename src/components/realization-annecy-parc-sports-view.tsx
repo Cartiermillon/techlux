@@ -251,7 +251,7 @@ function TechnicalBento({
             key={point}
             className="flex gap-4 rounded-2xl border border-black/[0.05] bg-white px-4 py-3.5"
           >
-            <span className="text-sm font-semibold tabular-nums text-[#7fa88a]">
+            <span className="text-sm font-semibold tabular-nums text-[#1a1a1c]">
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="text-sm leading-snug text-black/70">{point}</span>
