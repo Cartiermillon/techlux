@@ -37,11 +37,7 @@ export function SiteFooter() {
     <footer className="relative overflow-hidden bg-[#050506] text-white">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="border-b border-white/12 pb-16 pt-24 sm:pt-32">
-          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-white/50">
-            <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-            Un projet, une intention, un site à révéler
-          </p>
-          <Link href="/contact" className="group mt-8 block max-w-5xl">
+          <Link href="/contact" className="group block max-w-5xl">
             <span className="block text-[clamp(2rem,5.8vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.04em]">
               Éclairer{" "}
               <span className="text-[#ffb43b]">autrement</span>
