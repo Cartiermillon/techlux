@@ -127,6 +127,78 @@
   }
 }
 
+@keyframes annecy-hero-kenburns {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.annecy-hero-kenburns {
+  animation: annecy-hero-kenburns 32s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .annecy-hero-kenburns {
+    animation: none;
+  }
+}
+
+.annecy-stakeholder-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: linear-gradient(
+    165deg,
+    #ffffff 0%,
+    #faf9f6 42%,
+    #f2f1ec 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+    0 14px 36px -18px rgba(26, 36, 48, 0.22),
+    0 0 52px -22px rgba(255, 180, 59, 0.38);
+}
+
+.annecy-stakeholder-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 55% at 50% -10%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 236, 200, 0.18) 38%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.annecy-stakeholder-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 180, 59, 0.22) 45%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 input[type="range"].light-range {
   -webkit-appearance: none;
   appearance: none;

@@ -4,6 +4,7 @@ import { REALIZATIONS, REALIZATION_MAP } from "@/data/techlux";
 import { getRealizationPageMeta } from "@/data/realization-pages";
 import { SITE_URL } from "@/lib/site";
 import { RealizationDetailView } from "@/components/realization-detail-view";
+import { RealizationAnnecyParcSportsView } from "@/components/realization-annecy-parc-sports-view";
 import { AGENCY_INFO } from "@/data/techlux";
 
 type Params = Promise<{ slug: string }>;
@@ -94,6 +95,16 @@ export default async function RealisationProjectPage({
       ],
     },
   ];
+
+  if (realization.id === "annecy-parc-sports") {
+    return (
+      <RealizationAnnecyParcSportsView
+        realization={realization}
+        meta={meta}
+        jsonLd={jsonLd}
+      />
+    );
+  }
 
   return (
     <RealizationDetailView

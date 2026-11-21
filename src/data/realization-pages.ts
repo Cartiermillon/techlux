@@ -58,9 +58,9 @@ const OVERRIDES: Partial<
       installateur: "CECCON BTP — Annecy & HTB Services",
     },
     accountManagerId: "langlade",
-    coverImage: "/realisations/annecy-parc-sports.png",
+    coverImage: "/realisations/annecy-parc-sports-hero.jpg",
     coverAlt:
-      "Parc des Sports d'Annecy (74) — éclairage nocturne du terrain, mâts grande hauteur PETITJEAN, vue sur le lac et les Alpes",
+      "Parc des Sports d'Annecy (74) — vue aérienne du plateau sportif et de l'éclairage nocturne, mâts PETITJEAN",
   },
   "valence-stade-pompidou": {
     seoTitle:
