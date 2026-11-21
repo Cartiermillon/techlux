@@ -127,6 +127,25 @@
   }
 }
 
+@keyframes annecy-hero-kenburns {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.annecy-hero-kenburns {
+  animation: annecy-hero-kenburns 32s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .annecy-hero-kenburns {
+    animation: none;
+  }
+}
+
 input[type="range"].light-range {
   -webkit-appearance: none;
   appearance: none;
