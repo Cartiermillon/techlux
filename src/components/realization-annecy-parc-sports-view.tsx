@@ -83,49 +83,6 @@ export function RealizationAnnecyParcSportsView({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-6 py-20 sm:py-28 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-5 lg:pt-4">
-            <p className="text-xs uppercase tracking-[0.24em] text-black/45">
-              Lecture du site
-            </p>
-            <blockquote className="mt-6 border-l-2 border-[#7fa88a] pl-6 text-[clamp(1.35rem,2.4vw,1.85rem)] font-medium leading-snug tracking-[-0.02em] text-[#2c3530]">
-              « {PULL_QUOTE} »
-            </blockquote>
-            <p className="mt-8 text-sm leading-relaxed text-black/50">
-              Étude photométrique Tech&apos;lux, maîtrise d&apos;ouvrage{" "}
-              <strong className="font-semibold text-black/75">
-                {meta.stakeholders.maitriseOuvrage}
-              </strong>
-              , bureau{" "}
-              <strong className="font-semibold text-black/75">
-                {meta.stakeholders.bureauEtudes}
-              </strong>
-              .
-            </p>
-          </div>
-          <div className="lg:col-span-7">
-            <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
-              <figure className="relative overflow-hidden rounded-3xl bg-[#e8ece9]">
-                <div className="relative aspect-[4/5] sm:aspect-[3/4]">
-                  <Image
-                    src={detailSrc}
-                    alt="Vue nocturne du terrain — Parc des Sports d'Annecy"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    className="object-cover object-center"
-                  />
-                </div>
-                <figcaption className="border-t border-black/[0.06] px-5 py-4 text-xs uppercase tracking-[0.18em] text-black/45">
-                  Ambiance nocturne · Lac et Aravis
-                </figcaption>
-              </figure>
-              <TechnicalBento points={meta.technicalPoints} kelvin={realization.kelvin} />
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="border-y border-black/[0.06] bg-[linear-gradient(180deg,#eef2ee_0%,#f4f4f1_100%)] py-20 sm:py-24">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
@@ -148,6 +105,43 @@ export function RealizationAnnecyParcSportsView({
             realization={realization}
             deptName={dept?.name}
           />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1400px] px-6 py-20 sm:py-28 lg:px-10">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="lg:col-span-5 lg:pt-4">
+            <p className="text-xs uppercase tracking-[0.24em] text-black/45">
+              Lecture du site
+            </p>
+            <blockquote className="mt-6 border-l-2 border-[#7fa88a] pl-6 text-[clamp(1.35rem,2.4vw,1.85rem)] font-medium leading-snug tracking-[-0.02em] text-[#2c3530]">
+              « {PULL_QUOTE} »
+            </blockquote>
+            <p className="mt-8 text-sm leading-relaxed text-black/50">
+              Dimensionnement photométrique et accompagnement Tech&apos;lux sur l&apos;ensemble
+              des axes de feux, en coordination directe avec la maîtrise d&apos;ouvrage et le
+              bureau d&apos;études.
+            </p>
+          </div>
+          <div className="lg:col-span-7">
+            <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
+              <figure className="relative overflow-hidden rounded-3xl bg-[#e8ece9]">
+                <div className="relative aspect-[4/5] sm:aspect-[3/4]">
+                  <Image
+                    src={detailSrc}
+                    alt="Vue nocturne du terrain — Parc des Sports d'Annecy"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                    className="object-cover object-center"
+                  />
+                </div>
+                <figcaption className="border-t border-black/[0.06] px-5 py-4 text-xs uppercase tracking-[0.18em] text-black/45">
+                  Ambiance nocturne · Lac et Aravis
+                </figcaption>
+              </figure>
+              <TechnicalBento points={meta.technicalPoints} kelvin={realization.kelvin} />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -208,10 +202,10 @@ function MetricsPanel({
   deptName?: string;
 }) {
   const metrics = [
-    { value: "34 m", label: "Hauteur de mât", accent: "text-[#3d6b8c]" },
-    { value: realization.kelvin, label: "Température", accent: "text-[#c88712]" },
-    { value: realization.year, label: "Livraison", accent: "text-[#3d5a45]" },
-    { value: meta.leadPartner, label: "Mâts acier", accent: "text-[#1a1a1c]" },
+    { value: "34 m", label: "Hauteur de mât" },
+    { value: realization.kelvin, label: "Température" },
+    { value: realization.year, label: "Livraison" },
+    { value: meta.leadPartner, label: "Mâts acier" },
   ];
 
   return (
@@ -222,7 +216,7 @@ function MetricsPanel({
             key={m.label}
             className="rounded-2xl border border-black/[0.06] bg-[#f8f7f4] p-5 sm:p-6"
           >
-            <p className={`text-[clamp(1.5rem,3vw,2.25rem)] font-semibold tracking-tight ${m.accent}`}>
+            <p className="text-[clamp(1.5rem,3vw,2.25rem)] font-semibold tracking-tight text-[#1a1a1c]">
               {m.value}
             </p>
             <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{m.label}</p>
@@ -288,26 +282,31 @@ function StakeholderGrid({
   return (
     <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {rows.map((row) => (
-        <div
-          key={row.label}
-          className="rounded-2xl border border-black/[0.06] bg-white/80 p-6 backdrop-blur-sm"
-        >
-          <p className="text-[10px] uppercase tracking-[0.22em] text-black/40">{row.label}</p>
-          <p className="mt-3 text-base font-medium leading-snug text-[#1a1a1c]">{row.value}</p>
+        <div key={row.label} className="annecy-stakeholder-card rounded-2xl p-7 sm:p-8">
+          <p className="relative z-[1] text-[10px] uppercase tracking-[0.22em] text-black/40">
+            {row.label}
+          </p>
+          <p className="relative z-[1] mt-4 text-[clamp(1.2rem,2.1vw,1.65rem)] font-semibold leading-snug tracking-[-0.02em] text-[#1a1a1c]">
+            {row.value}
+          </p>
         </div>
       ))}
       {accountManager && (
-        <div className="rounded-2xl border border-[#7fa88a]/30 bg-white p-6 shadow-sm">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-black/40">Chargé d&apos;affaires</p>
-          <p className="mt-3 text-lg font-semibold">{accountManager.name}</p>
-          <p className="mt-1 text-sm text-black/50">{accountManager.role}</p>
-          <p className="mt-2 text-xs text-black/40">
+        <div className="annecy-stakeholder-card rounded-2xl p-7 sm:p-8">
+          <p className="relative z-[1] text-[10px] uppercase tracking-[0.22em] text-black/40">
+            Chargé d&apos;affaires
+          </p>
+          <p className="relative z-[1] mt-4 text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold tracking-[-0.02em]">
+            {accountManager.name}
+          </p>
+          <p className="relative z-[1] mt-2 text-sm text-black/50">{accountManager.role}</p>
+          <p className="relative z-[1] mt-2 text-xs text-black/40">
             Dépt. {realization.department}
             {deptName ? ` · ${deptName}` : ""}
           </p>
           <Link
             href={`/equipe#membre-${accountManager.id}`}
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#3d5a45] hover:underline"
+            className="relative z-[1] mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[#3d5a45] hover:underline"
           >
             Équipe Tech&apos;lux
             <ArrowUpRight className="size-3.5" />
