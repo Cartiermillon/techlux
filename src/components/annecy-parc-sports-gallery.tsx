@@ -6,18 +6,15 @@ import React from "react";
 const SLIDES = [
   {
     src: "/realisations/annecy-parc-sports-gallery-01.jpg",
-    alt: "Mâts et projecteurs LED au crépuscule — tribunes du Parc des Sports d'Annecy",
-    caption: "Tribunes & projecteurs",
+    alt: "Mât PETITJEAN 34 m et projecteurs LED Siteco au crépuscule — Parc des Sports d'Annecy",
+    caption: "Mât & nappes LED",
+    aspect: "portrait" as const,
   },
   {
     src: "/realisations/annecy-parc-sports-gallery-02.jpg",
-    alt: "Mât PETITJEAN 34 m et nappe LED Siteco — vue verticale au crépuscule",
-    caption: "Mât grande hauteur",
-  },
-  {
-    src: "/realisations/annecy-parc-sports-gallery-03.jpg",
-    alt: "Vue aérienne du plateau sportif et console d'éclairage LED",
-    caption: "Console photométrique",
+    alt: "Console d'éclairage LED sur la piste — vue du terrain et des projecteurs",
+    caption: "Plateau sportif",
+    aspect: "landscape" as const,
   },
 ] as const;
 
@@ -92,15 +89,18 @@ export function AnnecyParcSportsGallery() {
               key={slide.src}
               className="group relative shrink-0 snap-center overflow-hidden rounded-[1.75rem] border border-black/[0.07] bg-[#f4f4f1] shadow-[0_28px_80px_-40px_rgba(20,30,40,0.35)] sm:rounded-[2rem]"
               style={{
-                width: "min(92vw, 720px)",
-                height: "min(78vh, 920px)",
+                width:
+                  slide.aspect === "portrait"
+                    ? "min(88vw, 560px)"
+                    : "min(96vw, 960px)",
+                height: "min(84vh, min(960px, 92vw))",
               }}
             >
               <Image
                 src={slide.src}
                 alt={slide.alt}
                 fill
-                sizes="(max-width: 768px) 92vw, 720px"
+                sizes="(max-width: 768px) 96vw, 960px"
                 className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 priority={i === 0}
               />
