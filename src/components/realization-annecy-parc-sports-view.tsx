@@ -9,6 +9,7 @@ import {
 import type { RealizationPageMeta } from "@/data/realization-pages";
 import { TEAM_MEMBERS } from "@/data/team";
 import { AnnecyParcSportsHero } from "@/components/annecy-parc-sports-hero";
+import { AnnecyParcSportsGallery } from "@/components/annecy-parc-sports-gallery";
 
 type Props = {
   realization: Realization;
@@ -170,6 +171,8 @@ export function RealizationAnnecyParcSportsView({
           </Link>
         </p>
       </section>
+
+      <AnnecyParcSportsGallery />
 
       <section className="bg-[linear-gradient(135deg,#dfe5e8_0%,#c9d4d9_48%,#b8c6ce_100%)] py-20 text-[#1a1a1c] sm:py-24">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
