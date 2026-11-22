@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import {
@@ -115,8 +116,6 @@ export function RealizationAnnecyParcSportsView({
         </p>
       </section>
 
-      <AnnecyParcSportsGallery />
-
       <section className="bg-[linear-gradient(135deg,#dfe5e8_0%,#c9d4d9_48%,#b8c6ce_100%)] py-20 text-[#1a1a1c] sm:py-24">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <h2 className="max-w-2xl text-[clamp(1.5rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em]">
@@ -134,6 +133,8 @@ export function RealizationAnnecyParcSportsView({
           </Link>
         </div>
       </section>
+
+      <AnnecyParcSportsGallery />
     </div>
   );
 }
@@ -146,10 +147,10 @@ function MetricsPanel({
   meta: RealizationPageMeta;
 }) {
   const metrics = [
+    { value: "Haute-Savoie (74)", label: "Département", wide: true },
     { value: "34 m", label: "Hauteur de mât" },
     { value: realization.kelvin, label: "Température" },
     { value: realization.year, label: "Livraison" },
-    { value: "Haute-Savoie (74)", label: "Département" },
     { value: meta.leadPartner, label: "Fabricant" },
   ];
 
@@ -157,17 +158,38 @@ function MetricsPanel({
     <div className="lg:col-span-5">
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {metrics.map((m) => (
-          <div
+          <InfoCard
             key={m.label}
-            className="rounded-2xl border border-black/[0.06] bg-[#f8f7f4] p-5 sm:p-6"
-          >
-            <p className="text-[clamp(1.2rem,2.2vw,1.85rem)] font-semibold leading-tight tracking-tight text-[#1a1a1c]">
-              {m.value}
-            </p>
-            <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{m.label}</p>
-          </div>
+            label={m.label}
+            value={m.value}
+            className={m.wide ? "col-span-2" : undefined}
+          />
         ))}
       </div>
+    </div>
+  );
+}
+
+function InfoCard({
+  label,
+  value,
+  className,
+  children,
+}: {
+  label: string;
+  value: string;
+  className?: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-black/[0.06] bg-[#f8f7f4] p-5 sm:p-6 ${className ?? ""}`}
+    >
+      <p className="text-[clamp(1.2rem,2.2vw,1.85rem)] font-semibold leading-tight tracking-tight text-[#1a1a1c]">
+        {value}
+      </p>
+      <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{label}</p>
+      {children}
     </div>
   );
 }
@@ -208,38 +230,25 @@ function StakeholderGrid({
   ].filter((r) => r.value);
 
   return (
-    <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
       {rows.map((row) => (
-        <div key={row.label} className="annecy-stakeholder-card rounded-2xl p-7 sm:p-8">
-          <p className="relative z-[1] text-[10px] uppercase tracking-[0.22em] text-black/40">
-            {row.label}
-          </p>
-          <p className="relative z-[1] mt-4 text-[clamp(1.2rem,2.1vw,1.65rem)] font-semibold leading-snug tracking-[-0.02em] text-[#1a1a1c]">
-            {row.value}
-          </p>
-        </div>
+        <InfoCard key={row.label} label={row.label} value={row.value!} />
       ))}
       {accountManager && (
-        <div className="annecy-stakeholder-card rounded-2xl p-7 sm:p-8">
-          <p className="relative z-[1] text-[10px] uppercase tracking-[0.22em] text-black/40">
-            Chargé d&apos;affaires
-          </p>
-          <p className="relative z-[1] mt-4 text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold tracking-[-0.02em]">
-            {accountManager.name}
-          </p>
-          <p className="relative z-[1] mt-2 text-sm text-black/50">{accountManager.role}</p>
-          <p className="relative z-[1] mt-2 text-xs text-black/40">
+        <InfoCard label="Chargé d'affaires" value={accountManager.name}>
+          <p className="mt-2 text-sm text-black/50">{accountManager.role}</p>
+          <p className="mt-1 text-xs text-black/40">
             Dépt. {realization.department}
             {deptName ? ` · ${deptName}` : ""}
           </p>
           <Link
             href={`/equipe#membre-${accountManager.id}`}
-            className="relative z-[1] mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[#3d5a45] hover:underline"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#3d5a45] hover:underline"
           >
             Équipe Tech&apos;lux
             <ArrowUpRight className="size-3.5" />
           </Link>
-        </div>
+        </InfoCard>
       )}
     </div>
   );
