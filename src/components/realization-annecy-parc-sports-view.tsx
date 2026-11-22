@@ -16,9 +16,6 @@ type Props = {
   jsonLd: object[];
 };
 
-const EDITORIAL_LEDE =
-  "Un plateau sportif à l'échelle du territoire annécien : hauteur de feux, homogénéité sur la pelouse et retenue vis-à-vis du voisinage, pensés comme un geste architectural de nuit.";
-
 export function RealizationAnnecyParcSportsView({
   realization,
   meta,
@@ -64,13 +61,10 @@ export function RealizationAnnecyParcSportsView({
                 <p className="mt-8 max-w-2xl text-lg leading-relaxed text-black/62 sm:text-xl">
                   {realization.summary}
                 </p>
-                <p className="mt-6 max-w-xl text-base leading-relaxed text-black/48">
-                  {EDITORIAL_LEDE}
-                </p>
                 <TechnicalList points={meta.technicalPoints} />
                 <ProjectCta realization={realization} />
               </div>
-              <MetricsPanel realization={realization} meta={meta} deptName={dept?.name} />
+              <MetricsPanel realization={realization} meta={meta} />
             </div>
           </div>
         </div>
@@ -78,19 +72,13 @@ export function RealizationAnnecyParcSportsView({
 
       <section className="border-y border-black/[0.06] bg-[linear-gradient(180deg,#eef2ee_0%,#f4f4f1_100%)] py-20 sm:py-24">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-black/45">
-                Écosystème projet
-              </p>
-              <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
-                Intervenants &amp; fabrication
-              </h2>
-            </div>
-            <p className="max-w-md text-sm leading-relaxed text-black/50">
-              Chaîne courte entre concepteur lumière, fabricant de mâts et installateurs locaux —
-              pour un chantier sportif exigeant et livré en {realization.year}.
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-black/45">
+              Écosystème projet
             </p>
+            <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
+              Intervenants &amp; fabrication
+            </h2>
           </div>
           <StakeholderGrid
             meta={meta}
@@ -153,17 +141,16 @@ export function RealizationAnnecyParcSportsView({
 function MetricsPanel({
   realization,
   meta,
-  deptName,
 }: {
   realization: Realization;
   meta: RealizationPageMeta;
-  deptName?: string;
 }) {
   const metrics = [
     { value: "34 m", label: "Hauteur de mât" },
     { value: realization.kelvin, label: "Température" },
     { value: realization.year, label: "Livraison" },
-    { value: meta.leadPartner, label: "Mâts acier" },
+    { value: "Haute-Savoie (74)", label: "Département" },
+    { value: meta.leadPartner, label: "Fabricant" },
   ];
 
   return (
@@ -174,17 +161,13 @@ function MetricsPanel({
             key={m.label}
             className="rounded-2xl border border-black/[0.06] bg-[#f8f7f4] p-5 sm:p-6"
           >
-            <p className="text-[clamp(1.5rem,3vw,2.25rem)] font-semibold tracking-tight text-[#1a1a1c]">
+            <p className="text-[clamp(1.2rem,2.2vw,1.85rem)] font-semibold leading-tight tracking-tight text-[#1a1a1c]">
               {m.value}
             </p>
             <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{m.label}</p>
           </div>
         ))}
       </div>
-      <p className="mt-6 text-xs leading-relaxed text-black/45">
-        {deptName ?? "Haute-Savoie"} · Projecteurs LED{" "}
-        {realization.partners[1] ?? "Siteco"} · Normes fédérales
-      </p>
     </div>
   );
 }
