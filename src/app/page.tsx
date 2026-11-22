@@ -78,7 +78,7 @@ function HeroLayer({ lit }: { lit: boolean }) {
   const note = lit ? "text-[#ffb43b]" : "text-white/25";
 
   return (
-    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-6 py-16 lg:px-10">
+    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-6 pb-16 pt-[max(4.5rem,10vh)] lg:px-10">
       <span
         className={`absolute right-[8%] top-[18%] hidden text-xs tracking-[0.2em] sm:block ${note}`}
       >
@@ -106,15 +106,19 @@ function HeroLayer({ lit }: { lit: boolean }) {
       </span>
 
       <Heading
-        className={`max-w-[14ch] text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold leading-[0.9] tracking-[-0.05em] ${
+        className={`max-w-[14ch] translate-y-3 text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold tracking-[-0.05em] sm:translate-y-4 ${
           lit ? "text-white" : dim
         }`}
       >
-        Agence
-        <br />
-        d&rsquo;aménagement
-        <br />
-        <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
+        <span className="block leading-[1.02]">Agence</span>
+        <span className="mt-[0.35em] block leading-[1.02]">
+          d&rsquo;aménagement
+        </span>
+        <span
+          className={`mt-[0.35em] block leading-[1.02] ${
+            lit ? "text-[#ffb43b]" : "text-white/[0.13]"
+          }`}
+        >
           lumière
         </span>
       </Heading>
