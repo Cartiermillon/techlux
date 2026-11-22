@@ -14,6 +14,23 @@ export type Audience = {
   cta: string;
 };
 
+/** ~150svh en zone « pause » ≈ 1,5 s de défilement à ~100vh/s avant la transition */
+const SCROLL_SVH_PER_FAMILY = 260;
+const HOLD_FRACTION = 150 / SCROLL_SVH_PER_FAMILY;
+
+function smoothstep(t: number) {
+  const x = Math.min(Math.max(t, 0), 1);
+  return x * x * (3 - 2 * x);
+}
+
+function scrollRawToAudienceProgress(raw: number) {
+  const base = Math.floor(raw);
+  const frac = raw - base;
+  if (frac <= HOLD_FRACTION) return base;
+  const t = (frac - HOLD_FRACTION) / (1 - HOLD_FRACTION);
+  return base + smoothstep(t);
+}
+
 export function AudiencePartnerIntro() {
   return (
     <section
@@ -67,7 +84,8 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
       const max = Math.max(el.offsetHeight - view, 1);
       const scrolled = Math.min(Math.max(-rect.top, 0), max);
       const step = max / audiences.length;
-      setProgress(scrolled / step);
+      const raw = scrolled / step;
+      setProgress(scrollRawToAudienceProgress(raw));
     };
 
     const onScroll = () => {
@@ -85,8 +103,6 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
     };
   }, [audiences.length, reduceMotion]);
 
-  const scrollScreensPerFamily = 420;
-
   if (reduceMotion) {
     return (
       <section id="pour-qui-familles" className="bg-[#f4f4f1] pb-24 pt-8">
@@ -100,7 +116,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
       id="pour-qui-familles"
       ref={trackRef}
       className="relative bg-[#f4f4f1]"
-      style={{ height: `${audiences.length * scrollScreensPerFamily}svh` }}
+      style={{ height: `${audiences.length * SCROLL_SVH_PER_FAMILY}svh` }}
       aria-label="Familles d'interlocuteurs"
     >
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden">
@@ -112,16 +128,16 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
               const exit = Math.min(Math.max(1 + offset, 0), 1);
               const y =
                 offset > 0
-                  ? 28 + (1 - enter) * 72
+                  ? 14 + (1 - smoothstep(enter)) * 48
                   : offset < 0
-                    ? -18 - (1 - exit) * 42
+                    ? -10 - (1 - smoothstep(exit)) * 28
                     : 0;
               const opacity =
-                offset < -1.65 || offset > 1.65
+                offset < -1.15 || offset > 1.15
                   ? 0
                   : offset < 0
-                    ? Math.pow(exit, 1.35)
-                    : Math.pow(enter, 1.35);
+                    ? Math.pow(smoothstep(exit), 2)
+                    : Math.pow(smoothstep(enter), 2);
 
               return (
                 <article
