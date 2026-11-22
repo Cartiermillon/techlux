@@ -106,19 +106,15 @@ function HeroLayer({ lit }: { lit: boolean }) {
       </span>
 
       <Heading
-        className={`max-w-[14ch] translate-y-3 text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold tracking-[-0.05em] sm:translate-y-4 ${
+        className={`max-w-[14ch] translate-y-3 text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold leading-[0.92] tracking-[-0.05em] sm:translate-y-4 ${
           lit ? "text-white" : dim
         }`}
       >
-        <span className="block leading-[1.02]">Agence</span>
-        <span className="mt-[0.35em] block leading-[1.02]">
-          d&rsquo;aménagement
-        </span>
-        <span
-          className={`mt-[0.35em] block leading-[1.02] ${
-            lit ? "text-[#ffb43b]" : "text-white/[0.13]"
-          }`}
-        >
+        Agence
+        <br />
+        d&rsquo;aménagement
+        <br />
+        <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
           lumière
         </span>
       </Heading>
