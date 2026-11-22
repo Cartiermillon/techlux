@@ -90,16 +90,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
     Math.max(0, Math.floor(progress))
   );
 
-  const goTo = (index: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const view = window.innerHeight;
-    const max = Math.max(el.offsetHeight - view, 1);
-    const step = max / audiences.length;
-    const top =
-      window.scrollY + el.getBoundingClientRect().top + step * index + 4;
-    window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
-  };
+  const scrollScreensPerFamily = 155;
 
   if (reduceMotion) {
     return (
@@ -114,11 +105,11 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
       id="pour-qui-familles"
       ref={trackRef}
       className="relative bg-[#f4f4f1]"
-      style={{ height: `${audiences.length * 100}svh` }}
+      style={{ height: `${audiences.length * scrollScreensPerFamily}svh` }}
       aria-label="Familles d'interlocuteurs"
     >
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden">
-        <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pb-8 pt-24 lg:px-10 lg:pt-28">
+        <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pb-16 pt-24 lg:px-10 lg:pt-28">
           <p className="text-left text-xs tabular-nums tracking-[0.18em] text-black/40">
             {audiences[active].index}
             <span className="text-black/25">
@@ -139,11 +130,11 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                     ? -18 - (1 - exit) * 42
                     : 0;
               const opacity =
-                offset < -1.05 || offset > 1.15
+                offset < -1.35 || offset > 1.35
                   ? 0
                   : offset < 0
-                    ? exit
-                    : enter;
+                    ? Math.pow(exit, 1.15)
+                    : Math.pow(enter, 1.15);
 
               return (
                 <article
@@ -158,72 +149,47 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   }}
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
-                  <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-0">
-                    <div className="lg:col-span-5 lg:pr-10">
+                  <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
+                    <div className="lg:col-span-6 xl:col-span-7">
                       <h3 className="text-[clamp(2.75rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
                         {audience.title}
                       </h3>
-                      <p className="mt-6 max-w-md text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em]">
+                      <p className="mt-8 max-w-lg text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em]">
                         {audience.claim}
                       </p>
                       <Link
                         href={audience.href}
-                        className="group mt-10 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612]"
+                        className="group mt-12 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612]"
                       >
                         {audience.cta}
                         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </Link>
                     </div>
-                    <div className="border-black lg:col-span-7 lg:border-l lg:pl-12 lg:pt-1 max-lg:border-t max-lg:pt-10">
-                      <p className="max-w-xl text-base leading-relaxed text-black/60 sm:text-lg">
-                        {audience.text}
-                      </p>
-                      <ul className="mt-8 space-y-2 text-sm text-black/75 sm:text-base">
-                        {audience.tags.map((tag) => (
-                          <li key={tag} className="flex gap-3">
-                            <span
-                              className="shrink-0 text-black/35"
-                              aria-hidden
-                            >
-                              —
-                            </span>
-                            <span>{tag}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:col-span-4 lg:col-start-9 lg:justify-self-end lg:border-l lg:border-black lg:pl-8 xl:col-span-3 xl:col-start-10 xl:pl-10">
+                      <div className="max-w-[15.5rem] lg:ml-auto">
+                        <p className="text-sm leading-relaxed text-black/58">
+                          {audience.text}
+                        </p>
+                        <ul className="mt-6 space-y-1.5 text-[13px] text-black/70">
+                          {audience.tags.map((tag) => (
+                            <li key={tag} className="flex gap-2.5">
+                              <span
+                                className="shrink-0 text-black/35"
+                                aria-hidden
+                              >
+                                —
+                              </span>
+                              <span>{tag}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </article>
               );
             })}
           </div>
-
-          <nav
-            aria-label="Familles"
-            className="mt-auto grid grid-cols-2 gap-2 sm:grid-cols-4"
-          >
-            {audiences.map((audience, index) => {
-              const selected = index === active;
-              return (
-                <button
-                  key={audience.index}
-                  type="button"
-                  onClick={() => goTo(index)}
-                  aria-current={selected ? "true" : undefined}
-                  className={`border-t py-3 text-left text-sm transition-colors sm:text-center ${
-                    selected
-                      ? "border-[#050506] font-medium text-[#050506]"
-                      : "border-black/15 text-black/40 hover:text-black/70"
-                  }`}
-                >
-                  <span className="mr-1.5 text-[10px] tabular-nums tracking-[0.16em]">
-                    {audience.index}
-                  </span>
-                  {audience.title}
-                </button>
-              );
-            })}
-          </nav>
         </div>
       </div>
     </section>
@@ -237,7 +203,7 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
         <Link
           key={audience.index}
           href={audience.href}
-          className="group grid gap-6 border-b border-black/20 py-10 lg:grid-cols-12 lg:gap-10 lg:px-6 lg:py-14"
+          className="group grid gap-6 border-b border-black/20 py-14 lg:grid-cols-12 lg:gap-10 lg:px-6 lg:py-20"
         >
           <div className="lg:col-span-5">
             <p className="text-xs tabular-nums text-black/40">{audience.index}</p>
@@ -246,11 +212,12 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
             </h3>
             <p className="mt-4 text-xl font-medium tracking-tight">{audience.claim}</p>
           </div>
-          <div className="border-t border-black pt-6 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-            <p className="text-sm leading-relaxed text-black/60 sm:text-base">
+          <div className="border-t border-black pt-6 lg:col-span-4 lg:col-start-9 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+            <div className="max-w-[15.5rem] lg:ml-auto">
+            <p className="text-sm leading-relaxed text-black/58">
               {audience.text}
             </p>
-            <ul className="mt-4 space-y-1.5 text-sm text-black/75">
+            <ul className="mt-4 space-y-1.5 text-[13px] text-black/70">
               {audience.tags.map((tag) => (
                 <li key={tag} className="flex gap-3">
                   <span className="text-black/35" aria-hidden>
@@ -263,6 +230,7 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
             <span className="mt-6 inline-block text-sm font-medium text-black/70">
               {audience.cta}
             </span>
+            </div>
           </div>
         </Link>
       ))}
