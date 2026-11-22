@@ -130,6 +130,27 @@
   filter: brightness(0.82) saturate(0.92);
 }
 
+@keyframes audience-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(2.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.audience-panel-in {
+  animation: audience-panel-in 0.55s cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audience-panel-in {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .home-hero-photo-dim {
     animation: annecy-hero-kenburns 40s ease-out forwards;
