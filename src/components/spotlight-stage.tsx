@@ -32,23 +32,20 @@ function SpotlightPhoto({
         fill
         priority
         sizes="100vw"
-        className={`object-cover object-[center_42%] ${
+        className={`object-cover object-[62%_center] ${
           dimmed ? "home-hero-photo-dim scale-[1.04]" : "scale-[1.06]"
         }`}
       />
       {dimmed ? (
         <>
+          <div className="absolute inset-0 bg-[#050506]/28" aria-hidden />
           <div
-            className="absolute inset-0 bg-[#050506]/60"
-            aria-hidden
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-[#050506]/80 via-[#050506]/35 to-[#050506]/92"
+            className="absolute inset-0 bg-gradient-to-b from-[#050506]/55 via-transparent to-[#050506]/78"
             aria-hidden
           />
         </>
       ) : (
-        <div className="absolute inset-0 bg-[#050506]/12" aria-hidden />
+        <div className="absolute inset-0 bg-[#050506]/8" aria-hidden />
       )}
     </div>
   );

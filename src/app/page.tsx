@@ -92,15 +92,6 @@ function HeroLayer({ lit }: { lit: boolean }) {
         IP66 · IK10
       </span>
 
-      <p
-        className={`mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.24em] ${
-          lit ? "text-white/80" : "text-white/45"
-        }`}
-      >
-        <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-        Lyon &amp; Savoie · depuis 2010
-      </p>
-
       <Heading
         className={`max-w-[14ch] text-[clamp(2.65rem,9.5vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
           lit ? "text-white" : dim
@@ -126,8 +117,8 @@ export default function HomePage() {
     <>
       <SpotlightStage
         background={{
-          src: "/home-hero-stadium.jpg",
-          alt: "Complexe sportif et stade éclairés au crépuscule, vue aérienne",
+          src: "/home-hero-castle.jpg",
+          alt: "Château illuminé de nuit au bord de l'eau, passerelle et reflets",
         }}
         base={<HeroLayer lit={false} />}
         lit={<HeroLayer lit />}
