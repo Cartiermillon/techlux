@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowUp } from "lucide-react";
 import { AGENCY_INFO, DOMAINS, PARTNERS } from "@/data/techlux";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import { FooterAgencyLabel } from "@/components/footer-agency-label";
+import { FooterEclairerHeadline } from "@/components/footer-eclairer-headline";
 
 const SITE_LINKS = [
   { href: "/solutions", label: "Solutions" },
@@ -37,13 +38,7 @@ export function SiteFooter() {
     <footer className="relative overflow-hidden bg-[#050506] text-white">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="border-b border-white/12 pb-16 pt-24 sm:pt-32">
-          <Link href="/contact" className="group block max-w-5xl">
-            <span className="block text-[clamp(2rem,5.8vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.04em]">
-              Éclairer{" "}
-              <span className="text-[#ffb43b]">autrement</span>
-              <ArrowUpRight className="ml-[0.08em] inline size-[0.5em] -translate-y-[0.06em] text-white/40 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-[0.14em] group-hover:text-[#ffb43b]" />
-            </span>
-          </Link>
+          <FooterEclairerHeadline />
         </div>
 
         <div className="grid gap-12 border-b border-white/12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">

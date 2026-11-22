@@ -73,6 +73,7 @@ export function SiteHeader() {
 
         <div className="hidden md:block">
           <Link
+            id="nav-etude-cta"
             href="/etude-lumiere"
             className="group relative inline-flex h-12 items-center gap-3 overflow-hidden rounded-full bg-[#ffb43b] px-6 pr-4 text-[15px] font-semibold text-[#050506] shadow-[0_0_0_1px_rgba(255,180,59,0.4)] transition-[transform,box-shadow] hover:shadow-[0_8px_28px_-8px_rgba(255,180,59,0.85)] active:scale-[0.98]"
           >
