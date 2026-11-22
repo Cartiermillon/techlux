@@ -48,7 +48,7 @@ export function AnnecyParcSportsHero({
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(244,244,241,0.95),transparent_70%)]"
         aria-hidden
       />
-      <div className="relative z-[1] mx-auto flex min-h-[min(100svh,920px)] max-w-[1400px] flex-col px-4 pb-28 pt-8 sm:px-6 lg:px-10">
+      <div className="relative z-[1] mx-auto flex min-h-[min(100svh,920px)] max-w-[1400px] flex-col px-4 pb-28 pt-36 sm:px-6 sm:pt-40 lg:px-10">
         <div className="flex items-start justify-between gap-4">{children}</div>
         <p className="mt-auto max-w-xl text-[11px] font-medium uppercase tracking-[0.28em] text-white/90 drop-shadow-[0_1px_12px_rgba(0,0,0,0.35)]">
           Vue aérienne · éclairage nocturne du complexe
