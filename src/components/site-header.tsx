@@ -27,9 +27,17 @@ const NAV_ITEMS = [
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const overPhoto = pathname === "/realisations/annecy-parc-sports";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#050506]/85 text-white backdrop-blur-md">
+    <header
+      className={cn(
+        "z-40 w-full text-white",
+        overPhoto
+          ? "fixed inset-x-0 top-0 bg-gradient-to-b from-black/40 via-black/15 to-transparent"
+          : "sticky top-0 border-b border-white/10 bg-[#050506]/85 backdrop-blur-md"
+      )}
+    >
       <div className="mx-auto flex min-h-0 max-w-[1400px] items-center justify-between px-4 py-0 sm:px-6 lg:px-10">
         <Link
           href="/"

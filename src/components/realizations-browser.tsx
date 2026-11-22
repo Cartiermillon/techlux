@@ -216,8 +216,8 @@ export function RealizationsBrowser({
                   />
                 )}
                 <div className="absolute top-3 left-3">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 font-mono text-[11px] text-white backdrop-blur-sm">
-                    <MapPin className="size-3 text-[#f5b841]" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-white/55 bg-white/72 px-2.5 py-1 font-mono text-[11px] text-[#1a1a1c] shadow-[0_10px_28px_-16px_rgba(0,0,0,0.45)] backdrop-blur-md">
+                    <MapPin className="size-3 text-[#c88712]" />
                     {project.city} ({project.department})
                   </span>
                 </div>
