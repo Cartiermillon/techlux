@@ -118,8 +118,8 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
       aria-label="Familles d'interlocuteurs"
     >
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden">
-        <div className="mx-auto flex h-full w-full max-w-[920px] flex-col px-6 pb-8 pt-24 lg:px-10 lg:pt-28">
-          <p className="text-center text-xs tabular-nums tracking-[0.18em] text-black/40">
+        <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pb-8 pt-24 lg:px-10 lg:pt-28">
+          <p className="text-left text-xs tabular-nums tracking-[0.18em] text-black/40">
             {audiences[active].index}
             <span className="text-black/25">
               {" "}
@@ -127,7 +127,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
             </span>
           </p>
 
-          <div className="relative mt-4 flex min-h-0 flex-1 items-center justify-center">
+          <div className="relative mt-4 flex min-h-0 flex-1 items-center">
             {audiences.map((audience, index) => {
               const offset = index - progress;
               const enter = Math.min(Math.max(1 - offset, 0), 1);
@@ -148,7 +148,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
               return (
                 <article
                   key={audience.index}
-                  className="absolute inset-x-0 flex flex-col items-center text-center will-change-transform"
+                  className="absolute inset-x-0 w-full text-left will-change-transform"
                   style={{
                     transform: `translate3d(0, ${y}%, 0)`,
                     opacity,
@@ -158,30 +158,41 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   }}
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
-                  <h3 className="text-[clamp(3rem,10vw,7.5rem)] font-semibold leading-[0.88] tracking-[-0.055em]">
-                    {audience.title}
-                  </h3>
-                  <p className="mx-auto mt-6 max-w-xl text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium leading-snug tracking-[-0.02em]">
-                    {audience.claim}
-                  </p>
-                  <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-black/60 sm:text-lg">
-                    {audience.text}
-                  </p>
-                  <ul className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-black/70">
-                    {audience.tags.map((tag) => (
-                      <li key={tag} className="flex items-center gap-2">
-                        <span className="size-1 rounded-full bg-[#ffb43b]" />
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href={audience.href}
-                    className="group mt-8 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612]"
-                  >
-                    {audience.cta}
-                    <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
+                  <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-0">
+                    <div className="lg:col-span-5 lg:pr-10">
+                      <h3 className="text-[clamp(2.75rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
+                        {audience.title}
+                      </h3>
+                      <p className="mt-6 max-w-md text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em]">
+                        {audience.claim}
+                      </p>
+                      <Link
+                        href={audience.href}
+                        className="group mt-10 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612]"
+                      >
+                        {audience.cta}
+                        <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </Link>
+                    </div>
+                    <div className="border-black lg:col-span-7 lg:border-l lg:pl-12 lg:pt-1 max-lg:border-t max-lg:pt-10">
+                      <p className="max-w-xl text-base leading-relaxed text-black/60 sm:text-lg">
+                        {audience.text}
+                      </p>
+                      <ul className="mt-8 space-y-2 text-sm text-black/75 sm:text-base">
+                        {audience.tags.map((tag) => (
+                          <li key={tag} className="flex gap-3">
+                            <span
+                              className="shrink-0 text-black/35"
+                              aria-hidden
+                            >
+                              —
+                            </span>
+                            <span>{tag}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </article>
               );
             })}
@@ -199,7 +210,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   type="button"
                   onClick={() => goTo(index)}
                   aria-current={selected ? "true" : undefined}
-                  className={`border-t py-3 text-center text-sm transition-colors ${
+                  className={`border-t py-3 text-left text-sm transition-colors sm:text-center ${
                     selected
                       ? "border-[#050506] font-medium text-[#050506]"
                       : "border-black/15 text-black/40 hover:text-black/70"
@@ -228,23 +239,31 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
           href={audience.href}
           className="group grid gap-6 border-b border-black/20 py-10 lg:grid-cols-12 lg:gap-10 lg:px-6 lg:py-14"
         >
-          <div className="flex items-baseline justify-center gap-5 lg:col-span-5 lg:justify-start">
-            <span className="text-xs tabular-nums text-black/40">
-              {audience.index}
-            </span>
-            <h3 className="text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
+          <div className="lg:col-span-5">
+            <p className="text-xs tabular-nums text-black/40">{audience.index}</p>
+            <h3 className="mt-2 text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
               {audience.title}
             </h3>
+            <p className="mt-4 text-xl font-medium tracking-tight">{audience.claim}</p>
           </div>
-          <div className="text-center lg:col-span-5 lg:text-left">
-            <p className="text-xl font-medium tracking-tight">{audience.claim}</p>
-            <p className="mt-3 text-sm leading-relaxed text-black/60 sm:text-base">
+          <div className="border-t border-black pt-6 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <p className="text-sm leading-relaxed text-black/60 sm:text-base">
               {audience.text}
             </p>
+            <ul className="mt-4 space-y-1.5 text-sm text-black/75">
+              {audience.tags.map((tag) => (
+                <li key={tag} className="flex gap-3">
+                  <span className="text-black/35" aria-hidden>
+                    —
+                  </span>
+                  {tag}
+                </li>
+              ))}
+            </ul>
+            <span className="mt-6 inline-block text-sm font-medium text-black/70">
+              {audience.cta}
+            </span>
           </div>
-          <span className="text-sm font-medium text-black/70 lg:col-span-2 lg:text-right">
-            {audience.cta}
-          </span>
         </Link>
       ))}
     </div>
