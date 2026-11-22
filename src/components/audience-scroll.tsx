@@ -85,7 +85,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
     };
   }, [audiences.length, reduceMotion]);
 
-  const scrollScreensPerFamily = 220;
+  const scrollScreensPerFamily = 420;
 
   if (reduceMotion) {
     return (
@@ -137,8 +137,8 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
                   <div className="mx-auto grid w-full max-w-[1080px] gap-10 lg:grid-cols-2 lg:items-start lg:gap-0">
-                    <div className="lg:pr-10">
-                      <p className="text-xs tabular-nums tracking-[0.22em] text-black/40">
+                    <div className="min-w-0 lg:pr-[100px]">
+                      <p className="text-sm tabular-nums tracking-[0.24em] text-black/45 sm:text-base">
                         {audience.index}
                       </p>
                       <h3 className="mt-3 text-[clamp(2.75rem,8vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
@@ -155,7 +155,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </Link>
                     </div>
-                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:border-l lg:border-black lg:pl-10">
+                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:border-l lg:border-black lg:pl-8">
                       <div className="max-w-[15.5rem]">
                         <p className="text-sm leading-relaxed text-black/58">
                           {audience.text}
@@ -195,8 +195,8 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
           href={audience.href}
           className="group mx-auto grid max-w-[1080px] gap-6 border-b border-black/20 py-14 lg:grid-cols-2 lg:gap-0 lg:px-6 lg:py-20"
         >
-          <div className="lg:pr-8">
-            <p className="text-xs tabular-nums tracking-[0.22em] text-black/40">
+          <div className="lg:pr-[100px]">
+            <p className="text-sm tabular-nums tracking-[0.24em] text-black/45 sm:text-base">
               {audience.index}
             </p>
             <h3 className="mt-2 text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
