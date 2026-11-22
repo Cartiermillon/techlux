@@ -140,6 +140,16 @@
   animation: annecy-hero-kenburns 32s ease-out forwards;
 }
 
+.home-hero-photo-dim {
+  filter: brightness(0.42) saturate(0.72);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero-photo-dim {
+    animation: annecy-hero-kenburns 40s ease-out forwards;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .annecy-hero-kenburns {
     animation: none;

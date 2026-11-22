@@ -127,6 +127,10 @@ export default function HomePage() {
   return (
     <>
       <SpotlightStage
+        background={{
+          src: "/home-hero-stadium.jpg",
+          alt: "Complexe sportif et stade éclairés au crépuscule, vue aérienne",
+        }}
         base={<HeroLayer lit={false} />}
         lit={<HeroLayer lit />}
       >

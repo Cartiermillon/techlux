@@ -27,14 +27,15 @@ const NAV_ITEMS = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const overPhoto = pathname === "/realisations/annecy-parc-sports";
+  const overPhoto =
+    pathname === "/" || pathname === "/realisations/annecy-parc-sports";
 
   return (
     <header
       className={cn(
         "z-40 w-full text-white",
         overPhoto
-          ? "fixed inset-x-0 top-0 bg-gradient-to-b from-black/40 via-black/15 to-transparent"
+          ? "fixed inset-x-0 top-0 bg-gradient-to-b from-black/45 via-black/20 to-transparent"
           : "sticky top-0 border-b border-white/10 bg-[#050506]/85 backdrop-blur-md"
       )}
     >
