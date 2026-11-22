@@ -78,7 +78,7 @@ function HeroLayer({ lit }: { lit: boolean }) {
   const note = lit ? "text-[#ffb43b]" : "text-white/25";
 
   return (
-    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-end px-6 pb-10 pt-24 lg:px-10">
+    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-6 py-16 lg:px-10">
       <span
         className={`absolute right-[8%] top-[18%] hidden text-xs tracking-[0.2em] sm:block ${note}`}
       >
@@ -106,11 +106,13 @@ function HeroLayer({ lit }: { lit: boolean }) {
       </span>
 
       <Heading
-        className={`max-w-[18ch] text-[clamp(1.6rem,5.7vw,5.1rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
+        className={`max-w-[14ch] text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold leading-[0.9] tracking-[-0.05em] ${
           lit ? "text-white" : dim
         }`}
       >
-        Agence d&rsquo;aménagement
+        Agence
+        <br />
+        d&rsquo;aménagement
         <br />
         <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
           lumière
