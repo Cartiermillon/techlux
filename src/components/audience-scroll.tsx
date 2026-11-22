@@ -85,12 +85,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
     };
   }, [audiences.length, reduceMotion]);
 
-  const active = Math.min(
-    audiences.length - 1,
-    Math.max(0, Math.floor(progress))
-  );
-
-  const scrollScreensPerFamily = 155;
+  const scrollScreensPerFamily = 220;
 
   if (reduceMotion) {
     return (
@@ -110,15 +105,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
     >
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden">
         <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pb-16 pt-24 lg:px-10 lg:pt-28">
-          <p className="text-left text-xs tabular-nums tracking-[0.18em] text-black/40">
-            {audiences[active].index}
-            <span className="text-black/25">
-              {" "}
-              / {audiences.length.toString().padStart(2, "0")}
-            </span>
-          </p>
-
-          <div className="relative mt-4 flex min-h-0 flex-1 items-center">
+          <div className="relative flex min-h-0 flex-1 items-center">
             {audiences.map((audience, index) => {
               const offset = index - progress;
               const enter = Math.min(Math.max(1 - offset, 0), 1);
@@ -130,11 +117,11 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                     ? -18 - (1 - exit) * 42
                     : 0;
               const opacity =
-                offset < -1.35 || offset > 1.35
+                offset < -1.65 || offset > 1.65
                   ? 0
                   : offset < 0
-                    ? Math.pow(exit, 1.15)
-                    : Math.pow(enter, 1.15);
+                    ? Math.pow(exit, 1.35)
+                    : Math.pow(enter, 1.35);
 
               return (
                 <article
@@ -149,9 +136,12 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   }}
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
-                  <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
-                    <div className="lg:col-span-6 xl:col-span-7">
-                      <h3 className="text-[clamp(2.75rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
+                  <div className="mx-auto grid w-full max-w-[1080px] gap-10 lg:grid-cols-2 lg:items-start lg:gap-0">
+                    <div className="lg:pr-10">
+                      <p className="text-xs tabular-nums tracking-[0.22em] text-black/40">
+                        {audience.index}
+                      </p>
+                      <h3 className="mt-3 text-[clamp(2.75rem,8vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
                         {audience.title}
                       </h3>
                       <p className="mt-8 max-w-lg text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em]">
@@ -165,8 +155,8 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </Link>
                     </div>
-                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:col-span-4 lg:col-start-9 lg:justify-self-end lg:border-l lg:border-black lg:pl-8 xl:col-span-3 xl:col-start-10 xl:pl-10">
-                      <div className="max-w-[15.5rem] lg:ml-auto">
+                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:border-l lg:border-black lg:pl-10">
+                      <div className="max-w-[15.5rem]">
                         <p className="text-sm leading-relaxed text-black/58">
                           {audience.text}
                         </p>
@@ -203,17 +193,19 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
         <Link
           key={audience.index}
           href={audience.href}
-          className="group grid gap-6 border-b border-black/20 py-14 lg:grid-cols-12 lg:gap-10 lg:px-6 lg:py-20"
+          className="group mx-auto grid max-w-[1080px] gap-6 border-b border-black/20 py-14 lg:grid-cols-2 lg:gap-0 lg:px-6 lg:py-20"
         >
-          <div className="lg:col-span-5">
-            <p className="text-xs tabular-nums text-black/40">{audience.index}</p>
+          <div className="lg:pr-8">
+            <p className="text-xs tabular-nums tracking-[0.22em] text-black/40">
+              {audience.index}
+            </p>
             <h3 className="mt-2 text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
               {audience.title}
             </h3>
             <p className="mt-4 text-xl font-medium tracking-tight">{audience.claim}</p>
           </div>
-          <div className="border-t border-black pt-6 lg:col-span-4 lg:col-start-9 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-            <div className="max-w-[15.5rem] lg:ml-auto">
+          <div className="border-t border-black pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <div className="max-w-[15.5rem]">
             <p className="text-sm leading-relaxed text-black/58">
               {audience.text}
             </p>
