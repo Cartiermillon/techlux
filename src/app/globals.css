@@ -71,6 +71,29 @@
   }
 }
 
+.spot-mask {
+  -webkit-mask-image: radial-gradient(
+    circle clamp(190px, 26vw, 400px) at var(--x, 62%) var(--y, 40%),
+    #000 0%,
+    rgba(0, 0, 0, 0.78) 38%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle clamp(190px, 26vw, 400px) at var(--x, 62%) var(--y, 40%),
+    #000 0%,
+    rgba(0, 0, 0, 0.78) 38%,
+    transparent 100%
+  );
+}
+
+.spot-glow {
+  background: radial-gradient(
+    circle clamp(240px, 36vw, 560px) at var(--x, 62%) var(--y, 40%),
+    rgba(255, 180, 59, 0.14),
+    transparent 70%
+  );
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -107,10 +130,8 @@
   filter: brightness(0.82) saturate(0.92);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .home-hero-photo-dim {
-    animation: annecy-hero-kenburns 40s ease-out forwards;
-  }
+.home-hero-photo-lit {
+  filter: brightness(1) saturate(1);
 }
 
 @media (prefers-reduced-motion: reduce) {

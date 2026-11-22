@@ -20,21 +20,23 @@ export function AudiencePartnerIntro() {
       aria-labelledby="pour-qui-accroche"
       className="scroll-mt-16 border-b border-black/[0.08] bg-[#f4f4f1] px-6 py-16 sm:py-24 lg:px-10 lg:py-28"
     >
-      <div className="mx-auto max-w-[1400px] text-center">
-        <p className="flex items-center justify-center gap-3 text-xs uppercase tracking-[0.22em] text-black/50">
-          <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-          Pour qui
-        </p>
-        <h2
-          id="pour-qui-accroche"
-          className="mx-auto mt-6 max-w-5xl text-[clamp(2.35rem,6.5vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.045em]"
-        >
+      <div className="mx-auto max-w-[1400px]">
+        <div className="grid gap-6 lg:grid-cols-12">
+          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-black/50 lg:col-span-4">
+            <span className="size-1.5 rounded-full bg-[#ffb43b]" />
+            Pour qui
+          </p>
+          <h2
+            id="pour-qui-accroche"
+            className="text-left text-[clamp(2.35rem,6.5vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8"
+          >
           Un partenaire de ceux qui{" "}
           <span className="text-black/35">
             conçoivent, prescrivent et dessinent
           </span>{" "}
           le paysage nocturne.
-        </h2>
+          </h2>
+        </div>
       </div>
     </section>
   );
