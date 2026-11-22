@@ -98,21 +98,19 @@ function HeroLayer({ lit }: { lit: boolean }) {
         }`}
       >
         <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-        Agence d&rsquo;aménagement lumière · Lyon &amp; Savoie
+        Lyon &amp; Savoie · depuis 2010
       </p>
 
       <Heading
-        className={`text-[clamp(3.1rem,11vw,10.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] ${
+        className={`max-w-[14ch] text-[clamp(2.65rem,9.5vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
           lit ? "text-white" : dim
         }`}
       >
-        L&rsquo;espace public
+        Agence
         <br />
-        se dessine
-        <br />
-        aussi la{" "}
+        d&rsquo;aménagement{" "}
         <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
-          nuit.
+          lumière
         </span>
       </Heading>
     </div>

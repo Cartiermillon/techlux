@@ -137,7 +137,6 @@ export function SpotlightStage({ base, lit, children, background }: SpotlightSta
         {background ? (
           <SpotlightPhoto src={background.src} alt={background.alt} dimmed />
         ) : null}
-        <div className="hairline-grid pointer-events-none absolute inset-0 z-[1]" />
         <div className="relative z-[2]">{base}</div>
         <div
           aria-hidden="true"
@@ -152,7 +151,6 @@ export function SpotlightStage({ base, lit, children, background }: SpotlightSta
               <SpotlightPhoto src={background.src} alt="" dimmed={false} />
             </div>
           ) : null}
-          <div className="hairline-grid-lit pointer-events-none absolute inset-0" />
           <div className="relative h-full">{lit}</div>
         </div>
       </div>

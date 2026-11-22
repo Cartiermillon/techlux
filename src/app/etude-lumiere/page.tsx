@@ -33,11 +33,14 @@ export default function EtudeLumierePage() {
   return (
     <div className="min-h-screen bg-[#f4f4f1]">
       <PageHero
-        eyebrow="Étude lumière · Éclairement"
+        eyebrow="Demande d'étude · Éclairement"
         title={
           <>
-            De l&rsquo;intention à l&rsquo;
-            <span className="text-black/35">éclairement mesuré.</span>
+            L&rsquo;espace public
+            <br />
+            se dessine
+            <br />
+            aussi la <span className="text-black/35">nuit.</span>
           </>
         }
         intro="Paysagistes, concepteurs lumière et bureaux d'études : nous traduisons votre scénario nocturne en niveaux de lux conformes, en optiques adaptées et en solutions exécutables."
