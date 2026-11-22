@@ -5,7 +5,10 @@ import { SpotlightStage } from "@/components/spotlight-stage";
 import { PhotometricExplorer } from "@/components/photometric-explorer";
 import { SolutionsShowcase } from "@/components/solutions-showcase";
 import { LightingSceneArt } from "@/components/lighting-scene-art";
-import { AudienceScroll } from "@/components/audience-scroll";
+import {
+  AudiencePartnerIntro,
+  AudienceScroll,
+} from "@/components/audience-scroll";
 import {
   PARTNERS,
   REALIZATIONS,
@@ -69,51 +72,31 @@ const AUDIENCES = [
   },
 ];
 
-function HeroLayer({ lit }: { lit: boolean }) {
-  const Heading = lit ? "div" : "h1";
-  const dim = "text-white/[0.13]";
-  const note = lit ? "text-[#ffb43b]" : "text-white/25";
-
+function HeroLayer() {
   return (
     <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-end px-6 pb-10 pt-24 lg:px-10">
-      <span
-        className={`absolute right-[8%] top-[18%] hidden text-xs tracking-[0.2em] sm:block ${note}`}
-      >
+      <span className="absolute right-[8%] top-[18%] hidden text-xs tracking-[0.2em] text-white/25 sm:block">
         2200 K
       </span>
-      <span
-        className={`absolute left-[46%] top-[11%] hidden text-xs tracking-[0.2em] md:block ${note}`}
-      >
+      <span className="absolute left-[46%] top-[11%] hidden text-xs tracking-[0.2em] text-white/25 md:block">
         ULR 0 %
       </span>
-      <span
-        className={`absolute right-[22%] top-[36%] hidden text-xs tracking-[0.2em] md:block ${note}`}
-      >
+      <span className="absolute right-[22%] top-[36%] hidden text-xs tracking-[0.2em] text-white/25 md:block">
         EN 13201
       </span>
-      <span
-        className={`absolute left-[6%] top-[24%] hidden text-xs tracking-[0.2em] md:block ${note}`}
-      >
+      <span className="absolute left-[6%] top-[24%] hidden text-xs tracking-[0.2em] text-white/25 md:block">
         2700 K
       </span>
-      <span
-        className={`absolute right-[10%] top-[52%] hidden text-xs tracking-[0.2em] lg:block ${note}`}
-      >
+      <span className="absolute right-[10%] top-[52%] hidden text-xs tracking-[0.2em] text-white/25 lg:block">
         IP66 · IK10
       </span>
 
-      <Heading
-        className={`max-w-[14ch] text-[clamp(2.65rem,9.5vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
-          lit ? "text-white" : dim
-        }`}
-      >
+      <h1 className="max-w-[14ch] text-[clamp(2.65rem,9.5vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
         Agence
         <br />
         d&rsquo;aménagement{" "}
-        <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
-          lumière
-        </span>
-      </Heading>
+        <span className="text-[#ffb43b]">lumière</span>
+      </h1>
     </div>
   );
 }
@@ -130,9 +113,8 @@ export default function HomePage() {
           src: "/home-hero-castle.jpg",
           alt: "Château illuminé de nuit au bord de l'eau, passerelle et reflets",
         }}
-        base={<HeroLayer lit={false} />}
-        lit={<HeroLayer lit />}
       >
+        <HeroLayer />
         <div className="relative z-10 border-t border-white/10">
           <div className="mx-auto grid max-w-[1400px] gap-8 px-6 py-10 lg:grid-cols-12 lg:px-10">
             <p className="max-w-xl text-base leading-relaxed text-white/65 sm:text-lg lg:col-span-6">
@@ -187,6 +169,7 @@ export default function HomePage() {
         </div>
       </SpotlightStage>
 
+      <AudiencePartnerIntro />
       <AudienceScroll audiences={AUDIENCES} />
 
       <section className="bg-[#050506] py-24 text-white sm:py-32">
