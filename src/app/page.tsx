@@ -106,7 +106,7 @@ function HeroLayer({ lit }: { lit: boolean }) {
       </span>
 
       <Heading
-        className={`max-w-[14ch] text-[clamp(2.65rem,9.5vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
+        className={`max-w-[14ch] text-[clamp(1.33rem,4.75vw,4.25rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
           lit ? "text-white" : dim
         }`}
       >

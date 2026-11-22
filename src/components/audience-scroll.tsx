@@ -153,7 +153,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
                   <div className="mx-auto grid w-full max-w-[1080px] gap-10 lg:grid-cols-2 lg:items-start lg:gap-0">
-                    <div className="min-w-0 lg:pr-[100px]">
+                    <div className="min-w-0 lg:pr-[200px]">
                       <p className="text-sm tabular-nums tracking-[0.24em] text-black/45 sm:text-base">
                         {audience.index}
                       </p>
@@ -171,7 +171,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </Link>
                     </div>
-                    <div className="max-lg:border-t max-lg:border-black max-lg:pt-10 lg:border-l lg:border-black lg:pl-8">
+                    <div className="max-lg:border-t-2 max-lg:border-black max-lg:pt-10 lg:border-l-2 lg:border-black lg:pl-8">
                       <div className="max-w-[15.5rem]">
                         <p className="text-sm leading-relaxed text-black/58">
                           {audience.text}
@@ -211,7 +211,7 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
           href={audience.href}
           className="group mx-auto grid max-w-[1080px] gap-6 border-b border-black/20 py-14 lg:grid-cols-2 lg:gap-0 lg:px-6 lg:py-20"
         >
-          <div className="lg:pr-[100px]">
+          <div className="lg:pr-[200px]">
             <p className="text-sm tabular-nums tracking-[0.24em] text-black/45 sm:text-base">
               {audience.index}
             </p>
@@ -220,7 +220,7 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
             </h3>
             <p className="mt-4 text-xl font-medium tracking-tight">{audience.claim}</p>
           </div>
-          <div className="border-t border-black pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          <div className="border-t-2 border-black pt-6 lg:border-l-2 lg:border-t-0 lg:pl-10 lg:pt-0">
             <div className="max-w-[15.5rem]">
             <p className="text-sm leading-relaxed text-black/58">
               {audience.text}
