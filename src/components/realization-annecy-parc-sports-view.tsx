@@ -11,6 +11,11 @@ import { TEAM_MEMBERS } from "@/data/team";
 import { AnnecyParcSportsHero } from "@/components/annecy-parc-sports-hero";
 import { AnnecyParcSportsGallery } from "@/components/annecy-parc-sports-gallery";
 
+const ANNECY_EDITORIAL_SHELL =
+  "rounded-[2rem] border border-black/[0.06] shadow-[0_48px_120px_-64px_rgba(26,36,48,0.35)] backdrop-blur-sm";
+
+const ANNECY_EDITORIAL_CARD = `${ANNECY_EDITORIAL_SHELL} bg-white/95`;
+
 type Props = {
   realization: Realization;
   meta: RealizationPageMeta;
@@ -50,7 +55,7 @@ export function RealizationAnnecyParcSportsView({
 
       <section className="relative z-[2] -mt-16 sm:-mt-24 lg:-mt-32">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-          <div className="rounded-[2rem] border border-black/[0.06] bg-white/95 p-8 shadow-[0_48px_120px_-64px_rgba(26,36,48,0.35)] backdrop-blur-sm sm:p-12 lg:p-16">
+          <div className={`${ANNECY_EDITORIAL_CARD} p-8 sm:p-12 lg:p-16`}>
             <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
               <div className="lg:col-span-7">
                 <h1 className="text-[clamp(2.1rem,5.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
@@ -71,22 +76,24 @@ export function RealizationAnnecyParcSportsView({
         </div>
       </section>
 
-      <section className="border-y border-black/[0.06] bg-[linear-gradient(180deg,#eef2ee_0%,#f4f4f1_100%)] py-20 sm:py-24">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-black/45">
-              Écosystème projet
-            </p>
-            <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
-              Intervenants &amp; fabrication
-            </h2>
+      <section className="py-20 sm:py-24">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+          <div className={`${ANNECY_EDITORIAL_CARD} p-8 sm:p-12 lg:p-16`}>
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-black/45">
+                Écosystème projet
+              </p>
+              <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
+                Intervenants &amp; fabrication
+              </h2>
+            </div>
+            <StakeholderGrid
+              meta={meta}
+              accountManager={accountManager}
+              realization={realization}
+              deptName={dept?.name}
+            />
           </div>
-          <StakeholderGrid
-            meta={meta}
-            accountManager={accountManager}
-            realization={realization}
-            deptName={dept?.name}
-          />
         </div>
       </section>
 
@@ -116,21 +123,25 @@ export function RealizationAnnecyParcSportsView({
         </p>
       </section>
 
-      <section className="bg-[linear-gradient(135deg,#dfe5e8_0%,#c9d4d9_48%,#b8c6ce_100%)] py-20 text-[#1a1a1c] sm:py-24">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-          <h2 className="max-w-2xl text-[clamp(1.5rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em]">
-            Un équipement sportif comparable ?{" "}
-            <span className="text-black/50">
-              Décrivez votre plateau, la norme visée et votre calendrier.
-            </span>
-          </h2>
-          <Link
-            href={`/contact?departement=${realization.department}&domaine=${realization.domains[0]}`}
-            className="group inline-flex h-14 w-fit items-center gap-2 rounded-full bg-[#1a1a1c] px-8 text-base font-semibold text-white hover:bg-[#2c3530]"
+      <section className="pb-20 pt-4 text-[#1a1a1c] sm:pb-24">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+          <div
+            className={`flex flex-col gap-8 bg-[linear-gradient(135deg,#dfe5e8_0%,#c9d4d9_48%,#b8c6ce_100%)] p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between lg:p-16 ${ANNECY_EDITORIAL_SHELL}`}
           >
-            Demande d&apos;étude
-            <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
+            <h2 className="max-w-2xl text-[clamp(1.5rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em]">
+              Un équipement sportif comparable ?{" "}
+              <span className="text-black/50">
+                Décrivez votre plateau, la norme visée et votre calendrier.
+              </span>
+            </h2>
+            <Link
+              href={`/contact?departement=${realization.department}&domaine=${realization.domains[0]}`}
+              className="group inline-flex h-14 w-fit shrink-0 items-center gap-2 rounded-full bg-[#1a1a1c] px-8 text-base font-semibold text-white hover:bg-[#2c3530]"
+            >
+              Demande d&apos;étude
+              <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -166,6 +177,17 @@ function MetricsPanel({
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+function StakeholderBlock({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[clamp(1.2rem,2.1vw,1.65rem)] font-semibold leading-snug tracking-tight text-[#1a1a1c]">
+        {value}
+      </p>
+      <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{label}</p>
     </div>
   );
 }
@@ -230,12 +252,13 @@ function StakeholderGrid({
   ].filter((r) => r.value);
 
   return (
-    <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
+    <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
       {rows.map((row) => (
-        <InfoCard key={row.label} label={row.label} value={row.value!} />
+        <StakeholderBlock key={row.label} label={row.label} value={row.value!} />
       ))}
       {accountManager && (
-        <InfoCard label="Chargé d'affaires" value={accountManager.name}>
+        <div>
+          <StakeholderBlock label="Chargé d'affaires" value={accountManager.name} />
           <p className="mt-2 text-sm text-black/50">{accountManager.role}</p>
           <p className="mt-1 text-xs text-black/40">
             Dépt. {realization.department}
@@ -248,7 +271,7 @@ function StakeholderGrid({
             Équipe Tech&apos;lux
             <ArrowUpRight className="size-3.5" />
           </Link>
-        </InfoCard>
+        </div>
       )}
     </div>
   );
