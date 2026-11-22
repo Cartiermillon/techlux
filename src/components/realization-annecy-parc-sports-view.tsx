@@ -1,11 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import {
-  DEPARTMENTS,
-  DOMAIN_MAP,
-  type Realization,
-} from "@/data/techlux";
+import { DEPARTMENTS, type Realization } from "@/data/techlux";
 import type { RealizationPageMeta } from "@/data/realization-pages";
 import { TEAM_MEMBERS } from "@/data/team";
 import { AnnecyParcSportsHero } from "@/components/annecy-parc-sports-hero";
@@ -76,51 +72,19 @@ export function RealizationAnnecyParcSportsView({
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
+      <section className="border-y border-black/[0.06] bg-[linear-gradient(180deg,#eef2ee_0%,#f4f4f1_100%)] py-20 sm:py-24">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-          <div className={`${ANNECY_EDITORIAL_CARD} p-8 sm:p-12 lg:p-16`}>
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-black/45">
-                Écosystème projet
-              </p>
-              <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
-                Intervenants &amp; fabrication
-              </h2>
-            </div>
-            <StakeholderGrid
-              meta={meta}
-              accountManager={accountManager}
-              realization={realization}
-              deptName={dept?.name}
-            />
-          </div>
+          <p className="text-xs uppercase tracking-[0.24em] text-black/45">Écosystème projet</p>
+          <h2 className="mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold tracking-[-0.035em]">
+            Intervenants &amp; fabrication
+          </h2>
+          <StakeholderGrid
+            meta={meta}
+            accountManager={accountManager}
+            realization={realization}
+            deptName={dept?.name}
+          />
         </div>
-      </section>
-
-      <section className="mx-auto max-w-[1400px] px-6 py-20 sm:py-24 lg:px-10">
-        <p className="text-xs uppercase tracking-[0.24em] text-black/45">Domaines</p>
-        <ul className="mt-6 flex flex-wrap gap-3">
-          {realization.domains.map((slug) => (
-            <li key={slug}>
-              <Link
-                href={`/solutions/${slug}`}
-                className="group inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-black/80 transition-colors hover:border-[#7fa88a]/60 hover:text-[#3d5a45]"
-              >
-                {DOMAIN_MAP[slug].title}
-                <ArrowUpRight className="size-3.5 opacity-40 transition-opacity group-hover:opacity-100" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-10 text-sm text-black/55">
-          Fabricants :{" "}
-          <Link
-            href="/fournisseurs"
-            className="font-semibold text-[#1a1a1c] underline decoration-[#7fa88a]/50 underline-offset-4 hover:decoration-[#c88712]"
-          >
-            {realization.partners.join(" · ")}
-          </Link>
-        </p>
       </section>
 
       <section className="pb-20 pt-4 text-[#1a1a1c] sm:pb-24">
@@ -145,7 +109,7 @@ export function RealizationAnnecyParcSportsView({
         </div>
       </section>
 
-      <AnnecyParcSportsGallery />
+      <AnnecyParcSportsGallery realization={realization} />
     </div>
   );
 }
@@ -181,13 +145,22 @@ function MetricsPanel({
   );
 }
 
-function StakeholderBlock({ label, value }: { label: string; value: string }) {
+function EditorialStakeholderCard({
+  label,
+  value,
+  children,
+}: {
+  label: string;
+  value: string;
+  children?: React.ReactNode;
+}) {
   return (
-    <div>
-      <p className="text-[clamp(1.2rem,2.1vw,1.65rem)] font-semibold leading-snug tracking-tight text-[#1a1a1c]">
+    <div className={`${ANNECY_EDITORIAL_CARD} flex h-full flex-col p-6 sm:p-8`}>
+      <p className="text-[clamp(1.15rem,2vw,1.55rem)] font-semibold leading-snug tracking-tight text-[#1a1a1c]">
         {value}
       </p>
       <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-black/45">{label}</p>
+      {children ? <div className="mt-auto pt-4">{children}</div> : null}
     </div>
   );
 }
@@ -252,14 +225,13 @@ function StakeholderGrid({
   ].filter((r) => r.value);
 
   return (
-    <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+    <div className="mt-14 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
       {rows.map((row) => (
-        <StakeholderBlock key={row.label} label={row.label} value={row.value!} />
+        <EditorialStakeholderCard key={row.label} label={row.label} value={row.value!} />
       ))}
       {accountManager && (
-        <div>
-          <StakeholderBlock label="Chargé d'affaires" value={accountManager.name} />
-          <p className="mt-2 text-sm text-black/50">{accountManager.role}</p>
+        <EditorialStakeholderCard label="Chargé d'affaires" value={accountManager.name}>
+          <p className="text-sm text-black/50">{accountManager.role}</p>
           <p className="mt-1 text-xs text-black/40">
             Dépt. {realization.department}
             {deptName ? ` · ${deptName}` : ""}
@@ -271,7 +243,7 @@ function StakeholderGrid({
             Équipe Tech&apos;lux
             <ArrowUpRight className="size-3.5" />
           </Link>
-        </div>
+        </EditorialStakeholderCard>
       )}
     </div>
   );
