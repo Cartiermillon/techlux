@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { SpotlightStage } from "@/components/spotlight-stage";
-import { PhotometricExplorer } from "@/components/photometric-explorer";
 import { SolutionsShowcase } from "@/components/solutions-showcase";
 import { LightingSceneArt } from "@/components/lighting-scene-art";
 import {
@@ -194,12 +193,6 @@ export default function HomePage() {
       <AudiencePartnerIntro />
       <AudienceScroll audiences={AUDIENCES} />
 
-      <section className="bg-[#050506] py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <PhotometricExplorer />
-        </div>
-      </section>
-
       <section
         id="solutions"
         className="scroll-mt-16 bg-[#f4f4f1] py-24 sm:py-32"
@@ -244,7 +237,7 @@ export default function HomePage() {
                 href={`/realisations/${project.id}`}
                 className={`group block ${FEATURED_SPANS[i]}`}
               >
-                <div className="overflow-hidden">
+                <div className="overflow-hidden rounded-[2rem] border border-black/[0.06] shadow-[0_48px_120px_-64px_rgba(26,36,48,0.35)]">
                   <LightingSceneArt
                     preset={project.scene}
                     kelvin={parseKelvin(project.kelvin)}
