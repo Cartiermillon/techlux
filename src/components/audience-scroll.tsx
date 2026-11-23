@@ -152,7 +152,7 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                   }}
                   aria-hidden={Math.abs(offset) > 0.5}
                 >
-                  <div className="mx-auto grid w-full max-w-[1080px] gap-10 lg:grid-cols-2 lg:items-start lg:gap-0">
+                  <div className="mx-auto grid w-full max-w-[1080px] gap-10 lg:grid-cols-2 lg:items-center lg:gap-0">
                     <div className="min-w-0 lg:pr-[200px]">
                       <p className="text-sm tabular-nums tracking-[0.24em] text-black/45 sm:text-base">
                         {audience.index}
@@ -160,36 +160,24 @@ export function AudienceScroll({ audiences }: { audiences: Audience[] }) {
                       <h3 className="mt-3 text-[clamp(2.75rem,8vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
                         {audience.title}
                       </h3>
-                      <p className="mt-8 max-w-lg text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em]">
-                        {audience.claim}
-                      </p>
                       <Link
                         href={audience.href}
-                        className="group mt-12 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612]"
+                        className="group mt-10 inline-flex items-center gap-2 text-sm font-medium hover:text-[#b07612] lg:mt-12"
                       >
                         {audience.cta}
                         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </Link>
+                      <p className="sr-only">
+                        {audience.text}{" "}
+                        {audience.tags.length > 0
+                          ? `Exemples : ${audience.tags.join(", ")}.`
+                          : ""}
+                      </p>
                     </div>
-                    <div className="max-lg:border-t-2 max-lg:border-black max-lg:pt-10 lg:border-l-2 lg:border-black lg:pl-8">
-                      <div className="max-w-[15.5rem]">
-                        <p className="text-sm leading-relaxed text-black/58">
-                          {audience.text}
-                        </p>
-                        <ul className="mt-6 space-y-1.5 text-[13px] text-black/70">
-                          {audience.tags.map((tag) => (
-                            <li key={tag} className="flex gap-2.5">
-                              <span
-                                className="shrink-0 text-black/35"
-                                aria-hidden
-                              >
-                                —
-                              </span>
-                              <span>{tag}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                    <div className="max-lg:border-t-2 max-lg:border-black max-lg:pt-10 lg:flex lg:min-h-[10rem] lg:border-l-2 lg:border-black lg:pl-10 lg:pt-0">
+                      <p className="max-w-md text-[clamp(1.2rem,2.1vw,1.65rem)] font-medium leading-snug tracking-[-0.02em] text-black/88 lg:max-w-sm lg:self-center">
+                        {audience.claim}
+                      </p>
                     </div>
                   </div>
                 </article>
@@ -218,27 +206,20 @@ function AudienceList({ audiences }: { audiences: Audience[] }) {
             <h3 className="mt-2 text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
               {audience.title}
             </h3>
-            <p className="mt-4 text-xl font-medium tracking-tight">{audience.claim}</p>
-          </div>
-          <div className="border-t-2 border-black pt-6 lg:border-l-2 lg:border-t-0 lg:pl-10 lg:pt-0">
-            <div className="max-w-[15.5rem]">
-            <p className="text-sm leading-relaxed text-black/58">
-              {audience.text}
-            </p>
-            <ul className="mt-4 space-y-1.5 text-[13px] text-black/70">
-              {audience.tags.map((tag) => (
-                <li key={tag} className="flex gap-3">
-                  <span className="text-black/35" aria-hidden>
-                    —
-                  </span>
-                  {tag}
-                </li>
-              ))}
-            </ul>
             <span className="mt-6 inline-block text-sm font-medium text-black/70">
               {audience.cta}
             </span>
-            </div>
+            <p className="sr-only">
+              {audience.text}{" "}
+              {audience.tags.length > 0
+                ? `Exemples : ${audience.tags.join(", ")}.`
+                : ""}
+            </p>
+          </div>
+          <div className="flex border-t-2 border-black pt-6 lg:border-l-2 lg:border-t-0 lg:pl-10 lg:pt-0 lg:items-center">
+            <p className="max-w-md text-xl font-medium leading-snug tracking-[-0.02em] text-black/88 lg:max-w-sm">
+              {audience.claim}
+            </p>
           </div>
         </Link>
       ))}
