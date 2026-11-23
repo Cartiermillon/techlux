@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { EquipeSpotlightHero } from "@/components/equipe-spotlight-hero";
 import { TeamRegionMap } from "@/components/team-region-map";
 import { TeamMemberAvatar } from "@/components/team-member-avatar";
 import { ARA_MAP_DEPARTMENTS, TEAM_MEMBERS } from "@/data/team";
@@ -13,26 +14,14 @@ export const metadata: Metadata = {
 
 export default function EquipePage() {
   return (
-    <div className="min-h-screen bg-[#f4f4f1]">
-      <section className="border-b border-white/10 bg-[#050506] text-white">
-        <div className="mx-auto max-w-[1400px] px-6 pb-14 pt-16 sm:pb-20 sm:pt-20 lg:px-10">
-          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/50">
-            <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-            Proximité terrain
-          </p>
-          <h1 className="mt-6 max-w-4xl text-[clamp(2.75rem,8vw,6rem)] font-semibold leading-[0.92] tracking-[-0.05em]">
-            Notre{" "}
-            <span className="text-[#ffb43b]">équipe</span> régionale.
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
-            Une chargée ou un chargé d&rsquo;affaires dédié par secteur en
-            Auvergne-Rhône-Alpes. Explorez la carte, puis appelez ou écrivez
-            directement à votre interlocuteur.
-          </p>
-        </div>
-      </section>
+    <>
+      <EquipeSpotlightHero />
 
-      <section className="mx-auto max-w-[1400px] px-6 py-12 sm:py-16 lg:px-10">
+      <div className="min-h-screen bg-[#f4f4f1]">
+      <section
+        id="carte-territoires"
+        className="scroll-mt-20 mx-auto max-w-[1400px] px-6 py-12 sm:py-16 lg:px-10"
+      >
         <TeamRegionMap />
       </section>
 
@@ -114,6 +103,7 @@ export default function EquipePage() {
           </p>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

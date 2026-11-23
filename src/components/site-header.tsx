@@ -28,7 +28,9 @@ const NAV_ITEMS = [
 export function SiteHeader() {
   const pathname = usePathname();
   const overPhoto =
-    pathname === "/" || pathname === "/realisations/annecy-parc-sports";
+    pathname === "/" ||
+    pathname === "/equipe" ||
+    pathname === "/realisations/annecy-parc-sports";
 
   return (
     <header
