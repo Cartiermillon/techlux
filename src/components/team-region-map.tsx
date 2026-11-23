@@ -51,43 +51,84 @@ function deptPillStyle(accent: string, vivid: boolean) {
   } as React.CSSProperties;
 }
 
-function firstName(fullName: string) {
-  return fullName.split(/\s+/)[0] ?? fullName;
+function splitName(fullName: string) {
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length <= 1) {
+    return { first: fullName, rest: "" };
+  }
+  return { first: parts[0], rest: parts.slice(1).join(" ") };
+}
+
+function MemberName({ name }: { name: string }) {
+  const { first, rest } = splitName(name);
+  return (
+    <h3 className="mt-2 text-[clamp(1.65rem,4.5vw,2.35rem)] font-semibold leading-[1.08] tracking-tight text-[#0b0b0c]">
+      <span className="block">{first}</span>
+      {rest ? (
+        <span className="mt-0.5 block whitespace-nowrap">{rest}</span>
+      ) : null}
+    </h3>
+  );
 }
 
 export function TeamRegionMap() {
+  const [mapActive, setMapActive] = React.useState(false);
   const [hovered, setHovered] = React.useState<string | null>(null);
-  const [selected, setSelected] = React.useState<string | null>("69");
+  const [pinned, setPinned] = React.useState<string | null>(null);
+
   const [hoveredOfficeId, setHoveredOfficeId] = React.useState<string | null>(
     null
   );
 
-  const focusCode = hovered ?? selected;
+  const focusCode = hovered ?? pinned;
   const focusMembers = focusCode ? membersForDepartment(focusCode) : [];
-  const focusDept = ARA_MAP_DEPARTMENTS.find((d) => d.code === focusCode);
+  const focusDept = focusCode
+    ? ARA_MAP_DEPARTMENTS.find((d) => d.code === focusCode)
+    : undefined;
 
-  const displayedMembers =
-    focusMembers.length > 0 ? focusMembers : TEAM_MEMBERS;
+  const showCards = mapActive && focusCode !== null && focusMembers.length > 0;
 
   const deptFill = (code: string) => {
     const reps = membersForDepartment(code);
     if (reps.length === 0) {
       return { fill: "rgba(11,11,12,0.07)", opacity: 1 };
     }
-    if (focusCode === code || hovered === code) {
+    if (focusCode === code) {
       return { fill: reps[0].accent, opacity: 0.72 };
     }
     return { fill: reps[0].accent, opacity: 0.38 };
   };
 
+  const leaveMap = () => {
+    setMapActive(false);
+    setHovered(null);
+    setPinned(null);
+  };
+
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-7">
+    <div
+      className="relative flex min-h-[min(70vw,640px)] w-full flex-col gap-6 lg:min-h-[min(52vw,620px)] lg:flex-row lg:items-stretch lg:gap-0"
+      onMouseLeave={leaveMap}
+    >
+      <div
+        className={cn(
+          "relative shrink-0 transition-[width,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform",
+          mapActive
+            ? "w-full lg:w-[56%] lg:origin-left lg:scale-[0.94] lg:-translate-x-3"
+            : "w-full lg:w-full lg:scale-100 lg:translate-x-0"
+        )}
+        onMouseEnter={() => setMapActive(true)}
+      >
         <svg
           viewBox={VB}
           role="img"
           aria-label="Carte des départements d'Auvergne-Rhône-Alpes"
-          className="h-auto min-h-[min(58vw,520px)] w-full sm:min-h-[min(52vw,580px)]"
+          className={cn(
+            "h-auto w-full transition-[min-height] duration-500",
+            mapActive
+              ? "min-h-[min(50vw,480px)] sm:min-h-[min(46vw,520px)]"
+              : "min-h-[min(72vw,580px)] sm:min-h-[min(58vw,640px)]"
+          )}
         >
           {Object.entries(ARA_DEPT_PATHS).map(([code, d]) => {
             if (HIDDEN_MAP_CODES.has(code)) return null;
@@ -112,11 +153,14 @@ export function TeamRegionMap() {
                 className={cn(
                   covered ? "cursor-pointer transition-all duration-200" : ""
                 )}
-                onMouseEnter={() => covered && setHovered(code)}
+                onMouseEnter={() => {
+                  if (covered) setHovered(code);
+                }}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => {
                   if (!covered) return;
-                  setSelected(code);
+                  setPinned(code);
+                  setMapActive(true);
                 }}
               />
             );
@@ -261,117 +305,145 @@ export function TeamRegionMap() {
         </svg>
       </div>
 
-      <div className="lg:col-span-5">
-        <aside className="sticky top-24 space-y-5">
-          {displayedMembers.map((member) => (
-            <article
-              key={member.id}
-              className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm"
-              style={{
-                boxShadow: `0 12px 40px -16px ${member.accent}44`,
-              }}
-            >
-              <div
-                className="h-1.5 w-full"
-                style={{ background: member.accent }}
-              />
-              <div className="flex gap-5 p-6 sm:gap-6 sm:p-7">
-                <TeamMemberAvatar
-                  name={member.name}
-                  photo={member.photo}
-                  accent={member.accent}
-                  size="lg"
-                />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs uppercase tracking-[0.18em] text-black/45">
-                    {member.role}
-                  </p>
-                  <h3 className="mt-2 text-[clamp(1.5rem,4vw,2.125rem)] font-semibold leading-[1.05] tracking-tight text-[#0b0b0c]">
-                    {member.name}
-                  </h3>
-                  {member.territoryLabel ? (
-                    <p className="mt-2 text-sm font-medium text-[#b07612]">
-                      {member.territoryLabel}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="border-t border-black/8 px-6 pb-6 pt-4 sm:px-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
-                  Départements couverts
-                </p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {member.departments.map((c) => {
-                    const label =
-                      ARA_MAP_DEPARTMENTS.find((d) => d.code === c)?.name ?? c;
-                    const isHighlighted = focusDept?.code === c;
-                    return (
-                      <li
-                        key={c}
-                        className="rounded-full border px-3.5 py-1.5 text-sm font-bold tabular-nums transition-[box-shadow,transform] duration-200"
-                        style={deptPillStyle(member.accent, isHighlighted)}
-                      >
-                        <span
-                          className={
-                            isHighlighted ? "opacity-80" : "text-black/50"
-                          }
-                        >
-                          {c}
-                        </span>
-                        <span
-                          className={`mx-1.5 ${isHighlighted ? "opacity-40" : "text-black/25"}`}
-                        >
-                          ·
-                        </span>
-                        {label}
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                <div className="mt-4 space-y-2">
-                  <a
-                    href={`tel:${member.phone}`}
-                    className="group flex h-12 w-full items-center justify-between gap-3 rounded-2xl bg-[#0b0b0c] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#ffb43b] hover:text-[#050506] sm:w-auto"
-                  >
-                    <span>
-                      Contacter {firstName(member.name)}
-                    </span>
-                    <span className="inline-flex items-center gap-2 tabular-nums font-medium">
-                      <Phone className="size-4 opacity-80" aria-hidden />
-                      {member.phoneDisplay}
-                    </span>
-                  </a>
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="flex items-center gap-3 rounded-2xl bg-[#f4f4f1] px-4 py-3 text-sm font-medium break-all hover:text-[#b07612]"
-                  >
-                    <Mail className="size-4 shrink-0 text-[#ffb43b]" />
-                    {member.email}
-                  </a>
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-2 px-1 pt-2 text-sm font-medium text-black/70 hover:text-[#0b0b0c]"
-                  >
-                    Profil LinkedIn
-                    <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-
-          {focusCode === "69" && focusMembers.length > 1 ? (
-            <p className="rounded-2xl bg-white/80 px-4 py-3 text-sm text-black/55">
-              Le Rhône est suivi par {focusMembers.length} interlocuteurs selon
-              la nature du projet (grand compte lyonnais, voirie, patrimoine).
-            </p>
-          ) : null}
-        </aside>
-      </div>
+      <MemberAside
+        showCards={showCards}
+        focusMembers={focusMembers}
+        focusDept={focusDept}
+        mapActive={mapActive}
+      />
     </div>
+  );
+}
+
+function MemberAside({
+  showCards,
+  focusMembers,
+  focusDept,
+  mapActive,
+}: {
+  showCards: boolean;
+  focusMembers: (typeof TEAM_MEMBERS)[number][];
+  focusDept: (typeof ARA_MAP_DEPARTMENTS)[number] | undefined;
+  mapActive: boolean;
+}) {
+  return (
+    <aside
+      className={cn(
+        "flex min-h-0 flex-col justify-center overflow-hidden transition-[width,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:pl-6",
+        mapActive ? "lg:w-[44%]" : "w-0 lg:w-0",
+        showCards
+          ? "max-h-[2000px] opacity-100 lg:translate-x-0"
+          : "pointer-events-none max-h-0 opacity-0 lg:translate-x-6"
+      )}
+      aria-hidden={!showCards}
+    >
+      <div className="space-y-5 py-2 lg:max-h-[min(80vh,640px)] lg:overflow-y-auto lg:pr-1">
+        {showCards
+          ? focusMembers.map((member) => (
+              <article
+                key={member.id}
+                className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm"
+                style={{
+                  boxShadow: `0 12px 40px -16px ${member.accent}44`,
+                }}
+              >
+                <div
+                  className="h-1.5 w-full"
+                  style={{ background: member.accent }}
+                />
+                <div className="flex gap-5 p-6 sm:gap-6 sm:p-7">
+                  <TeamMemberAvatar
+                    name={member.name}
+                    photo={member.photo}
+                    accent={member.accent}
+                    size="lg"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <MemberName name={member.name} />
+                    {member.territoryLabel ? (
+                      <p className="mt-2 text-sm font-medium text-[#b07612]">
+                        {member.territoryLabel}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="border-t border-black/8 px-6 pb-6 pt-4 sm:px-7">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
+                    Départements couverts
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-2">
+                    {member.departments.map((c) => {
+                      const label =
+                        ARA_MAP_DEPARTMENTS.find((d) => d.code === c)?.name ??
+                        c;
+                      const isHighlighted = focusDept?.code === c;
+                      return (
+                        <li
+                          key={c}
+                          className="rounded-full border px-3.5 py-1.5 text-sm font-bold tabular-nums"
+                          style={deptPillStyle(member.accent, isHighlighted)}
+                        >
+                          <span
+                            className={
+                              isHighlighted ? "opacity-80" : "text-black/50"
+                            }
+                          >
+                            {c}
+                          </span>
+                          <span
+                            className={`mx-1.5 ${isHighlighted ? "opacity-40" : "text-black/25"}`}
+                          >
+                            ·
+                          </span>
+                          {label}
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  <div className="mt-4 space-y-2">
+                    <a
+                      href={`tel:${member.phone}`}
+                      className="group flex min-h-12 w-full flex-col items-start justify-center gap-0.5 rounded-2xl bg-[#0b0b0c] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#ffb43b] hover:text-[#050506] sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+                    >
+                      <span>Contacter {splitName(member.name).first}</span>
+                      <span className="inline-flex items-center gap-2 tabular-nums font-medium">
+                        <Phone className="size-4 opacity-80" aria-hidden />
+                        {member.phoneDisplay}
+                      </span>
+                    </a>
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="flex items-center gap-3 rounded-2xl bg-[#f4f4f1] px-4 py-3 text-sm font-medium break-all hover:text-[#b07612]"
+                    >
+                      <Mail className="size-4 shrink-0 text-[#ffb43b]" />
+                      {member.email}
+                    </a>
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-2 px-1 pt-2 text-sm font-medium text-black/70 hover:text-[#0b0b0c]"
+                    >
+                      Profil LinkedIn
+                      <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))
+          : null}
+
+        {showCards &&
+        focusDept?.code === "69" &&
+        focusMembers.length > 1 ? (
+          <p className="rounded-2xl bg-white/80 px-4 py-3 text-sm text-black/55">
+            Le Rhône est suivi par {focusMembers.length} interlocuteurs selon la
+            nature du projet.
+          </p>
+        ) : null}
+      </div>
+    </aside>
   );
 }
