@@ -126,6 +126,22 @@
   animation: annecy-hero-kenburns 32s ease-out forwards;
 }
 
+.home-hero-photo-cover-min {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  transform: translate(-50%, -50%) !important;
+  object-fit: cover;
+  object-position: center center;
+}
+
 .home-hero-photo-dim {
   filter: brightness(0.82) saturate(0.92);
 }

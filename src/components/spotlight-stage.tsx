@@ -32,7 +32,7 @@ function SpotlightPhoto({
         fill
         priority
         sizes="100vw"
-        className={`object-cover object-center ${
+        className={`home-hero-photo-cover-min ${
           dimmed ? "home-hero-photo-dim" : "home-hero-photo-lit"
         }`}
       />
