@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { HomeRootTypography } from "@/components/home-root-typography";
 import { SITE_URL } from "@/lib/site";
 
 const fallbackSans = Inter({
@@ -32,6 +33,7 @@ export default function RootLayout({
         id="top"
         className="min-h-full flex flex-col bg-[#f4f4f1] text-[#0b0b0c]"
       >
+        <HomeRootTypography />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

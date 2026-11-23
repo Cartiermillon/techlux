@@ -56,6 +56,70 @@
   --radius: 0.5rem;
 }
 
+@font-face {
+  font-family: "Aptos";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-regular.woff2") format("woff2"),
+    local("Aptos"),
+    local("Aptos Regular");
+}
+
+@font-face {
+  font-family: "Aptos";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-semibold.woff2") format("woff2"),
+    local("Aptos SemiBold"),
+    local("Aptos-SemiBold");
+}
+
+@font-face {
+  font-family: "Aptos";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-bold.woff2") format("woff2"),
+    local("Aptos Bold"),
+    local("Aptos-Bold");
+}
+
+@font-face {
+  font-family: "Aptos Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-display.woff2") format("woff2"),
+    local("Aptos Display"),
+    local("Aptos Display Regular");
+}
+
+@font-face {
+  font-family: "Aptos Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-display-semibold.woff2") format("woff2"),
+    local("Aptos Display SemiBold");
+}
+
+@font-face {
+  font-family: "Aptos Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url("/fonts/aptos/aptos-display-bold.woff2") format("woff2"),
+    local("Aptos Display Bold");
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -63,6 +127,18 @@
   html {
     scroll-behavior: smooth;
     @apply font-sans;
+  }
+  html.home-aptos {
+    --font-sans: "Aptos", "Aptos Display", "Segoe UI Variable Text",
+      "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+    --font-heading: "Aptos Display", "Aptos", "Segoe UI Variable Display",
+      "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+    --font-serif: "Aptos", "Aptos Display", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "Aptos", "Aptos Display", "Segoe UI", system-ui, sans-serif;
+    font-family: var(--font-sans);
+  }
+  html.home-aptos body {
+    font-family: inherit;
   }
   body {
     @apply bg-background text-foreground antialiased selection:bg-[#ffb43b]/40 selection:text-[#050506];
