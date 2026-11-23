@@ -7,10 +7,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Trebuchet MS", Trebuchet, var(--font-fallback), Arial, sans-serif;
-  --font-heading: "Trebuchet MS", Trebuchet, var(--font-fallback), Arial, sans-serif;
-  --font-serif: "Trebuchet MS", Trebuchet, var(--font-fallback), Arial, sans-serif;
-  --font-mono: "Trebuchet MS", Trebuchet, var(--font-fallback), Arial, sans-serif;
+  --font-sans: var(--font-fallback), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-mono: var(--font-fallback), ui-monospace, monospace;
+  --font-display: "Trebuchet MS", Trebuchet, Arial, sans-serif;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -64,15 +65,9 @@
     scroll-behavior: smooth;
     @apply font-sans;
   }
-  html.home-trebuchet {
-    --font-sans: "Trebuchet MS", Trebuchet, Arial, sans-serif;
-    --font-heading: "Trebuchet MS", Trebuchet, Arial, sans-serif;
-    --font-serif: "Trebuchet MS", Trebuchet, Arial, sans-serif;
-    --font-mono: "Trebuchet MS", Trebuchet, Arial, sans-serif;
-    font-family: var(--font-sans);
-  }
-  html.home-trebuchet body {
-    font-family: inherit;
+  h1,
+  h2 {
+    font-family: var(--font-display);
   }
   body {
     @apply bg-background text-foreground antialiased selection:bg-[#ffb43b]/40 selection:text-[#050506];
