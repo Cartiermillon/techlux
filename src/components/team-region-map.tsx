@@ -29,6 +29,30 @@ const OFFICE_LABEL_OFFSET: Record<
   agence: { dx: 12, dy: 24, anchor: "start" },
 };
 
+const LIGHT_ON_ACCENT = new Set([
+  "#5b9cf5",
+  "#a855f7",
+  "#f472b6",
+  "#c084fc",
+]);
+
+function deptPillStyle(accent: string, vivid: boolean) {
+  if (!vivid) {
+    return {
+      borderColor: `${accent}55`,
+      backgroundColor: `${accent}18`,
+      color: "#0b0b0c",
+    } as React.CSSProperties;
+  }
+  const light = LIGHT_ON_ACCENT.has(accent.toLowerCase());
+  return {
+    borderColor: accent,
+    backgroundColor: accent,
+    color: light ? "#ffffff" : "#050506",
+    boxShadow: `0 8px 22px -8px ${accent}cc`,
+  } as React.CSSProperties;
+}
+
 export function TeamRegionMap() {
   const [hovered, setHovered] = React.useState<string | null>(null);
   const [selected, setSelected] = React.useState<string | null>("69");
@@ -342,19 +366,14 @@ export function TeamRegionMap() {
                   <div className="min-w-0 flex-1">
                     {showFocusDept ? (
                       <p
-                        className="mb-2 inline-flex flex-wrap items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold"
-                        style={{
-                          backgroundColor: `${member.accent}18`,
-                          color: "#0b0b0c",
-                        }}
+                        className="mb-3 inline-flex flex-wrap items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-bold"
+                        style={deptPillStyle(member.accent, true)}
                       >
-                        <MapPin
-                          className="size-3.5 shrink-0"
-                          style={{ color: member.accent }}
-                          aria-hidden
-                        />
+                        <MapPin className="size-3.5 shrink-0 opacity-90" aria-hidden />
                         <span className="tabular-nums">{focusDept.code}</span>
-                        <span className="text-black/30">·</span>
+                        <span className="opacity-50" aria-hidden>
+                          ·
+                        </span>
                         <span>{focusDept.name}</span>
                       </p>
                     ) : null}
@@ -385,18 +404,17 @@ export function TeamRegionMap() {
                       return (
                         <li
                           key={c}
-                          className={cn(
-                            "rounded-full border px-3.5 py-1.5 text-sm font-bold tabular-nums transition-shadow",
-                            isHighlighted && "ring-2 ring-[#0b0b0c]/15"
-                          )}
-                          style={{
-                            borderColor: `${member.accent}55`,
-                            backgroundColor: `${member.accent}18`,
-                            color: "#0b0b0c",
-                          }}
+                          className="rounded-full border px-3.5 py-1.5 text-sm font-bold tabular-nums transition-[box-shadow,transform] duration-200"
+                          style={deptPillStyle(member.accent, isHighlighted)}
                         >
-                          <span className="text-black/50">{c}</span>
-                          <span className="mx-1.5 text-black/25">·</span>
+                          <span className={isHighlighted ? "opacity-80" : "text-black/50"}>
+                            {c}
+                          </span>
+                          <span
+                            className={`mx-1.5 ${isHighlighted ? "opacity-40" : "text-black/25"}`}
+                          >
+                            ·
+                          </span>
                           {label}
                         </li>
                       );
