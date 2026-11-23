@@ -16,6 +16,7 @@ import { TeamMemberAvatar } from "@/components/team-member-avatar";
 import { cn } from "cn";
 
 const COVERED_CODES = new Set(TEAM_MEMBERS.flatMap((m) => m.departments));
+const HIDDEN_MAP_CODES = new Set(["43"]);
 
 const VB = `0 0 ${ARA_MAP_VIEWBOX.width} ${ARA_MAP_VIEWBOX.height}`;
 
@@ -49,17 +50,19 @@ export function TeamRegionMap() {
 
   const deptFill = (code: string) => {
     const reps = membersForDepartment(code);
-    if (reps.length === 0) return { fill: "rgba(255,255,255,0.05)", opacity: 1 };
+    if (reps.length === 0) {
+      return { fill: "rgba(11,11,12,0.07)", opacity: 1 };
+    }
     if (focusCode === code || hovered === code) {
-      return { fill: reps[0].accent, opacity: 0.58 };
+      return { fill: reps[0].accent, opacity: 0.72 };
     }
     if (activeMemberId && reps.some((r) => r.id === activeMemberId)) {
       return {
         fill: reps.find((r) => r.id === activeMemberId)!.accent,
-        opacity: 0.48,
+        opacity: 0.58,
       };
     }
-    return { fill: reps[0].accent, opacity: 0.26 };
+    return { fill: reps[0].accent, opacity: 0.38 };
   };
 
   const selectMember = (member: TeamMember) => {
@@ -70,8 +73,8 @@ export function TeamRegionMap() {
   return (
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-7">
-        <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-[#08080a] px-1.5 pb-3 pt-3 sm:px-2 sm:pb-4 sm:pt-4">
-          <p className="mb-2 px-2 text-xs uppercase tracking-[0.22em] text-white/45 sm:px-3">
+        <div className="relative overflow-hidden rounded-3xl border border-black/[0.08] bg-white px-1.5 pb-3 pt-3 shadow-[0_48px_120px_-64px_rgba(26,36,48,0.2)] sm:px-2 sm:pb-4 sm:pt-4">
+          <p className="mb-2 px-2 text-xs uppercase tracking-[0.22em] text-black/45 sm:px-3">
             Auvergne-Rhône-Alpes · départements
           </p>
           <svg
@@ -84,7 +87,7 @@ export function TeamRegionMap() {
               width={ARA_MAP_VIEWBOX.width}
               height={ARA_MAP_VIEWBOX.height}
               rx="12"
-              fill="#050506"
+              fill="#f8f7f4"
             />
             <defs>
               <pattern
@@ -96,11 +99,22 @@ export function TeamRegionMap() {
                 <path
                   d="M 40 0 L 0 0 0 40"
                   fill="none"
-                  stroke="rgba(255,255,255,0.04)"
+                  stroke="rgba(11,11,12,0.05)"
                   strokeWidth="1"
                 />
               </pattern>
+              <linearGradient id="team-map-wash" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#5b9cf5" stopOpacity="0.06" />
+                <stop offset="35%" stopColor="#4ade80" stopOpacity="0.05" />
+                <stop offset="65%" stopColor="#ffb43b" stopOpacity="0.06" />
+                <stop offset="100%" stopColor="#a855f7" stopOpacity="0.05" />
+              </linearGradient>
             </defs>
+            <rect
+              width={ARA_MAP_VIEWBOX.width}
+              height={ARA_MAP_VIEWBOX.height}
+              fill="url(#team-map-wash)"
+            />
             <rect
               width={ARA_MAP_VIEWBOX.width}
               height={ARA_MAP_VIEWBOX.height}
@@ -108,6 +122,7 @@ export function TeamRegionMap() {
             />
 
             {Object.entries(ARA_DEPT_PATHS).map(([code, d]) => {
+              if (HIDDEN_MAP_CODES.has(code)) return null;
               const covered = COVERED_CODES.has(code);
               const { fill, opacity } = deptFill(code);
               const isFocus = focusCode === code;
@@ -119,12 +134,12 @@ export function TeamRegionMap() {
                   fillOpacity={opacity}
                   stroke={
                     isFocus
-                      ? "#ffb43b"
+                      ? "#0b0b0c"
                       : covered
-                        ? "rgba(255,255,255,0.4)"
-                        : "rgba(255,255,255,0.14)"
+                        ? "rgba(11,11,12,0.22)"
+                        : "rgba(11,11,12,0.1)"
                   }
-                  strokeWidth={isFocus ? 2 : 0.85}
+                  strokeWidth={isFocus ? 2.25 : 0.9}
                   strokeLinejoin="round"
                   className={cn(
                     covered ? "cursor-pointer transition-all duration-200" : ""
@@ -141,6 +156,7 @@ export function TeamRegionMap() {
             })}
 
             {ARA_MAP_DEPARTMENTS.map((dept) => {
+              if (HIDDEN_MAP_CODES.has(dept.code)) return null;
               const covered = COVERED_CODES.has(dept.code);
               const isFocus = focusCode === dept.code;
               return (
@@ -149,9 +165,10 @@ export function TeamRegionMap() {
                     x={dept.labelX}
                     y={dept.labelY}
                     textAnchor="middle"
-                    className="fill-white font-bold"
+                    fill="#0b0b0c"
+                    fontWeight={700}
                     fontSize={isFocus ? 20 : 16}
-                    opacity={covered ? (isFocus ? 1 : 0.92) : 0.32}
+                    opacity={covered ? (isFocus ? 1 : 0.9) : 0.28}
                   >
                     {dept.code}
                   </text>
@@ -159,10 +176,10 @@ export function TeamRegionMap() {
                     x={dept.labelX}
                     y={dept.labelY + 16}
                     textAnchor="middle"
-                    fill="rgba(255,255,255,0.75)"
+                    fill="rgba(11,11,12,0.62)"
                     fontSize={isFocus ? 12 : 10.5}
                     fontWeight={isFocus ? 600 : 500}
-                    opacity={covered ? 1 : 0.35}
+                    opacity={covered ? 1 : 0.32}
                   >
                     {dept.name}
                   </text>
@@ -222,10 +239,10 @@ export function TeamRegionMap() {
                     cy={office.y}
                     r="5.5"
                     fill="#ffb43b"
-                    stroke="#050506"
+                    stroke="#ffffff"
                     strokeWidth="1.5"
                   />
-                  <circle cx={office.x} cy={office.y} r="2" fill="#050506" />
+                  <circle cx={office.x} cy={office.y} r="2" fill="#0b0b0c" />
                   {showLabel && (
                     <g pointerEvents="none">
                       <rect
@@ -238,8 +255,8 @@ export function TeamRegionMap() {
                         width={122}
                         height={34}
                         rx="6"
-                        fill="rgba(5,5,6,0.92)"
-                        stroke="rgba(255,180,59,0.5)"
+                        fill="rgba(255,255,255,0.96)"
+                        stroke="rgba(255,180,59,0.55)"
                         strokeWidth="1"
                       />
                       <text
@@ -257,7 +274,7 @@ export function TeamRegionMap() {
                         x={office.x + layout.dx}
                         y={office.y + layout.dy + 12}
                         textAnchor={layout.anchor}
-                        fill="rgba(255,255,255,0.88)"
+                        fill="rgba(11,11,12,0.78)"
                         fontSize="8.5"
                         fontWeight="500"
                       >
@@ -271,7 +288,7 @@ export function TeamRegionMap() {
           </svg>
 
           <div className="mt-3 px-2 sm:px-3">
-            <p className="flex items-center gap-1.5 text-xs text-white/45">
+            <p className="flex items-center gap-1.5 text-xs text-black/45">
               <span className="inline-block size-2 animate-pulse rounded-full bg-[#ffb43b]" />
               Survolez un point ambre pour voir l&rsquo;agence · clic département
               pour l&rsquo;interlocuteur
@@ -289,7 +306,7 @@ export function TeamRegionMap() {
                   "flex cursor-pointer items-center gap-2 rounded-full border px-2 py-1.5 pr-3 text-xs font-semibold transition-colors",
                   activeMemberId === m.id
                     ? "border-[#ffb43b] bg-[#ffb43b] text-[#050506] shadow-md"
-                    : "border-black/12 bg-[#0b0b0c] text-white shadow-sm hover:border-[#ffb43b]/60 hover:bg-[#1a1a1c]"
+                    : "border-black/10 bg-white text-[#0b0b0c] shadow-sm hover:border-[#ffb43b]/50 hover:bg-[#fff9f0]"
                 )}
               >
                 <TeamMemberAvatar

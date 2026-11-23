@@ -28,6 +28,17 @@ export const ARA_MAP_OFFICES = araMap.offices as {
   y: number;
 }[];
 
+/** Palette inspirée du logo Tech'lux */
+export const TEAM_LOGO_COLORS = {
+  orange: "#ffb43b",
+  yellow: "#f5d547",
+  blue: "#5b9cf5",
+  green: "#4ade80",
+  violet: "#a855f7",
+  pink: "#f472b6",
+  red: "#ef5c5c",
+} as const;
+
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "charlotte",
@@ -38,19 +49,19 @@ export const TEAM_MEMBERS: TeamMember[] = [
     phone: "+33670087731",
     phoneDisplay: "07 70 08 77 31",
     linkedin: "https://www.linkedin.com/in/charlotte-cartier-millon-b8b591113/",
-    accent: "#ffb43b",
+    accent: TEAM_LOGO_COLORS.orange,
     photo: "/team/charlotte.jpg",
   },
   {
     id: "sauze",
     name: "Philippe Sauze",
     role: "Chargé d'affaires",
-    departments: ["01", "07", "69"],
+    departments: ["01", "07", "69", "39"],
     email: "p.sauze@techlux.fr",
     phone: "+33670670465",
     phoneDisplay: "06 70 67 04 65",
     linkedin: "https://www.linkedin.com/in/philippe-sauze-424501a3/",
-    accent: "#5b9cf5",
+    accent: TEAM_LOGO_COLORS.blue,
     photo: "/team/sauze.jpg",
   },
   {
@@ -63,21 +74,21 @@ export const TEAM_MEMBERS: TeamMember[] = [
     phone: "+33670332343",
     phoneDisplay: "06 70 33 23 43",
     linkedin: "https://www.linkedin.com/in/philippelanglade/",
-    accent: "#4ade80",
+    accent: TEAM_LOGO_COLORS.green,
     photo: "/team/langlade.jpg",
   },
   {
     id: "delphine",
     name: "Delphine Cartier-Millon",
     role: "Chargée d'affaires",
-    departments: ["42", "43"],
-    territoryLabel: "Loire & Haute-Loire",
+    departments: ["42"],
+    territoryLabel: "Loire",
     email: "d.cartier-millon@techlux.fr",
     phone: "+33678007021",
     phoneDisplay: "06 78 00 70 21",
     linkedin:
       "https://www.linkedin.com/in/delphine-cartier-millon-8914481a8/",
-    accent: "#c084fc",
+    accent: TEAM_LOGO_COLORS.violet,
     photo: "/team/delphine.png",
   },
   {
@@ -90,7 +101,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     phone: "+33617497702",
     phoneDisplay: "06 17 49 77 02",
     linkedin: "https://fr.linkedin.com/company/tech-lux",
-    accent: "#f472b6",
+    accent: TEAM_LOGO_COLORS.pink,
     photo: "/team/philippe.png",
   },
 ];
