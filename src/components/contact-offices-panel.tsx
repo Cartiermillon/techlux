@@ -17,8 +17,7 @@ const OFFICE_TAGLINE: Record<string, string> = {
 const LYON_MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=33+route+de+Paris%2C+69260+Charbonni%C3%A8res-les-Bains";
 
-const cardClass =
-  "overflow-hidden rounded-3xl border border-white/10 bg-[#2a2b2e] shadow-[0_28px_72px_-32px_rgba(0,0,0,0.35)]";
+const cardClass = "contact-agency-white overflow-hidden rounded-3xl";
 
 export function ContactOfficesPanel() {
   return (
@@ -36,7 +35,7 @@ export function ContactOfficesPanel() {
 
       {AGENCY_INFO.offices.map((office) => (
         <article key={office.id} className={cardClass}>
-          <div className="border-b border-white/10 px-6 py-5 sm:px-8">
+          <div className="border-b border-white/10 bg-[#2a2b2e] px-6 py-5 text-white sm:px-8">
             <div className="flex items-center justify-between gap-5">
               <div className="min-w-0">
                 <FooterAgencyLabel className="py-0" tone="dark">
@@ -64,18 +63,18 @@ export function ContactOfficesPanel() {
             </div>
           </div>
 
-          <address className="space-y-5 px-6 py-6 text-white/85 not-italic sm:px-8">
+          <address className="space-y-5 bg-white px-6 py-6 not-italic sm:px-8">
             <div>
-              <p className="text-lg font-semibold tracking-tight text-white/95">
+              <p className="text-lg font-semibold tracking-tight text-[#1a1a1c]">
                 {office.postalCode} {office.city}
               </p>
-              <p className="mt-1 text-sm text-white/70">{office.address}</p>
+              <p className="mt-1 text-sm text-black/55">{office.address}</p>
               {office.id === "siege" ? (
                 <a
                   href={LYON_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-white/65 transition-colors hover:text-[#ffb43b]"
+                  className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#b07612] transition-colors hover:text-[#1a1a1c]"
                 >
                   <MapPin className="size-3.5" />
                   Voir sur Google Maps
@@ -87,22 +86,33 @@ export function ContactOfficesPanel() {
             <div className="flex flex-wrap gap-3">
               <a
                 href={`tel:${office.phone.replace(/\s+/g, "")}`}
-                className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-[#1a1a1c] hover:text-white"
               >
                 <Phone className="size-4" />
                 {office.phone}
               </a>
+              {"secondaryPhone" in office && office.secondaryPhone ? (
+                <a
+                  href={`tel:${office.secondaryPhone.replace(/\s+/g, "")}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#f4f4f1] px-4 py-2.5 text-sm font-medium text-black/75 transition-colors hover:border-black/20 hover:bg-[#ecebe8]"
+                >
+                  <Phone className="size-3.5 text-black/40" />
+                  Fixe {office.secondaryPhone}
+                </a>
+              ) : null}
             </div>
           </address>
         </article>
       ))}
 
-      <div className={`${cardClass} flex justify-end px-6 py-5 sm:px-8`}>
+      <div
+        className={`${cardClass} flex justify-end bg-white px-6 py-5 sm:px-8`}
+      >
         <Link
           href={AGENCY_INFO.socials.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-white/75 transition-colors hover:text-[#ffb43b]"
+          className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-[#1a1a1c] transition-colors hover:text-[#c88712]"
         >
           LinkedIn Tech&rsquo;lux
           <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
