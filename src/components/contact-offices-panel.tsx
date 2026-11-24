@@ -32,9 +32,9 @@ export function ContactOfficesPanel() {
 
       {AGENCY_INFO.offices.map((office) => (
         <article key={office.id} className={cardClass}>
-          <div className="border-b border-black/[0.06] bg-[#fafaf8] px-6 py-5 sm:px-8">
+          <div className="border-b border-white/10 bg-[#2a2b2e] px-6 py-5 text-white sm:px-8">
             <div className="flex items-center gap-5">
-              <div className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-2xl border border-black/[0.06] bg-white shadow-sm">
+              <div className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-2xl border border-white/12 bg-white/[0.08] shadow-sm">
                 <Image
                   src={
                     office.id === "siege"
@@ -52,10 +52,10 @@ export function ContactOfficesPanel() {
                 />
               </div>
               <div className="min-w-0">
-                <FooterAgencyLabel className="py-0" tone="light">
+                <FooterAgencyLabel className="py-0" tone="dark">
                   {OFFICE_HEADLINE[office.id]}
                 </FooterAgencyLabel>
-                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-black/45">
+                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white/55">
                   {OFFICE_TAGLINE[office.id]}
                 </p>
               </div>

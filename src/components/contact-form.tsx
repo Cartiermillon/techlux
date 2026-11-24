@@ -35,9 +35,11 @@ import {
 } from "@/lib/contact-request-draft";
 import { cn } from "cn";
 
-const CONTACT_DEPT_CODES = DEPARTMENTS.filter((d) => d.code !== "974").map(
-  (d) => d.code
-);
+const CONTACT_EXCLUDED_DEPTS = new Set(["974", "58", "21", "89"]);
+
+const CONTACT_DEPT_CODES = DEPARTMENTS.filter(
+  (d) => !CONTACT_EXCLUDED_DEPTS.has(d.code)
+).map((d) => d.code);
 
 const SAVOIE_AGENCY_DEPTS = new Set([
   "73",
@@ -82,7 +84,9 @@ export function ContactForm() {
   const [department, setDepartment] = React.useState<string>(() => {
     if (
       deptFromUrl &&
-      DEPARTMENTS.some((d) => d.code === deptFromUrl && d.code !== "974")
+      DEPARTMENTS.some(
+        (d) => d.code === deptFromUrl && !CONTACT_EXCLUDED_DEPTS.has(d.code)
+      )
     ) {
       return deptFromUrl;
     }
