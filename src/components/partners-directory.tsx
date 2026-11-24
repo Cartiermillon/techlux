@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, MapPin, Globe2, X } from "lucide-react";
+import { ArrowUpRight, MapPin, X } from "lucide-react";
+import { PartnerOriginFlag } from "@/components/partner-origin-flag";
 import {
   DEPARTMENTS,
   PARTNERS,
@@ -122,12 +123,9 @@ export function PartnersDirectory() {
             <div>
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#586070]">
-                    <Globe2 className="size-3 text-[#b07612]" />
-                    {partner.origin}
-                  </span>
-                  <h3 className="mt-1 font-heading text-2xl font-bold tracking-tight text-[#0c101a]">
+                  <h3 className="font-heading flex items-center gap-2.5 text-2xl font-bold tracking-tight text-[#0c101a]">
                     {partner.name}
+                    <PartnerOriginFlag origin={partner.origin} />
                   </h3>
                 </div>
                 <a

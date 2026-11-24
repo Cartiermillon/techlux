@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { PartnerOriginFlag } from "@/components/partner-origin-flag";
 import { SpotlightStage } from "@/components/spotlight-stage";
 import { SolutionsShowcase } from "@/components/solutions-showcase";
 import { LightingSceneArt } from "@/components/lighting-scene-art";
@@ -204,7 +205,7 @@ export default function HomePage() {
               Solutions
             </p>
             <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8">
-              Neuf solutions,{" "}
+              Pour tous vos besoins,{" "}
               <span className="text-black/35">
                 un seul fil conducteur : la juste lumière.
               </span>
@@ -274,7 +275,7 @@ export default function HomePage() {
               Fabricants représentés
             </p>
             <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8">
-              Neuf maisons européennes,{" "}
+              7 fabricants représentés,{" "}
               <span className="text-black/35">une même exigence.</span>
             </h2>
           </div>
@@ -288,14 +289,12 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="group grid grid-cols-12 items-baseline gap-4 py-5 transition-colors hover:bg-[#050506] hover:text-white sm:px-4"
                 >
-                  <span className="col-span-12 text-2xl font-semibold tracking-[-0.035em] sm:col-span-4 sm:text-3xl">
+                  <span className="col-span-12 inline-flex items-center gap-2.5 text-2xl font-semibold tracking-[-0.035em] sm:col-span-4 sm:text-3xl">
                     {p.name}
+                    <PartnerOriginFlag origin={p.origin} />
                   </span>
-                  <span className="col-span-9 text-sm text-black/60 group-hover:text-white/70 sm:col-span-5">
+                  <span className="col-span-9 text-sm text-black/60 group-hover:text-white/70 sm:col-span-7">
                     {p.specialty}
-                  </span>
-                  <span className="hidden text-sm text-black/40 group-hover:text-white/50 sm:col-span-2 sm:block">
-                    {p.origin}
                   </span>
                   <ArrowUpRight className="col-span-3 size-5 justify-self-end text-black/30 transition-all group-hover:text-[#ffb43b] sm:col-span-1" />
                 </a>
