@@ -57,8 +57,8 @@ export function ContactSpotlightHero() {
   return (
     <SpotlightStage
       background={{
-        src: "/contact-hero-saint-fons-salengro.png",
-        alt: "Éclairage décoratif — Saint-Fons, parking Roger Salengro",
+        src: "/contact-hero-fort-telegraphe.jpg",
+        alt: "Mise en lumière du fort — Valloire, fort du Télégraphe",
         kenBurns: true,
       }}
       base={<ContactHeroLayer lit={false} />}
