@@ -4,7 +4,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import {
   CheckCircle2,
-  ClipboardCopy,
+  Send,
   AlertCircle,
   RotateCcw,
   MapPin,
@@ -28,13 +28,18 @@ import {
   DOMAIN_MAP,
   type DomainSlug,
 } from "@/data/techlux";
+import { primaryMemberForDepartment } from "@/data/team";
 import {
   buildContactDraftText,
   buildContactReference,
 } from "@/lib/contact-request-draft";
 import { cn } from "cn";
 
-const QUICK_DEPTS = ["69", "73", "74", "38", "01", "26", "71", "974"] as const;
+const CONTACT_EXCLUDED_DEPTS = new Set(["974", "58", "21", "89"]);
+
+const CONTACT_DEPT_CODES = DEPARTMENTS.filter(
+  (d) => !CONTACT_EXCLUDED_DEPTS.has(d.code)
+).map((d) => d.code);
 
 const SAVOIE_AGENCY_DEPTS = new Set([
   "73",
@@ -62,7 +67,10 @@ function preferredOfficePhone(department: string): (typeof AGENCY_INFO.offices)[
 }
 
 const fieldClass =
-  "contact-form-field h-12 rounded-2xl focus-visible:border-[#ffb43b]/55 focus-visible:ring-[#ffb43b]/25";
+  "h-12 rounded-2xl border border-white/15 bg-white/6 text-[#f8f7f4] shadow-none placeholder:text-white/40 focus-visible:border-[#ffb43b] focus-visible:ring-[#ffb43b]/30";
+
+const fieldClassLight =
+  "h-12 rounded-2xl border border-black/10 bg-white text-[#1a1a1c] shadow-none placeholder:text-black/35 focus-visible:border-[#ffb43b] focus-visible:ring-[#ffb43b]/35";
 
 export function ContactForm() {
   const searchParams = useSearchParams();
@@ -76,7 +84,9 @@ export function ContactForm() {
   const [department, setDepartment] = React.useState<string>(() => {
     if (
       deptFromUrl &&
-      (DEPARTMENTS.some((d) => d.code === deptFromUrl) || deptFromUrl === "autre")
+      DEPARTMENTS.some(
+        (d) => d.code === deptFromUrl && !CONTACT_EXCLUDED_DEPTS.has(d.code)
+      )
     ) {
       return deptFromUrl;
     }
@@ -92,7 +102,7 @@ export function ContactForm() {
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [submittedRef, setSubmittedRef] = React.useState<string | null>(null);
-  const [copied, setCopied] = React.useState(false);
+  const [sentTo, setSentTo] = React.useState<string | null>(null);
 
   const deptInfo = DEPARTMENTS.find((d) => d.code === department);
   const domainInfo = DOMAIN_MAP[domain as DomainSlug];
@@ -101,7 +111,6 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setCopied(false);
 
     if (!department) {
       setError("Indiquez le département du projet pour orienter votre demande.");
@@ -141,24 +150,23 @@ export function ContactForm() {
       reference
     );
 
-    try {
-      await navigator.clipboard.writeText(draft);
-      setCopied(true);
-      setSubmittedRef(reference);
-    } catch {
-      setError(
-        "Impossible de copier automatiquement. Sélectionnez le message ci-dessous et copiez-le, puis appelez une implantation."
-      );
-      setSubmittedRef(reference);
-    } finally {
-      setBusy(false);
-    }
+    const recipient =
+      primaryMemberForDepartment(department) ??
+      primaryMemberForDepartment("69");
+    const to = recipient?.email ?? "p.cartier-millon@techlux.fr";
+    const subject = `Demande Tech'lux ${reference}`;
+    const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(draft)}`;
+
+    window.location.href = mailto;
+    setSentTo(recipient?.name ?? "Tech'lux");
+    setSubmittedRef(reference);
+    setBusy(false);
   };
 
   if (submittedRef) {
     const tel = office.phone.replace(/\s+/g, "");
     return (
-      <div className="contact-form-shell space-y-4 rounded-3xl p-10 text-center sm:p-12">
+      <div className="space-y-4 rounded-3xl border border-white/12 bg-[linear-gradient(165deg,#3a3d44_0%,#2e3136_52%,#26282c_100%)] p-10 text-center text-[#f4f3f0] shadow-[0_28px_72px_-32px_rgba(0,0,0,0.45)] sm:p-12">
         <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#ffb43b]/20 text-[#ffb43b]">
           <CheckCircle2 className="size-7" />
         </div>
@@ -166,12 +174,11 @@ export function ContactForm() {
           Référence {submittedRef}
         </p>
         <h3 className="text-2xl font-semibold tracking-tight text-white">
-          Demande préparée dans votre navigateur
+          Message prêt à envoyer
         </h3>
         <p className="mx-auto max-w-md text-sm leading-relaxed text-white/65">
-          {copied
-            ? "Le résumé a été copié dans le presse-papiers. Aucune donnée n'est transmise en ligne depuis ce site : appelez-nous pour transmettre votre demande à nos équipes."
-            : "Aucune donnée n'est envoyée en ligne depuis ce site. Appelez-nous en vous appuyant sur le texte que vous avez saisi."}
+          Votre messagerie s&rsquo;ouvre avec le message adressé à {sentTo}.
+          Il part lorsque vous l&rsquo;envoyez depuis votre boîte mail.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
@@ -188,7 +195,7 @@ export function ContactForm() {
           variant="outline"
           onClick={() => {
             setSubmittedRef(null);
-            setCopied(false);
+            setSentTo(null);
             setMessage("");
           }}
           className="mt-2 rounded-full border-white/25 bg-transparent text-white hover:bg-white/10"
@@ -203,21 +210,13 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="contact-form-shell overflow-hidden rounded-3xl"
+      className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_28px_72px_-32px_rgba(0,0,0,0.18)]"
     >
-      <div className="contact-form-header p-6 sm:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
-            <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-            Contexte projet — prioritaire
-          </p>
-          <p className="text-xs text-white/45">
-            Ces deux champs orientent la bonne agence et le bon fabricant.
-          </p>
-        </div>
-        <p className="mt-4 text-xs leading-relaxed text-white/45">
-          Ce formulaire ne transmet rien sur Internet : il génère un texte récapitulatif (copié
-          localement) pour votre appel ou votre e-mail vers nos implantations.
+      <div className="h-1.5 w-full bg-[#ffb43b]" />
+      <div className="border-b border-black/10 bg-[#2a2b2e] p-6 text-white sm:p-8">
+        <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
+          <span className="size-1.5 rounded-full bg-[#ffb43b]" />
+          Votre demande
         </p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
@@ -228,7 +227,7 @@ export function ContactForm() {
             </label>
 
             <div className="flex flex-wrap gap-2">
-              {QUICK_DEPTS.map((code) => {
+              {CONTACT_DEPT_CODES.map((code) => {
                 const active = department === code;
                 const info = DEPARTMENTS.find((d) => d.code === code);
                 return (
@@ -237,15 +236,20 @@ export function ContactForm() {
                     type="button"
                     onClick={() => setDepartment(code)}
                     className={cn(
-                      "cursor-pointer rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                      "cursor-pointer rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors",
                       active
-                        ? "border-[#ffb43b] bg-[#ffb43b] text-[#2a2b2e]"
-                        : "border-white/25 bg-white/10 text-white/90 hover:border-white/40 hover:bg-white/15"
+                        ? "border-[#ffb43b] bg-[#ffb43b] text-[#0a0a0b]"
+                        : "border-transparent bg-[#3a3a3f] text-white hover:bg-[#4a4a50]"
                     )}
                   >
                     {code}
                     {info ? (
-                      <span className="ml-1.5 hidden font-normal opacity-80 sm:inline">
+                      <span
+                        className={cn(
+                          "ml-1.5 hidden font-semibold sm:inline",
+                          active ? "text-[#0a0a0b]" : "text-white"
+                        )}
+                      >
                         {info.name}
                       </span>
                     ) : null}
@@ -253,38 +257,6 @@ export function ContactForm() {
                 );
               })}
             </div>
-
-            <Select
-              value={department}
-              onValueChange={(val) => {
-                if (val) setDepartment(val);
-              }}
-            >
-              <SelectTrigger
-                className={cn(fieldClass, "w-full data-placeholder:text-white/40")}
-              >
-                <SelectValue placeholder="Ou choisir dans la liste complète" />
-              </SelectTrigger>
-              <SelectContent>
-                {DEPARTMENTS.map((dept) => (
-                  <SelectItem key={dept.code} value={dept.code}>
-                    {dept.code} — {dept.name} ({dept.region})
-                  </SelectItem>
-                ))}
-                <SelectItem value="autre">Hors zone listée</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {deptInfo && (
-              <p className="text-sm font-medium text-[#ffb43b]/90">
-                Région couverte : {deptInfo.region}
-              </p>
-            )}
-            {department === "autre" && (
-              <p className="text-sm text-white/60">
-                Précisez la localisation dans le message ci-dessous.
-              </p>
-            )}
           </div>
 
           <div className="space-y-4">
@@ -294,6 +266,7 @@ export function ContactForm() {
             </label>
 
             <Select
+              items={Object.fromEntries(DOMAINS.map((d) => [d.slug, d.title]))}
               value={domain}
               onValueChange={(val) => {
                 if (val) setDomain(val);
@@ -312,7 +285,7 @@ export function ContactForm() {
             </Select>
 
             {domainInfo && (
-              <div className="rounded-2xl border border-white/15 bg-white/[0.06] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="rounded-2xl border border-white/15 bg-white/[0.06] p-4">
                 <p className="text-base font-medium text-white">
                   {domainInfo.tagline}
                 </p>
@@ -329,14 +302,14 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="space-y-5 p-6 sm:p-8">
-        <h2 className="text-xl font-semibold tracking-tight text-white">
+      <div className="space-y-5 bg-white p-6 text-[#1a1a1c] sm:p-8">
+        <h2 className="text-xl font-semibold tracking-tight text-[#1a1a1c]">
           Vos coordonnées
         </h2>
 
         {error && (
-          <div className="flex items-start gap-2.5 rounded-2xl border border-red-400/35 bg-red-950/50 px-4 py-3 text-sm text-red-100">
-            <AlertCircle className="mt-0.5 size-4 shrink-0" />
+          <div className="flex items-start gap-2.5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            <AlertCircle className="mt-0.5 size-4 shrink-0 text-red-600" />
             <span>{error}</span>
           </div>
         )}
@@ -345,7 +318,7 @@ export function ContactForm() {
           <div className="space-y-1.5">
             <label
               htmlFor="contact-name"
-              className="text-xs font-semibold text-white/70"
+              className="text-xs font-semibold text-[#1a1a1c]/75"
             >
               Nom &amp; prénom *
             </label>
@@ -355,11 +328,11 @@ export function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Jean Dupont"
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-org" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-org" className="text-xs font-semibold text-[#1a1a1c]/75">
               Collectivité / BE / Entreprise
             </label>
             <Input
@@ -367,11 +340,11 @@ export function ContactForm() {
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
               placeholder="Ville de…, Atelier…"
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-email" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-email" className="text-xs font-semibold text-[#1a1a1c]/75">
               Email professionnel *
             </label>
             <Input
@@ -380,11 +353,11 @@ export function ContactForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-phone" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-phone" className="text-xs font-semibold text-[#1a1a1c]/75">
               Téléphone
             </label>
             <Input
@@ -392,13 +365,13 @@ export function ContactForm() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="contact-message" className="text-xs font-semibold text-white/70">
+          <label htmlFor="contact-message" className="text-xs font-semibold text-[#1a1a1c]/75">
             Votre projet (contexte, surfaces, délais, livrables attendus) *
           </label>
           <Textarea
@@ -408,22 +381,21 @@ export function ContactForm() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ex. : requalification d'une place en 2700 K, cible 15 lux, abaissement nocturne, plans DWG disponibles…"
-            className={cn(fieldClass, "min-h-[9rem] resize-y")}
+            className={cn(fieldClassLight, "min-h-[9rem] resize-y")}
           />
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/12 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-sm text-xs text-white/45">
-            Rien n&apos;est stocké ni envoyé aux serveurs Tech&rsquo;lux : vous gardez le contrôle
-            jusqu&apos;à l&apos;appel.
+        <div className="flex flex-col gap-4 border-t border-black/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-sm text-xs text-black/45">
+            Le bouton ouvre votre messagerie avec le message déjà rédigé.
           </p>
           <Button
             type="submit"
             disabled={busy}
             className="h-12 cursor-pointer rounded-full bg-[#ffb43b] px-8 text-sm font-semibold text-[#2a2b2e] shadow-[0_8px_32px_-8px_rgba(255,180,59,0.55)] hover:bg-white hover:text-[#2a2b2e]"
           >
-            {busy ? "Préparation…" : "Copier le résumé et appeler"}
-            <ClipboardCopy className="size-4" />
+            {busy ? "Envoi…" : "Envoyer le message"}
+            <Send className="size-4" />
           </Button>
         </div>
       </div>

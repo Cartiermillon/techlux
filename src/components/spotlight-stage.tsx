@@ -6,6 +6,8 @@ import React from "react";
 export type SpotlightBackground = {
   src: string;
   alt: string;
+  /** Zoom lent type Ken Burns, en plus du halo projecteur. */
+  kenBurns?: boolean;
 };
 
 interface SpotlightStageProps {
@@ -19,10 +21,12 @@ function SpotlightPhoto({
   src,
   alt,
   dimmed,
+  kenBurns,
 }: {
   src: string;
   alt: string;
   dimmed: boolean;
+  kenBurns?: boolean;
 }) {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -32,9 +36,9 @@ function SpotlightPhoto({
         fill
         priority
         sizes="100vw"
-        className={`home-hero-photo-cover-min ${
-          dimmed ? "home-hero-photo-dim" : "home-hero-photo-lit"
-        }`}
+        className={`${
+          kenBurns ? "home-hero-photo-kenburns" : "home-hero-photo-cover-min"
+        } ${dimmed ? "home-hero-photo-dim" : "home-hero-photo-lit"}`}
       />
       {dimmed ? (
         <>
@@ -137,7 +141,12 @@ export function SpotlightStage({
     >
       <div ref={layerRef} className="relative">
         {background ? (
-          <SpotlightPhoto src={background.src} alt={background.alt} dimmed />
+          <SpotlightPhoto
+            src={background.src}
+            alt={background.alt}
+            dimmed
+            kenBurns={background.kenBurns}
+          />
         ) : null}
         <div className="relative z-[2]">{base}</div>
         <div
@@ -150,7 +159,12 @@ export function SpotlightStage({
         >
           {background ? (
             <div aria-hidden>
-              <SpotlightPhoto src={background.src} alt="" dimmed={false} />
+              <SpotlightPhoto
+                src={background.src}
+                alt=""
+                dimmed={false}
+                kenBurns={background.kenBurns}
+              />
             </div>
           ) : null}
           <div className="relative h-full">{lit}</div>
