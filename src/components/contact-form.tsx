@@ -209,10 +209,10 @@ export function ContactForm() {
       className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_28px_72px_-32px_rgba(0,0,0,0.18)]"
     >
       <div className="h-1.5 w-full bg-[#ffb43b]" />
-      <div className="border-b border-black/10 bg-[#0a0a0b] p-6 text-white sm:p-8">
+      <div className="border-b border-black/10 bg-[#2a2b2e] p-6 text-white sm:p-8">
         <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-          Contexte projet — prioritaire
+          Votre demande
         </p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
@@ -253,12 +253,6 @@ export function ContactForm() {
                 );
               })}
             </div>
-
-            {deptInfo && (
-              <p className="text-sm font-medium text-[#ffb43b]">
-                Région couverte : {deptInfo.region}
-              </p>
-            )}
           </div>
 
           <div className="space-y-4">
