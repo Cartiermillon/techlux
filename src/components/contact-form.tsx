@@ -205,19 +205,9 @@ export function ContactForm() {
     >
       <div className="h-1.5 w-full bg-[#ffb43b]" />
       <div className="border-b border-white/10 bg-white/4 p-6 sm:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
-            <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-            Contexte projet — prioritaire
-          </p>
-          <p className="text-xs text-white/45">
-            Ces deux champs orientent la bonne agence et le bon fabricant.
-          </p>
-        </div>
-        <p className="mt-4 text-xs leading-relaxed text-white/45">
-          Envoyer le message ouvre votre messagerie, adressée à
-          l&rsquo;interlocuteur du département. Rien n&rsquo;est stocké sur le
-          site.
+        <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
+          <span className="size-1.5 rounded-full bg-[#ffb43b]" />
+          Contexte projet — prioritaire
         </p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
