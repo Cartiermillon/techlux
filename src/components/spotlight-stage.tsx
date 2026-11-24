@@ -1,14 +1,62 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
+
+export type SpotlightBackground = {
+  src: string;
+  alt: string;
+};
 
 interface SpotlightStageProps {
   base: React.ReactNode;
   lit: React.ReactNode;
   children?: React.ReactNode;
+  background?: SpotlightBackground;
 }
 
-export function SpotlightStage({ base, lit, children }: SpotlightStageProps) {
+function SpotlightPhoto({
+  src,
+  alt,
+  dimmed,
+}: {
+  src: string;
+  alt: string;
+  dimmed: boolean;
+}) {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority
+        sizes="100vw"
+        className={`home-hero-photo-cover-min ${
+          dimmed ? "home-hero-photo-dim" : "home-hero-photo-lit"
+        }`}
+      />
+      {dimmed ? (
+        <>
+          <div className="absolute inset-0 bg-[#050506]/28" aria-hidden />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-[#050506]/55 via-transparent to-[#050506]/78"
+            aria-hidden
+          />
+        </>
+      ) : (
+        <div className="absolute inset-0 bg-[#050506]/8" aria-hidden />
+      )}
+    </div>
+  );
+}
+
+export function SpotlightStage({
+  base,
+  lit,
+  children,
+  background,
+}: SpotlightStageProps) {
   const rootRef = React.useRef<HTMLDivElement>(null);
   const layerRef = React.useRef<HTMLDivElement>(null);
 
@@ -88,18 +136,24 @@ export function SpotlightStage({ base, lit, children }: SpotlightStageProps) {
       className="relative isolate overflow-hidden bg-[#050506] text-white"
     >
       <div ref={layerRef} className="relative">
-        <div className="hairline-grid pointer-events-none absolute inset-0" />
-        <div>{base}</div>
+        {background ? (
+          <SpotlightPhoto src={background.src} alt={background.alt} dimmed />
+        ) : null}
+        <div className="relative z-[2]">{base}</div>
         <div
           aria-hidden="true"
-          className="spot-glow pointer-events-none absolute inset-0"
+          className="spot-glow pointer-events-none absolute inset-0 z-[3]"
         />
         <div
           aria-hidden="true"
-          className="spot-mask pointer-events-none absolute inset-0"
+          className="spot-mask pointer-events-none absolute inset-0 z-[4]"
         >
-          <div className="hairline-grid-lit absolute inset-0" />
-          {lit}
+          {background ? (
+            <div aria-hidden>
+              <SpotlightPhoto src={background.src} alt="" dimmed={false} />
+            </div>
+          ) : null}
+          <div className="relative h-full">{lit}</div>
         </div>
       </div>
       {children}

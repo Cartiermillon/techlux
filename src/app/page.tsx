@@ -2,9 +2,12 @@ import React from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { SpotlightStage } from "@/components/spotlight-stage";
-import { PhotometricExplorer } from "@/components/photometric-explorer";
 import { SolutionsShowcase } from "@/components/solutions-showcase";
 import { LightingSceneArt } from "@/components/lighting-scene-art";
+import {
+  AudiencePartnerIntro,
+  AudienceScroll,
+} from "@/components/audience-scroll";
 import {
   PARTNERS,
   REALIZATIONS,
@@ -32,6 +35,15 @@ const FEATURED_SPANS = [
 const AUDIENCES = [
   {
     index: "01",
+    title: "Syndicats",
+    claim: "Le parc d'éclairage, à l'échelle du département.",
+    text: "Syndicats d'énergie départementaux : rénovation des parcs communaux, photométrie, conformité à l'arrêté sur les nuisances lumineuses, et appui aux dossiers CEE ou Lum'ACTEE+.",
+    tags: ["Parcs communaux", "CEE", "Lum'ACTEE+"],
+    href: "/realisations?domaine=renovation-eclairage-public-led",
+    cta: "Voir les rénovations de parcs",
+  },
+  {
+    index: "02",
     title: "Paysagistes",
     claim: "La lumière au service du vivant.",
     text: "Mâts en bois lamellé-collé, teintes ambre et blanc chaud, optiques sans fuite vers le ciel. Des luminaires qui s'effacent le jour et respectent la trame noire la nuit.",
@@ -40,7 +52,7 @@ const AUDIENCES = [
     cta: "Voir les ouvrages paysagers",
   },
   {
-    index: "02",
+    index: "03",
     title: "Concepteurs lumière",
     claim: "Votre intention, fidèlement exécutée.",
     text: "Un interlocuteur technique pour passer du concept au chantier : projecteurs architecturaux, optiques de précision, encastrés, scénarios de gradation, chez les meilleurs fabricants européens.",
@@ -49,7 +61,7 @@ const AUDIENCES = [
     cta: "Voir les mises en lumière",
   },
   {
-    index: "03",
+    index: "04",
     title: "Bureaux d'études",
     claim: "Des solutions conformes, documentées.",
     text: "Fiches techniques, données photométriques et solutions alignées sur l'EN 13201 et l'arrêté sur les nuisances lumineuses, pour sécuriser vos prescriptions et vos DCE.",
@@ -65,7 +77,7 @@ function HeroLayer({ lit }: { lit: boolean }) {
   const note = lit ? "text-[#ffb43b]" : "text-white/25";
 
   return (
-    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-end px-6 pb-10 pt-24 lg:px-10">
+    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-6 pb-16 pt-[max(4.5rem,10vh)] lg:px-10">
       <span
         className={`absolute right-[8%] top-[18%] hidden text-xs tracking-[0.2em] sm:block ${note}`}
       >
@@ -92,27 +104,17 @@ function HeroLayer({ lit }: { lit: boolean }) {
         IP66 · IK10
       </span>
 
-      <p
-        className={`mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.24em] ${
-          lit ? "text-white/80" : "text-white/45"
-        }`}
-      >
-        <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-        Agence d&rsquo;aménagement lumière · Lyon &amp; Savoie
-      </p>
-
       <Heading
-        className={`text-[clamp(3.1rem,11vw,10.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] ${
+        className={`font-display max-w-[14ch] translate-y-[52px] text-[clamp(1.92rem,6.84vw,6.12rem)] font-semibold leading-[0.92] tracking-[-0.05em] sm:translate-y-14 ${
           lit ? "text-white" : dim
         }`}
       >
-        L&rsquo;espace public
+        Agence
         <br />
-        se dessine
+        d&rsquo;aménagement
         <br />
-        aussi la{" "}
         <span className={lit ? "text-[#ffb43b]" : "text-white/[0.13]"}>
-          nuit.
+          lumière
         </span>
       </Heading>
     </div>
@@ -127,6 +129,10 @@ export default function HomePage() {
   return (
     <>
       <SpotlightStage
+        background={{
+          src: "/home-hero-castle.jpg",
+          alt: "Château illuminé de nuit au bord de l'eau, passerelle et reflets",
+        }}
         base={<HeroLayer lit={false} />}
         lit={<HeroLayer lit />}
       >
@@ -135,6 +141,10 @@ export default function HomePage() {
             <p className="max-w-xl text-base leading-relaxed text-white/65 sm:text-lg lg:col-span-6">
               Depuis 2010, et forte de plus de trente ans d&rsquo;expérience,
               Tech&rsquo;lux équipe les projets des{" "}
+              <strong className="font-medium text-white">
+                syndicats d&rsquo;énergie
+              </strong>
+              , des{" "}
               <strong className="font-medium text-white">paysagistes</strong>,
               des{" "}
               <strong className="font-medium text-white">
@@ -180,73 +190,8 @@ export default function HomePage() {
         </div>
       </SpotlightStage>
 
-      <section
-        id="pour-qui"
-        className="scroll-mt-16 bg-[#f4f4f1] py-24 sm:py-32"
-      >
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="grid gap-6 lg:grid-cols-12">
-            <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-black/50 lg:col-span-4">
-              <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-              Pour qui
-            </p>
-            <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8">
-              Un partenaire de ceux qui{" "}
-              <span className="text-black/35">
-                conçoivent, prescrivent et dessinent
-              </span>{" "}
-              le paysage nocturne.
-            </h2>
-          </div>
-
-          <div className="mt-16 border-t border-black/20">
-            {AUDIENCES.map((a) => (
-              <Link
-                key={a.index}
-                href={a.href}
-                className="group grid gap-6 border-b border-black/20 py-10 transition-colors hover:bg-[#050506] hover:text-white lg:grid-cols-12 lg:gap-10 lg:px-6 lg:py-14"
-              >
-                <div className="flex items-baseline gap-5 lg:col-span-5">
-                  <span className="text-xs tabular-nums text-black/40 group-hover:text-white/40">
-                    {a.index}
-                  </span>
-                  <h3 className="text-[clamp(2rem,4.2vw,3.5rem)] font-semibold leading-none tracking-[-0.045em]">
-                    {a.title}
-                  </h3>
-                </div>
-                <div className="lg:col-span-5">
-                  <p className="text-xl font-medium tracking-tight">
-                    {a.claim}
-                  </p>
-                  <p className="mt-3 max-w-lg text-sm leading-relaxed text-black/60 group-hover:text-white/65 sm:text-base">
-                    {a.text}
-                  </p>
-                  <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-black/70 group-hover:text-white/75">
-                    {a.tags.map((t) => (
-                      <li key={t} className="flex items-center gap-2">
-                        <span className="size-1 rounded-full bg-[#ffb43b]" />
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex items-end justify-between lg:col-span-2 lg:flex-col lg:items-end">
-                  <ArrowUpRight className="size-8 text-black/30 transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#ffb43b]" />
-                  <span className="text-sm font-medium text-black/70 group-hover:text-white lg:mt-auto">
-                    {a.cta}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#050506] py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <PhotometricExplorer />
-        </div>
-      </section>
+      <AudiencePartnerIntro />
+      <AudienceScroll audiences={AUDIENCES} />
 
       <section
         id="solutions"
@@ -292,7 +237,7 @@ export default function HomePage() {
                 href={`/realisations/${project.id}`}
                 className={`group block ${FEATURED_SPANS[i]}`}
               >
-                <div className="overflow-hidden">
+                <div className="overflow-hidden rounded-[2rem] border border-black/[0.06] shadow-[0_48px_120px_-64px_rgba(26,36,48,0.35)]">
                   <LightingSceneArt
                     preset={project.scene}
                     kelvin={parseKelvin(project.kelvin)}

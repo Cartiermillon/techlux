@@ -7,10 +7,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Aptos", "Aptos Display", var(--font-fallback), "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
-  --font-heading: "Aptos Display", "Aptos", var(--font-fallback), "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
-  --font-serif: "Aptos", "Aptos Display", var(--font-fallback), "Segoe UI", system-ui, sans-serif;
-  --font-mono: "Aptos", "Aptos Display", var(--font-fallback), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-fallback), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-mono: var(--font-fallback), ui-monospace, monospace;
+  --font-display: "Trebuchet MS", Trebuchet, Arial, sans-serif;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -64,25 +65,15 @@
     scroll-behavior: smooth;
     @apply font-sans;
   }
+  h1,
+  h2 {
+    font-family: var(--font-display);
+  }
   body {
     @apply bg-background text-foreground antialiased selection:bg-[#ffb43b]/40 selection:text-[#050506];
     font-feature-settings: "ss01", "kern";
     text-rendering: optimizeLegibility;
   }
-}
-
-.hairline-grid {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 96px 96px;
-}
-
-.hairline-grid-lit {
-  background-image:
-    linear-gradient(to right, rgba(255, 180, 59, 0.22) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 180, 59, 0.22) 1px, transparent 1px);
-  background-size: 96px 96px;
 }
 
 .spot-mask {
@@ -138,6 +129,30 @@
 
 .annecy-hero-kenburns {
   animation: annecy-hero-kenburns 32s ease-out forwards;
+}
+
+.home-hero-photo-cover-min {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  transform: translate(-50%, -50%) !important;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.home-hero-photo-dim {
+  filter: brightness(0.82) saturate(0.92);
+}
+
+.home-hero-photo-lit {
+  filter: brightness(1) saturate(1);
 }
 
 @media (prefers-reduced-motion: reduce) {

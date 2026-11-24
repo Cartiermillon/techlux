@@ -3,7 +3,7 @@
 import React from "react";
 
 const wordmarkClass =
-  "whitespace-nowrap text-center text-[26vw] font-semibold leading-[0.8] tracking-[-0.07em]";
+  "font-display whitespace-nowrap text-center text-[26vw] font-semibold leading-[0.8] tracking-[-0.07em]";
 
 export function FooterWordmark() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ export function FooterWordmark() {
       onMouseLeave={() => setLight((s) => ({ ...s, active: false }))}
     >
       <p
-        className={`${wordmarkClass} text-white/[0.07]`}
+        className={`${wordmarkClass} text-white/[0.095]`}
         style={{
           textShadow: "0 0.04em 0.12em rgba(0,0,0,0.85)",
         }}
@@ -41,9 +41,9 @@ export function FooterWordmark() {
         techlux
       </p>
       <p
-        className={`absolute inset-x-0 top-2 ${wordmarkClass} bg-gradient-to-b from-[#ffb43b] via-white to-white/30 bg-clip-text text-transparent transition-[opacity,filter] duration-200`}
+        className={`absolute inset-x-0 top-2 ${wordmarkClass} bg-gradient-to-b from-[#ffb43b] via-white to-white/35 bg-clip-text text-transparent transition-[opacity,filter] duration-200`}
         style={{
-          opacity: light.active ? 1 : 0.4,
+          opacity: light.active ? 1 : 0.48,
           filter: light.active
             ? "drop-shadow(0 0 28px rgba(255,180,59,0.35))"
             : "none",

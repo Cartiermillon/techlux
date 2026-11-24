@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, ArrowUpRight, PenLine } from "lucide-react";
+import { Menu, ArrowUpRight } from "lucide-react";
 import { cn } from "cn";
 import { TechluxLogo } from "./techlux-logo";
 import { Button } from "@/components/ui/button";
@@ -27,14 +27,17 @@ const NAV_ITEMS = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const overPhoto = pathname === "/realisations/annecy-parc-sports";
+  const overPhoto =
+    pathname === "/" ||
+    pathname === "/equipe" ||
+    pathname === "/realisations/annecy-parc-sports";
 
   return (
     <header
       className={cn(
         "z-40 w-full text-white",
         overPhoto
-          ? "fixed inset-x-0 top-0 bg-gradient-to-b from-black/40 via-black/15 to-transparent"
+          ? "fixed inset-x-0 top-0 bg-gradient-to-b from-black/45 via-black/20 to-transparent"
           : "sticky top-0 border-b border-white/10 bg-[#050506]/85 backdrop-blur-md"
       )}
     >
@@ -75,9 +78,8 @@ export function SiteHeader() {
           <Link
             id="nav-etude-cta"
             href="/etude-lumiere"
-            className="group relative inline-flex h-12 items-center gap-3 overflow-hidden rounded-full bg-[#ffb43b] px-6 pr-4 text-[15px] font-semibold text-[#050506] shadow-[0_0_0_1px_rgba(255,180,59,0.4)] transition-[transform,box-shadow] hover:shadow-[0_8px_28px_-8px_rgba(255,180,59,0.85)] active:scale-[0.98]"
+            className="group relative inline-flex h-12 items-center gap-3 overflow-hidden rounded-full bg-[#ffb43b] pl-6 pr-4 text-[15px] font-semibold text-[#050506] shadow-[0_0_0_1px_rgba(255,180,59,0.4)] transition-[transform,box-shadow] hover:shadow-[0_8px_28px_-8px_rgba(255,180,59,0.85)] active:scale-[0.98]"
           >
-            <PenLine className="size-4 opacity-80" aria-hidden />
             Demande d&rsquo;étude
             <span className="flex size-8 items-center justify-center rounded-full bg-[#050506]/12 transition-colors group-hover:bg-[#050506]/20">
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

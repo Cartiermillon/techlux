@@ -33,11 +33,14 @@ export default function EtudeLumierePage() {
   return (
     <div className="min-h-screen bg-[#f4f4f1]">
       <PageHero
-        eyebrow="Étude lumière · Éclairement"
+        eyebrow="Demande d'étude · Éclairement"
         title={
           <>
-            De l&rsquo;intention à l&rsquo;
-            <span className="text-black/35">éclairement mesuré.</span>
+            L&rsquo;espace public
+            <br />
+            se dessine
+            <br />
+            aussi la <span className="text-black/35">nuit.</span>
           </>
         }
         intro="Paysagistes, concepteurs lumière et bureaux d'études : nous traduisons votre scénario nocturne en niveaux de lux conformes, en optiques adaptées et en solutions exécutables."
@@ -72,21 +75,9 @@ export default function EtudeLumierePage() {
         </div>
       </section>
 
-      <section className="bg-[#f4f4f1] py-20 sm:py-28">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="mb-12 max-w-2xl">
-            <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-black/50">
-              <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-              Distribution lumineuse
-            </p>
-            <h2 className="mt-4 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[0.98] tracking-[-0.04em]">
-              L&rsquo;éclairement dépend autant du{" "}
-              <span className="text-black/35">faisceau</span> que du Kelvin.
-            </h2>
-          </div>
-          <div className="border border-black/15 bg-[#050506] p-6 sm:p-10">
-            <PhotometricExplorer />
-          </div>
+      <section className="w-full bg-[#050506] py-24 text-white sm:py-32">
+        <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20">
+          <PhotometricExplorer />
         </div>
       </section>
 
