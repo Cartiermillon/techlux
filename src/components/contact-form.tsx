@@ -65,6 +65,9 @@ function preferredOfficePhone(department: string): (typeof AGENCY_INFO.offices)[
 const fieldClass =
   "h-12 rounded-2xl border border-white/15 bg-white/6 text-[#f8f7f4] shadow-none placeholder:text-white/40 focus-visible:border-[#ffb43b] focus-visible:ring-[#ffb43b]/30";
 
+const fieldClassLight =
+  "h-12 rounded-2xl border border-black/10 bg-white text-[#1a1a1c] shadow-none placeholder:text-black/35 focus-visible:border-[#ffb43b] focus-visible:ring-[#ffb43b]/35";
+
 export function ContactForm() {
   const searchParams = useSearchParams();
   const domainFromUrl = searchParams.get("domaine");
@@ -201,10 +204,10 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="overflow-hidden rounded-3xl border border-white/12 bg-[linear-gradient(165deg,#3a3d44_0%,#2e3136_52%,#26282c_100%)] text-[#f4f3f0] shadow-[0_28px_72px_-32px_rgba(0,0,0,0.45)]"
+      className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_28px_72px_-32px_rgba(0,0,0,0.18)]"
     >
       <div className="h-1.5 w-full bg-[#ffb43b]" />
-      <div className="border-b border-white/10 bg-white/4 p-6 sm:p-8">
+      <div className="border-b border-black/10 bg-[linear-gradient(165deg,#3a3d44_0%,#2e3136_52%,#26282c_100%)] p-6 text-[#f4f3f0] sm:p-8">
         <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Contexte projet — prioritaire
@@ -329,14 +332,14 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="space-y-5 p-6 sm:p-8">
-        <h2 className="text-xl font-semibold tracking-tight text-white">
+      <div className="space-y-5 bg-white p-6 text-[#1a1a1c] sm:p-8">
+        <h2 className="text-xl font-semibold tracking-tight text-[#1a1a1c]">
           Vos coordonnées
         </h2>
 
         {error && (
-          <div className="flex items-start gap-2.5 rounded-2xl border border-red-400/35 bg-red-950/50 px-4 py-3 text-sm text-red-100">
-            <AlertCircle className="mt-0.5 size-4 shrink-0" />
+          <div className="flex items-start gap-2.5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            <AlertCircle className="mt-0.5 size-4 shrink-0 text-red-600" />
             <span>{error}</span>
           </div>
         )}
@@ -345,7 +348,7 @@ export function ContactForm() {
           <div className="space-y-1.5">
             <label
               htmlFor="contact-name"
-              className="text-xs font-semibold text-white/70"
+              className="text-xs font-semibold text-[#1a1a1c]/75"
             >
               Nom &amp; prénom *
             </label>
@@ -355,11 +358,11 @@ export function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Jean Dupont"
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-org" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-org" className="text-xs font-semibold text-[#1a1a1c]/75">
               Collectivité / BE / Entreprise
             </label>
             <Input
@@ -367,11 +370,11 @@ export function ContactForm() {
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
               placeholder="Ville de…, Atelier…"
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-email" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-email" className="text-xs font-semibold text-[#1a1a1c]/75">
               Email professionnel *
             </label>
             <Input
@@ -380,11 +383,11 @@ export function ContactForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="contact-phone" className="text-xs font-semibold text-white/70">
+            <label htmlFor="contact-phone" className="text-xs font-semibold text-[#1a1a1c]/75">
               Téléphone
             </label>
             <Input
@@ -392,13 +395,13 @@ export function ContactForm() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className={fieldClass}
+              className={fieldClassLight}
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="contact-message" className="text-xs font-semibold text-white/70">
+          <label htmlFor="contact-message" className="text-xs font-semibold text-[#1a1a1c]/75">
             Votre projet (contexte, surfaces, délais, livrables attendus) *
           </label>
           <Textarea
@@ -408,12 +411,12 @@ export function ContactForm() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ex. : requalification d'une place en 2700 K, cible 15 lux, abaissement nocturne, plans DWG disponibles…"
-            className={cn(fieldClass, "min-h-[9rem] resize-y")}
+            className={cn(fieldClassLight, "min-h-[9rem] resize-y")}
           />
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/12 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-sm text-xs text-white/45">
+        <div className="flex flex-col gap-4 border-t border-black/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-sm text-xs text-black/45">
             Le bouton ouvre votre messagerie avec le message déjà rédigé.
           </p>
           <Button
