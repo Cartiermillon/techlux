@@ -72,7 +72,6 @@ function MemberName({ name }: { name: string }) {
 }
 
 export function TeamRegionMap() {
-  const [mapActive, setMapActive] = React.useState(false);
   const [hovered, setHovered] = React.useState<string | null>(null);
   const [pinned, setPinned] = React.useState<string | null>(null);
 
@@ -86,7 +85,8 @@ export function TeamRegionMap() {
     ? ARA_MAP_DEPARTMENTS.find((d) => d.code === focusCode)
     : undefined;
 
-  const showCards = mapActive && focusCode !== null && focusMembers.length > 0;
+  const showCards =
+    focusCode !== null && focusMembers.length > 0;
 
   const deptFill = (code: string) => {
     const reps = membersForDepartment(code);
@@ -99,36 +99,22 @@ export function TeamRegionMap() {
     return { fill: reps[0].accent, opacity: 0.38 };
   };
 
-  const leaveMap = () => {
-    setMapActive(false);
+  const leaveSection = () => {
     setHovered(null);
     setPinned(null);
   };
 
   return (
     <div
-      className="relative flex min-h-[min(70vw,640px)] w-full flex-col gap-6 lg:min-h-[min(52vw,620px)] lg:flex-row lg:items-stretch lg:gap-0"
-      onMouseLeave={leaveMap}
+      className="relative flex w-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8"
+      onMouseLeave={leaveSection}
     >
-      <div
-        className={cn(
-          "relative shrink-0 transition-[width,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform",
-          mapActive
-            ? "w-full lg:w-[56%] lg:origin-left lg:scale-[0.94] lg:-translate-x-3"
-            : "w-full lg:w-full lg:scale-100 lg:translate-x-0"
-        )}
-        onMouseEnter={() => setMapActive(true)}
-      >
+      <div className="relative w-full shrink-0 origin-left scale-[1.03] lg:w-[58%] lg:scale-[1.06]">
         <svg
           viewBox={VB}
           role="img"
           aria-label="Carte des départements d'Auvergne-Rhône-Alpes"
-          className={cn(
-            "h-auto w-full transition-[min-height] duration-500",
-            mapActive
-              ? "min-h-[min(50vw,480px)] sm:min-h-[min(46vw,520px)]"
-              : "min-h-[min(72vw,580px)] sm:min-h-[min(58vw,640px)]"
-          )}
+          className="h-auto w-full min-h-[min(68vw,560px)] sm:min-h-[min(58vw,620px)] lg:min-h-[min(50vw,680px)]"
         >
           {Object.entries(ARA_DEPT_PATHS).map(([code, d]) => {
             if (HIDDEN_MAP_CODES.has(code)) return null;
@@ -159,8 +145,7 @@ export function TeamRegionMap() {
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => {
                   if (!covered) return;
-                  setPinned(code);
-                  setMapActive(true);
+                  setPinned((prev) => (prev === code ? null : code));
                 }}
               />
             );
@@ -309,7 +294,6 @@ export function TeamRegionMap() {
         showCards={showCards}
         focusMembers={focusMembers}
         focusDept={focusDept}
-        mapActive={mapActive}
       />
     </div>
   );
@@ -319,21 +303,18 @@ function MemberAside({
   showCards,
   focusMembers,
   focusDept,
-  mapActive,
 }: {
   showCards: boolean;
   focusMembers: (typeof TEAM_MEMBERS)[number][];
   focusDept: (typeof ARA_MAP_DEPARTMENTS)[number] | undefined;
-  mapActive: boolean;
 }) {
   return (
     <aside
       className={cn(
-        "flex min-h-0 flex-col justify-center overflow-hidden transition-[width,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:pl-6",
-        mapActive ? "lg:w-[44%]" : "w-0 lg:w-0",
+        "flex min-h-0 flex-1 flex-col justify-center overflow-hidden transition-opacity duration-300 lg:min-w-0 lg:pl-2",
         showCards
-          ? "max-h-[2000px] opacity-100 lg:translate-x-0"
-          : "pointer-events-none max-h-0 opacity-0 lg:translate-x-6"
+          ? "opacity-100"
+          : "pointer-events-none opacity-0"
       )}
       aria-hidden={!showCards}
     >
