@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { PartnerOriginFlag } from "@/components/partner-origin-flag";
 import { SpotlightStage } from "@/components/spotlight-stage";
 import { PhotometricExplorer } from "@/components/photometric-explorer";
 import { SolutionsShowcase } from "@/components/solutions-showcase";
@@ -343,14 +344,12 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="group grid grid-cols-12 items-baseline gap-4 py-5 transition-colors hover:bg-[#050506] hover:text-white sm:px-4"
                 >
-                  <span className="col-span-12 text-2xl font-semibold tracking-[-0.035em] sm:col-span-4 sm:text-3xl">
+                  <span className="col-span-12 inline-flex items-center gap-2.5 text-2xl font-semibold tracking-[-0.035em] sm:col-span-4 sm:text-3xl">
                     {p.name}
+                    <PartnerOriginFlag origin={p.origin} />
                   </span>
-                  <span className="col-span-9 text-sm text-black/60 group-hover:text-white/70 sm:col-span-5">
+                  <span className="col-span-9 text-sm text-black/60 group-hover:text-white/70 sm:col-span-7">
                     {p.specialty}
-                  </span>
-                  <span className="hidden text-sm text-black/40 group-hover:text-white/50 sm:col-span-2 sm:block">
-                    {p.origin}
                   </span>
                   <ArrowUpRight className="col-span-3 size-5 justify-self-end text-black/30 transition-all group-hover:text-[#ffb43b] sm:col-span-1" />
                 </a>
