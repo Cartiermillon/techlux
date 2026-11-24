@@ -57,8 +57,8 @@ export function ContactSpotlightHero() {
   return (
     <SpotlightStage
       background={{
-        src: "/realisations/annecy-parc-sports-hero.jpg",
-        alt: "Complexe sportif d’Annecy éclairé de nuit, vue aérienne",
+        src: "/contact-hero-grigny-vie-claire.png",
+        alt: "Mise en lumière nocturne — Grigny, La Vie Claire",
         kenBurns: true,
       }}
       base={<ContactHeroLayer lit={false} />}
