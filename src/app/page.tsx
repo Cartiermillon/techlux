@@ -259,7 +259,7 @@ export default function HomePage() {
               Solutions
             </p>
             <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8">
-              Neuf solutions,{" "}
+              Pour tous vos besoins,{" "}
               <span className="text-black/35">
                 un seul fil conducteur : la juste lumière.
               </span>
@@ -329,7 +329,7 @@ export default function HomePage() {
               Fabricants représentés
             </p>
             <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:col-span-8">
-              Neuf maisons européennes,{" "}
+              7 fabricants représentés,{" "}
               <span className="text-black/35">une même exigence.</span>
             </h2>
           </div>
