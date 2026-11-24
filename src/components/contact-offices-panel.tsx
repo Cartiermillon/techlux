@@ -6,7 +6,7 @@ import { FooterAgencyLabel } from "@/components/footer-agency-label";
 
 const OFFICE_HEADLINE: Record<string, string> = {
   siege: "Siège · Lyon",
-  agence: "Agence - Chambéry",
+  agence: "Agence · Chambéry",
 };
 
 const LYON_MAPS_URL =
@@ -71,25 +71,23 @@ export function ContactOfficesPanel() {
                 ) : null}
               </div>
 
-              <Image
-                src={
-                  office.id === "siege"
-                    ? "/brand/blason-lyon.png"
-                    : "/brand/blason-savoie.png"
-                }
-                alt={
-                  office.id === "siege"
-                    ? "Armoiries de Lyon"
-                    : "Armoiries de Savoie"
-                }
-                width={80}
-                height={96}
-                className={
-                  office.id === "siege"
-                    ? "h-[5.75rem] w-auto shrink-0 object-contain sm:h-[6.75rem]"
-                    : "h-[4.5rem] w-auto shrink-0 object-contain sm:h-[5rem]"
-                }
-              />
+              <div className="flex w-[5.5rem] shrink-0 justify-end sm:w-[6.25rem]">
+                <Image
+                  src={
+                    office.id === "siege"
+                      ? "/brand/blason-lyon.png"
+                      : "/brand/blason-savoie.png"
+                  }
+                  alt={
+                    office.id === "siege"
+                      ? "Armoiries de Lyon"
+                      : "Armoiries de Savoie"
+                  }
+                  width={80}
+                  height={96}
+                  className="h-[5.75rem] w-auto max-w-full object-contain object-right sm:h-[6.75rem]"
+                />
+              </div>
             </div>
           </address>
         </article>
