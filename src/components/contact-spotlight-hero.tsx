@@ -57,8 +57,8 @@ export function ContactSpotlightHero() {
   return (
     <SpotlightStage
       background={{
-        src: "/contact-hero-sainte-consorce-badel.png",
-        alt: "Éclairage public solaire — Sainte-Consorce, chemin du Badel",
+        src: "/contact-hero-lyon-viricel.png",
+        alt: "Mise en lumière nocturne — Lyon 6, rue Viricel",
         kenBurns: true,
       }}
       base={<ContactHeroLayer lit={false} />}

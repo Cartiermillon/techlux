@@ -22,10 +22,6 @@ export function ContactOfficesPanel() {
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Nos implantations
         </p>
-        <p className="mt-3 max-w-sm text-sm leading-relaxed text-black/60">
-          Deux équipes sur le terrain. Appelez l&rsquo;agence la plus proche du
-          département choisi dans le formulaire.
-        </p>
       </div>
 
       {AGENCY_INFO.offices.map((office) => (
