@@ -15,9 +15,9 @@ import { cn } from "cn";
 
 const COVERED_CODES = new Set(TEAM_MEMBERS.flatMap((m) => m.departments));
 const HIDDEN_MAP_CODES = new Set(["43"]);
-const COMPACT_LABEL_CODES = new Set(["01", "39", "74"]);
+const COMPACT_LABEL_CODES = new Set(["01", "74"]);
 
-const VB = `0 0 ${ARA_MAP_VIEWBOX.width} ${ARA_MAP_VIEWBOX.height}`;
+const VB = `${ARA_MAP_VIEWBOX.x ?? 0} ${ARA_MAP_VIEWBOX.y ?? 0} ${ARA_MAP_VIEWBOX.width} ${ARA_MAP_VIEWBOX.height}`;
 
 const OFFICE_LABEL_OFFSET: Record<
   string,
@@ -114,9 +114,11 @@ export function TeamRegionMap() {
           viewBox={VB}
           role="img"
           aria-label="Carte des départements d'Auvergne-Rhône-Alpes"
-          className="h-auto w-full min-h-[min(68vw,560px)] sm:min-h-[min(58vw,620px)] lg:min-h-[min(50vw,680px)]"
+          className="h-auto w-full min-h-[min(72vw,640px)] sm:min-h-[min(62vw,720px)] lg:min-h-[min(54vw,780px)]"
         >
-          {Object.entries(ARA_DEPT_PATHS).map(([code, d]) => {
+          {Object.entries(ARA_DEPT_PATHS)
+            .sort(([a], [b]) => (a === "39" ? -1 : b === "39" ? 1 : 0))
+            .map(([code, d]) => {
             if (HIDDEN_MAP_CODES.has(code)) return null;
             const covered = COVERED_CODES.has(code);
             const { fill, opacity } = deptFill(code);

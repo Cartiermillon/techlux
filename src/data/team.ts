@@ -17,7 +17,12 @@ export interface TeamMember {
   photo: string;
 }
 
-export const ARA_MAP_VIEWBOX = araMap.viewBox;
+export const ARA_MAP_VIEWBOX = araMap.viewBox as {
+  x?: number;
+  y?: number;
+  width: number;
+  height: number;
+};
 export const ARA_DEPT_PATHS = araMap.paths as Record<string, string>;
 export const ARA_MAP_DEPARTMENTS = araMap.departments;
 export const ARA_MAP_OFFICES = araMap.offices as {
