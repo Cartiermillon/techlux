@@ -83,24 +83,17 @@ export function ContactOfficesPanel() {
               ) : null}
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={`tel:${office.phone.replace(/\s+/g, "")}`}
-                className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-[#1a1a1c] hover:text-white"
-              >
-                <Phone className="size-4" />
-                {office.phone}
-              </a>
-              {"secondaryPhone" in office && office.secondaryPhone ? (
+            {office.id === "siege" ? (
+              <div className="flex flex-wrap gap-3">
                 <a
-                  href={`tel:${office.secondaryPhone.replace(/\s+/g, "")}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#f4f4f1] px-4 py-2.5 text-sm font-medium text-black/75 transition-colors hover:border-black/20 hover:bg-[#ecebe8]"
+                  href={`tel:${office.phone.replace(/\s+/g, "")}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-[#1a1a1c] hover:text-white"
                 >
-                  <Phone className="size-3.5 text-black/40" />
-                  Fixe {office.secondaryPhone}
+                  <Phone className="size-4" />
+                  {office.phone}
                 </a>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </address>
         </article>
       ))}
