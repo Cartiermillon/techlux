@@ -19,14 +19,14 @@ const cardClass = "contact-agency-white overflow-hidden rounded-3xl";
 export function ContactOfficesPanel() {
   return (
     <div className="flex flex-col gap-5">
-      <div className={`${cardClass} px-6 py-6 sm:px-8`}>
+      <div className="px-1">
         <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-black/45">
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Nos implantations
         </p>
         <p className="mt-3 max-w-sm text-sm leading-relaxed text-black/60">
-          Deux équipes sur le terrain pour vos études d&rsquo;éclairage — joignez
-          directement l&rsquo;agence la plus proche de votre projet.
+          Deux équipes sur le terrain. Appelez l&rsquo;agence la plus proche du
+          département choisi dans le formulaire.
         </p>
       </div>
 
