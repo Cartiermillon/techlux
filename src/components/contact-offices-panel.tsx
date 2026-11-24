@@ -98,8 +98,7 @@ export function ContactOfficesPanel() {
         <div className="flex items-center gap-3 text-sm text-black/60">
           <Mail className="size-4 shrink-0 text-[#c88712]" />
           <span>
-            Le formulaire prépare un texte à copier ; la prise de contact se fait par téléphone ou
-            e-mail.
+            Vous pouvez aussi joindre l&rsquo;agence directement par téléphone.
           </span>
         </div>
         <Link

@@ -73,8 +73,8 @@ export function ContactSpotlightHero() {
             <strong className="font-medium text-white">
               domaine d&rsquo;éclairage
             </strong>
-            . Le formulaire prépare un résumé à transmettre par téléphone : rien
-            n&rsquo;est envoyé en ligne.
+            . Envoyer le message ouvre votre messagerie, adressée à
+            l&rsquo;interlocuteur du département.
           </p>
           <Link
             href="#contact-form"
