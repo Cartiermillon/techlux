@@ -19,22 +19,22 @@ const cardClass = "contact-agency-white overflow-hidden rounded-3xl";
 export function ContactOfficesPanel() {
   return (
     <div className="flex flex-col gap-5">
-      <div className={`${cardClass} px-6 py-6 sm:px-8`}>
+      <div className="px-1">
         <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-black/45">
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Nos implantations
         </p>
         <p className="mt-3 max-w-sm text-sm leading-relaxed text-black/60">
-          Deux équipes sur le terrain pour vos études d&rsquo;éclairage — joignez
-          directement l&rsquo;agence la plus proche de votre projet.
+          Deux équipes sur le terrain. Appelez l&rsquo;agence la plus proche du
+          département choisi dans le formulaire.
         </p>
       </div>
 
       {AGENCY_INFO.offices.map((office) => (
         <article key={office.id} className={cardClass}>
-          <div className="border-b border-black/[0.06] bg-[#fafaf8] px-6 py-5 sm:px-8">
+          <div className="border-b border-white/10 bg-[#2a2b2e] px-6 py-5 text-white sm:px-8">
             <div className="flex items-center gap-5">
-              <div className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-2xl border border-black/[0.06] bg-white shadow-sm">
+              <div className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-2xl border border-white/12 bg-white/[0.08] shadow-sm">
                 <Image
                   src={
                     office.id === "siege"
@@ -52,10 +52,10 @@ export function ContactOfficesPanel() {
                 />
               </div>
               <div className="min-w-0">
-                <FooterAgencyLabel className="py-0" tone="light">
+                <FooterAgencyLabel className="py-0" tone="dark">
                   {OFFICE_HEADLINE[office.id]}
                 </FooterAgencyLabel>
-                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-black/45">
+                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white/55">
                   {OFFICE_TAGLINE[office.id]}
                 </p>
               </div>
@@ -98,8 +98,7 @@ export function ContactOfficesPanel() {
         <div className="flex items-center gap-3 text-sm text-black/60">
           <Mail className="size-4 shrink-0 text-[#c88712]" />
           <span>
-            Le formulaire prépare un texte à copier ; la prise de contact se fait par téléphone ou
-            e-mail.
+            Vous pouvez aussi joindre l&rsquo;agence directement par téléphone.
           </span>
         </div>
         <Link

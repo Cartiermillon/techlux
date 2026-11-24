@@ -30,6 +30,7 @@ export function SiteHeader() {
   const overPhoto =
     pathname === "/" ||
     pathname === "/equipe" ||
+    pathname === "/contact" ||
     pathname === "/realisations/annecy-parc-sports";
 
   return (
