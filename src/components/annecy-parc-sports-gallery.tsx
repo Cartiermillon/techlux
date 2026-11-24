@@ -1,130 +1,54 @@
-"use client";
-
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import React from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { DOMAIN_MAP, type Realization } from "@/data/techlux";
 
-const SLIDES = [
-  {
-    src: "/realisations/annecy-parc-sports-gallery-01.jpg",
-    alt: "Mât PETITJEAN et projecteurs LED au crépuscule, Parc des Sports d'Annecy",
-    caption: "Mât & nappes LED",
-    orientation: "portrait",
-  },
-  {
-    src: "/realisations/annecy-parc-sports-gallery-02.jpg",
-    alt: "Console d'éclairage LED au-dessus de la piste et du terrain",
-    caption: "Plateau sportif",
-    orientation: "landscape",
-  },
-] as const;
+const HERO_PHOTO = {
+  src: "/realisations/annecy-parc-sports-gallery-02.jpg",
+  alt: "Console d'éclairage LED au-dessus de la piste et du terrain, Parc des Sports d'Annecy",
+  caption: "Plateau sportif",
+} as const;
 
-export function AnnecyParcSportsGallery() {
-  const [active, setActive] = React.useState(0);
-  const [paused, setPaused] = React.useState(false);
-  const count = SLIDES.length;
+type Props = {
+  realization: Realization;
+};
 
-  React.useEffect(() => {
-    if (paused) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => {
-      setActive((current) => (current + 1) % count);
-    }, 7000);
-    return () => window.clearInterval(id);
-  }, [paused, count]);
-
-  const go = (index: number) => {
-    setActive((index + count) % count);
-  };
-
+export function AnnecyParcSportsGallery({ realization }: Props) {
   return (
-    <section
+    <figure
       aria-label="Galerie du chantier"
-      aria-roledescription="carousel"
-      className="relative w-full"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
+      className="relative min-h-[100svh] w-full overflow-hidden bg-[#1c2428]"
     >
-      <div className="relative h-[min(92vh,980px)] w-full overflow-hidden bg-[#1c2428]">
-        {SLIDES.map((slide, i) => {
-          const visible = i === active;
-          return (
-            <figure
-              key={slide.src}
-              className={`absolute inset-0 transition-opacity duration-700 ease-out ${
-                visible ? "z-[1] opacity-100" : "pointer-events-none z-0 opacity-0"
-              }`}
-              aria-hidden={!visible}
-            >
-              {slide.orientation === "portrait" ? (
-                <>
-                  <Image
-                    src={slide.src}
-                    alt=""
-                    fill
-                    sizes="100vw"
-                    className="scale-110 object-cover blur-3xl brightness-75 saturate-125"
-                    aria-hidden
-                  />
-                  <div className="absolute inset-y-0 left-1/2 h-full w-[min(72vh,540px)] -translate-x-1/2">
-                    <Image
-                      src={slide.src}
-                      alt={visible ? slide.alt : ""}
-                      fill
-                      sizes="540px"
-                      className="object-cover object-center"
-                      priority={i === 0}
-                    />
-                  </div>
-                </>
-              ) : (
-                <Image
-                  src={slide.src}
-                  alt={visible ? slide.alt : ""}
-                  fill
-                  sizes="100vw"
-                  className="object-cover object-center"
-                  priority={i === 0}
-                />
-              )}
-            </figure>
-          );
-        })}
+      <Image
+        src={HERO_PHOTO.src}
+        alt={HERO_PHOTO.alt}
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        priority
+      />
 
-        <button
-          type="button"
-          onClick={() => go(active - 1)}
-          className="absolute left-4 top-1/2 z-[2] flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#1a1a1c] backdrop-blur-md transition-colors hover:bg-white sm:left-6"
-          aria-label="Photo précédente"
-        >
-          <ChevronLeft className="size-5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => go(active + 1)}
-          className="absolute right-4 top-1/2 z-[2] flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#1a1a1c] backdrop-blur-md transition-colors hover:bg-white sm:right-6"
-          aria-label="Photo suivante"
-        >
-          <ChevronRight className="size-5" />
-        </button>
-
-        <div className="absolute inset-x-0 bottom-5 z-[2] flex items-center justify-center gap-2">
-          {SLIDES.map((slide, i) => (
-            <button
-              key={slide.src}
-              type="button"
-              onClick={() => go(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === active ? "w-8 bg-white" : "w-1.5 bg-white/45 hover:bg-white/70"
-              }`}
-              aria-label={`Afficher ${slide.caption}`}
-              aria-current={i === active}
-            />
-          ))}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-6 pb-8 pt-28 sm:px-10 sm:pb-10">
+        <div className="pointer-events-auto mx-auto max-w-[1400px]">
+          <p className="text-xs uppercase tracking-[0.24em] text-white/70">Domaines</p>
+          <ul className="mt-4 flex flex-wrap gap-3">
+            {realization.domains.map((slug) => (
+              <li key={slug}>
+                <Link
+                  href={`/solutions/${slug}`}
+                  className="group inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/12 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-md transition-colors hover:border-white/45 hover:bg-white/20"
+                >
+                  {DOMAIN_MAP[slug].title}
+                  <ArrowUpRight className="size-3.5 opacity-60 transition-opacity group-hover:opacity-100" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 text-[11px] uppercase tracking-[0.22em] text-white/65">
+            {HERO_PHOTO.caption}
+          </p>
         </div>
       </div>
-    </section>
+    </figure>
   );
 }
