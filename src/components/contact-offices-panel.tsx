@@ -6,12 +6,7 @@ import { FooterAgencyLabel } from "@/components/footer-agency-label";
 
 const OFFICE_HEADLINE: Record<string, string> = {
   siege: "Siège · Lyon",
-  agence: "Agence · Savoie",
-};
-
-const OFFICE_TAGLINE: Record<string, string> = {
-  siege: "Ouest lyonnais · Rhône & alentours",
-  agence: "Chambéry · Savoie & Haute-Savoie",
+  agence: "Agence - Chambéry",
 };
 
 const LYON_MAPS_URL =
@@ -36,12 +31,9 @@ export function ContactOfficesPanel() {
       {AGENCY_INFO.offices.map((office) => (
         <article key={office.id} className={cardClass}>
           <div className="border-b border-white/10 bg-[#2a2b2e] px-6 py-5 text-white sm:px-8">
-            <FooterAgencyLabel className="py-0" tone="dark">
+            <FooterAgencyLabel className="py-0 uppercase" tone="dark">
               {OFFICE_HEADLINE[office.id]}
             </FooterAgencyLabel>
-            <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white/60">
-              {OFFICE_TAGLINE[office.id]}
-            </p>
           </div>
 
           <address className="bg-white px-6 py-6 not-italic sm:px-8">
@@ -90,9 +82,13 @@ export function ContactOfficesPanel() {
                     ? "Armoiries de Lyon"
                     : "Armoiries de Savoie"
                 }
-                width={64}
-                height={80}
-                className="h-[4.5rem] w-auto shrink-0 object-contain sm:h-[5rem]"
+                width={80}
+                height={96}
+                className={
+                  office.id === "siege"
+                    ? "h-[5.75rem] w-auto shrink-0 object-contain sm:h-[6.75rem]"
+                    : "h-[4.5rem] w-auto shrink-0 object-contain sm:h-[5rem]"
+                }
               />
             </div>
           </address>
