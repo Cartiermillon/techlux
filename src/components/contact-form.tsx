@@ -35,7 +35,9 @@ import {
 } from "@/lib/contact-request-draft";
 import { cn } from "cn";
 
-const QUICK_DEPTS = ["69", "73", "74", "38", "01", "26", "71", "974"] as const;
+const CONTACT_DEPT_CODES = DEPARTMENTS.filter((d) => d.code !== "974").map(
+  (d) => d.code
+);
 
 const SAVOIE_AGENCY_DEPTS = new Set([
   "73",
@@ -80,7 +82,7 @@ export function ContactForm() {
   const [department, setDepartment] = React.useState<string>(() => {
     if (
       deptFromUrl &&
-      (DEPARTMENTS.some((d) => d.code === deptFromUrl) || deptFromUrl === "autre")
+      DEPARTMENTS.some((d) => d.code === deptFromUrl && d.code !== "974")
     ) {
       return deptFromUrl;
     }
@@ -207,7 +209,7 @@ export function ContactForm() {
       className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_28px_72px_-32px_rgba(0,0,0,0.18)]"
     >
       <div className="h-1.5 w-full bg-[#ffb43b]" />
-      <div className="border-b border-black/10 bg-[linear-gradient(165deg,#3a3d44_0%,#2e3136_52%,#26282c_100%)] p-6 text-[#f4f3f0] sm:p-8">
+      <div className="border-b border-black/10 bg-[#0a0a0b] p-6 text-white sm:p-8">
         <p className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-white/55">
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Contexte projet — prioritaire
@@ -221,7 +223,7 @@ export function ContactForm() {
             </label>
 
             <div className="flex flex-wrap gap-2">
-              {QUICK_DEPTS.map((code) => {
+              {CONTACT_DEPT_CODES.map((code) => {
                 const active = department === code;
                 const info = DEPARTMENTS.find((d) => d.code === code);
                 return (
@@ -230,15 +232,20 @@ export function ContactForm() {
                     type="button"
                     onClick={() => setDepartment(code)}
                     className={cn(
-                      "cursor-pointer rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                      "cursor-pointer rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors",
                       active
-                        ? "border-[#ffb43b] bg-[#ffb43b] text-[#2a2b2e]"
-                        : "border-white/25 bg-white/10 text-white/90 hover:border-white/40 hover:bg-white/15"
+                        ? "border-[#ffb43b] bg-[#ffb43b] text-[#0a0a0b]"
+                        : "border-transparent bg-[#3a3a3f] text-white hover:bg-[#4a4a50]"
                     )}
                   >
                     {code}
                     {info ? (
-                      <span className="ml-1.5 hidden font-normal opacity-80 sm:inline">
+                      <span
+                        className={cn(
+                          "ml-1.5 hidden font-semibold sm:inline",
+                          active ? "text-[#0a0a0b]" : "text-white"
+                        )}
+                      >
                         {info.name}
                       </span>
                     ) : null}
@@ -247,44 +254,9 @@ export function ContactForm() {
               })}
             </div>
 
-            <Select
-              items={{
-                ...Object.fromEntries(
-                  DEPARTMENTS.map((dept) => [
-                    dept.code,
-                    `${dept.code} — ${dept.name} (${dept.region})`,
-                  ])
-                ),
-                autre: "Hors zone listée",
-              }}
-              value={department}
-              onValueChange={(val) => {
-                if (val) setDepartment(val);
-              }}
-            >
-              <SelectTrigger
-                className={cn(fieldClass, "w-full data-placeholder:text-white/40")}
-              >
-                <SelectValue placeholder="Ou choisir dans la liste complète" />
-              </SelectTrigger>
-              <SelectContent>
-                {DEPARTMENTS.map((dept) => (
-                  <SelectItem key={dept.code} value={dept.code}>
-                    {dept.code} — {dept.name} ({dept.region})
-                  </SelectItem>
-                ))}
-                <SelectItem value="autre">Hors zone listée</SelectItem>
-              </SelectContent>
-            </Select>
-
             {deptInfo && (
               <p className="text-sm font-medium text-[#ffb43b]">
                 Région couverte : {deptInfo.region}
-              </p>
-            )}
-            {department === "autre" && (
-              <p className="text-sm text-white/60">
-                Précisez la localisation dans le message ci-dessous.
               </p>
             )}
           </div>
