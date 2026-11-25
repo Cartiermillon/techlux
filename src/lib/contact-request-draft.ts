@@ -5,9 +5,10 @@ export type ContactDraftInput = {
   organization: string;
   email: string;
   phone: string;
-  department: string;
+  hasProject: boolean;
+  department?: string;
   departmentLabel?: string;
-  domain: string;
+  domain?: string;
   message: string;
 };
 
@@ -19,8 +20,9 @@ export function buildContactDraftText(
   input: ContactDraftInput,
   reference: string
 ): string {
-  const domainTitle =
-    DOMAIN_MAP[input.domain as DomainSlug]?.title ?? input.domain;
+  const domainTitle = input.domain
+    ? (DOMAIN_MAP[input.domain as DomainSlug]?.title ?? input.domain)
+    : null;
   const lines = [
     `Référence demande : ${reference}`,
     "",
@@ -28,8 +30,11 @@ export function buildContactDraftText(
     input.organization ? `Organisation : ${input.organization}` : null,
     `E-mail : ${input.email}`,
     input.phone ? `Téléphone : ${input.phone}` : null,
-    `Département : ${input.department}${input.departmentLabel ? ` (${input.departmentLabel})` : ""}`,
-    `Domaine : ${domainTitle}`,
+    `Projet à présenter : ${input.hasProject ? "Oui" : "Non"}`,
+    input.hasProject && input.department
+      ? `Département : ${input.department}${input.departmentLabel ? ` (${input.departmentLabel})` : ""}`
+      : null,
+    input.hasProject && domainTitle ? `Domaine : ${domainTitle}` : null,
     "",
     "Message :",
     input.message,
