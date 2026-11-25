@@ -36,7 +36,7 @@ function ContactHeroLayer({ lit }: { lit: boolean }) {
 export function ContactSpotlightHero() {
   return (
     <div className="min-h-svh bg-[#050506]">
-    <SpotlightStage
+      <SpotlightStage
       background={{
         src: "/contact-hero-fort-telegraphe.jpg",
         alt: "Mise en lumière du fort — Valloire, fort du Télégraphe",
@@ -44,28 +44,29 @@ export function ContactSpotlightHero() {
       }}
       base={<ContactHeroLayer lit={false} />}
       lit={<ContactHeroLayer lit />}
-    >
-      <div className="relative z-10 border-t border-white/10">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-6 py-10 sm:flex-row sm:items-end sm:justify-between lg:px-10">
-          <p className="max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
-            Indiquez le{" "}
-            <strong className="font-medium text-white">département</strong> et
-            le{" "}
-            <strong className="font-medium text-white">
-              domaine d&rsquo;éclairage
-            </strong>
-            . Envoyer le message ouvre votre messagerie, adressée à
-            l&rsquo;interlocuteur du département.
-          </p>
-          <Link
-            href="#contact-form"
-            className="group inline-flex h-12 shrink-0 items-center gap-2 border border-white/25 px-6 text-sm font-medium text-white transition-colors hover:border-white"
-          >
-            Remplir le formulaire
-            <ArrowDown className="size-4" />
-          </Link>
+      >
+        <div className="relative z-10 border-t border-white/10">
+          <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-6 py-10 sm:flex-row sm:items-end sm:justify-between lg:px-10">
+            <p className="max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
+              Indiquez le{" "}
+              <strong className="font-medium text-white">département</strong> et
+              le{" "}
+              <strong className="font-medium text-white">
+                domaine d&rsquo;éclairage
+              </strong>
+              . Envoyer le message ouvre votre messagerie, adressée à
+              l&rsquo;interlocuteur du département.
+            </p>
+            <Link
+              href="#contact-form"
+              className="group inline-flex h-12 shrink-0 items-center gap-2 border border-white/25 px-6 text-sm font-medium text-white transition-colors hover:border-white"
+            >
+              Remplir le formulaire
+              <ArrowDown className="size-4" />
+            </Link>
+          </div>
         </div>
-      </div>
-    </SpotlightStage>
+      </SpotlightStage>
+    </div>
   );
 }
