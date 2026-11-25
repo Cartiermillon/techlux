@@ -17,28 +17,8 @@ function ContactHeroLayer({ lit }: { lit: boolean }) {
       >
         69 · Charbonnières
       </span>
-      <span
-        className={`absolute right-[12%] top-[22%] hidden text-xs tracking-[0.2em] md:block ${note}`}
-      >
-        73 · Savoie
-      </span>
-      <span
-        className={`absolute right-[16%] top-[48%] hidden text-xs tracking-[0.2em] lg:block ${note}`}
-      >
-        Étude lumière
-      </span>
-
-      <p
-        className={`flex items-center gap-3 text-xs uppercase tracking-[0.22em] ${
-          lit ? "text-white/50" : "text-white/25"
-        }`}
-      >
-        <span className="size-1.5 rounded-full bg-[#ffb43b]" />
-        Échange &amp; étude
-      </p>
-
       <Heading
-        className={`font-display mt-6 max-w-[14ch] text-[clamp(2.25rem,7.2vw,5.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
+        className={`font-display max-w-[14ch] text-[clamp(2.25rem,7.2vw,5.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] ${
           lit ? "text-white" : dim
         }`}
       >
