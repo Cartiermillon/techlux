@@ -11,7 +11,7 @@ function ContactHeroLayer({ lit }: { lit: boolean }) {
   const note = lit ? "text-[#ffb43b]" : "text-white/25";
 
   return (
-    <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-6 pb-16 pt-[max(4.5rem,10vh)] lg:px-10">
+    <div className="relative mx-auto flex min-h-[82svh] max-w-[1400px] flex-col justify-center px-6 pb-16 pt-[max(4.5rem,10vh)] lg:px-10">
       <span
         className={`absolute left-[8%] top-[16%] hidden text-xs tracking-[0.2em] sm:block ${note}`}
       >
@@ -35,6 +35,7 @@ function ContactHeroLayer({ lit }: { lit: boolean }) {
 
 export function ContactSpotlightHero() {
   return (
+    <div className="min-h-svh bg-[#050506]">
     <SpotlightStage
       background={{
         src: "/contact-hero-fort-telegraphe.jpg",
