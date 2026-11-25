@@ -98,6 +98,9 @@ export function ContactForm() {
       : "mise-en-lumiere-patrimoine-batiments"
   );
   const [message, setMessage] = React.useState("");
+  const [hasProject, setHasProject] = React.useState<boolean | null>(() =>
+    deptFromUrl || (domainFromUrl && isDomainSlug(domainFromUrl)) ? true : null
+  );
 
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -112,13 +115,19 @@ export function ContactForm() {
     e.preventDefault();
     setError(null);
 
-    if (!department) {
-      setError("Indiquez le département du projet pour orienter votre demande.");
+    if (hasProject === null) {
+      setError("Indiquez si vous avez un projet à nous présenter.");
       return;
     }
-    if (!domain || !isDomainSlug(domain)) {
-      setError("Choisissez un domaine d'éclairage.");
-      return;
+    if (hasProject) {
+      if (!department) {
+        setError("Indiquez le département du projet pour orienter votre demande.");
+        return;
+      }
+      if (!domain || !isDomainSlug(domain)) {
+        setError("Choisissez un domaine d'éclairage.");
+        return;
+      }
     }
     if (name.trim().length < 2) {
       setError("Indiquez votre nom complet.");
@@ -142,16 +151,18 @@ export function ContactForm() {
         organization: organization.trim(),
         email: email.trim(),
         phone: phone.trim(),
-        department,
-        departmentLabel: deptInfo?.name,
-        domain,
+        hasProject,
+        department: hasProject ? department : undefined,
+        departmentLabel: hasProject ? deptInfo?.name : undefined,
+        domain: hasProject ? domain : undefined,
         message: message.trim(),
       },
       reference
     );
 
+    const routingDept = hasProject ? department : "69";
     const recipient =
-      primaryMemberForDepartment(department) ??
+      primaryMemberForDepartment(routingDept) ??
       primaryMemberForDepartment("69");
     const to = recipient?.email ?? "p.cartier-millon@techlux.fr";
     const subject = `Demande Tech'lux ${reference}`;
@@ -197,6 +208,7 @@ export function ContactForm() {
             setSubmittedRef(null);
             setSentTo(null);
             setMessage("");
+            setHasProject(null);
           }}
           className="mt-2 rounded-full border-white/25 bg-transparent text-white hover:bg-white/10"
         >
@@ -219,6 +231,38 @@ export function ContactForm() {
           Votre demande
         </p>
 
+        <div className="mt-8">
+          <p className="text-sm font-semibold text-white">
+            Avez-vous un projet à nous présenter ?
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(
+              [
+                { value: true, label: "Oui" },
+                { value: false, label: "Non" },
+              ] as const
+            ).map(({ value, label }) => {
+              const active = hasProject === value;
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => setHasProject(value)}
+                  className={cn(
+                    "cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors",
+                    active
+                      ? "border-[#ffb43b] bg-[#ffb43b] text-[#0a0a0b]"
+                      : "border-transparent bg-[#3a3a3f] text-white hover:bg-[#4a4a50]"
+                  )}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {hasProject ? (
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
           <div className="space-y-4">
             <label className="flex items-center gap-2 text-sm font-semibold text-white">
@@ -300,6 +344,7 @@ export function ContactForm() {
             )}
           </div>
         </div>
+        ) : null}
       </div>
 
       <div className="space-y-5 bg-white p-6 text-[#1a1a1c] sm:p-8">

@@ -1,18 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import { AGENCY_INFO } from "@/data/techlux";
 import { FooterAgencyLabel } from "@/components/footer-agency-label";
 
 const OFFICE_HEADLINE: Record<string, string> = {
   siege: "Siège · Lyon",
-  agence: "Agence · Savoie",
+  agence: "Agence · Chambéry",
 };
 
-const OFFICE_TAGLINE: Record<string, string> = {
-  siege: "Ouest lyonnais · Rhône & alentours",
-  agence: "Chambéry · Savoie & Haute-Savoie",
-};
+const LYON_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=33+route+de+Paris%2C+69260+Charbonni%C3%A8res-les-Bains";
 
 const cardClass = "contact-agency-white overflow-hidden rounded-3xl";
 
@@ -24,17 +22,52 @@ export function ContactOfficesPanel() {
           <span className="size-1.5 rounded-full bg-[#ffb43b]" />
           Nos implantations
         </p>
-        <p className="mt-3 max-w-sm text-sm leading-relaxed text-black/60">
-          Deux équipes sur le terrain. Appelez l&rsquo;agence la plus proche du
-          département choisi dans le formulaire.
-        </p>
       </div>
 
       {AGENCY_INFO.offices.map((office) => (
         <article key={office.id} className={cardClass}>
           <div className="border-b border-white/10 bg-[#2a2b2e] px-6 py-5 text-white sm:px-8">
-            <div className="flex items-center gap-5">
-              <div className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-2xl border border-white/12 bg-white/[0.08] shadow-sm">
+            <FooterAgencyLabel className="py-0 uppercase" tone="dark">
+              {OFFICE_HEADLINE[office.id]}
+            </FooterAgencyLabel>
+          </div>
+
+          <address className="bg-white px-6 py-6 not-italic sm:px-8">
+            <div className="flex items-start justify-between gap-6">
+              <div className="min-w-0 flex-1 space-y-5">
+                <div>
+                  <p className="text-lg font-semibold tracking-tight text-[#1a1a1c]">
+                    {office.postalCode} {office.city}
+                  </p>
+                  <p className="mt-1 text-sm text-black/55">{office.address}</p>
+                  {office.id === "siege" ? (
+                    <a
+                      href={LYON_MAPS_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#b07612] transition-colors hover:text-[#1a1a1c]"
+                    >
+                      <MapPin className="size-3.5" />
+                      Voir sur Google Maps
+                      <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  ) : null}
+                </div>
+
+                {office.id === "siege" ? (
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={`tel:${office.phone.replace(/\s+/g, "")}`}
+                      className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-[#1a1a1c] hover:text-white"
+                    >
+                      <Phone className="size-4" />
+                      {office.phone}
+                    </a>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="flex w-[5.5rem] shrink-0 justify-end sm:w-[6.25rem]">
                 <Image
                   src={
                     office.id === "siege"
@@ -46,61 +79,19 @@ export function ContactOfficesPanel() {
                       ? "Armoiries de Lyon"
                       : "Armoiries de Savoie"
                   }
-                  width={52}
-                  height={64}
-                  className="h-[3.25rem] w-auto object-contain"
+                  width={80}
+                  height={96}
+                  className="h-[5.75rem] w-auto max-w-full object-contain object-right sm:h-[6.75rem]"
                 />
               </div>
-              <div className="min-w-0">
-                <FooterAgencyLabel className="py-0" tone="dark">
-                  {OFFICE_HEADLINE[office.id]}
-                </FooterAgencyLabel>
-                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white/55">
-                  {OFFICE_TAGLINE[office.id]}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <address className="space-y-5 px-6 py-6 not-italic sm:px-8">
-            <div>
-              <p className="text-lg font-semibold tracking-tight text-[#1a1a1c]">
-                {office.postalCode} {office.city}
-              </p>
-              <p className="mt-1 text-sm text-black/55">{office.address}</p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={`tel:${office.phone.replace(/\s+/g, "")}`}
-                className="inline-flex items-center gap-2 rounded-full bg-[#ffb43b] px-5 py-2.5 text-sm font-semibold tabular-nums text-[#2a2b2e] shadow-[0_10px_28px_-10px_rgba(255,180,59,0.55)] transition-colors hover:bg-[#1a1a1c] hover:text-white"
-              >
-                <Phone className="size-4" />
-                {office.phone}
-              </a>
-              {office.secondaryPhone ? (
-                <a
-                  href={`tel:${office.secondaryPhone.replace(/\s+/g, "")}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#f4f4f1] px-4 py-2.5 text-sm font-medium text-black/75 transition-colors hover:border-black/20 hover:bg-[#ecebe8]"
-                >
-                  <Phone className="size-3.5 text-black/40" />
-                  Fixe {office.secondaryPhone}
-                </a>
-              ) : null}
             </div>
           </address>
         </article>
       ))}
 
       <div
-        className={`${cardClass} flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8`}
+        className={`${cardClass} flex justify-end bg-white px-6 py-5 sm:px-8`}
       >
-        <div className="flex items-center gap-3 text-sm text-black/60">
-          <Mail className="size-4 shrink-0 text-[#c88712]" />
-          <span>
-            Vous pouvez aussi joindre l&rsquo;agence directement par téléphone.
-          </span>
-        </div>
         <Link
           href={AGENCY_INFO.socials.linkedin}
           target="_blank"
